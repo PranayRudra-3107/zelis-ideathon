@@ -17,7 +17,6 @@ function App() {
         >
           Zelis-Ideathon
           Badass maa !!!
-          Leo das maaa 
         </a>
       </header>
     </div>
