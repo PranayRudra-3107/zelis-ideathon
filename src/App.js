@@ -16,7 +16,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Zelis-Ideathon
-          It's working priya!!!
+          Badass maa !!!
         </a>
       </header>
     </div>
