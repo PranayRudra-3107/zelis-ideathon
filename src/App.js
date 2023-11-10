@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import Footer from "./components/footer";
+import Header from "./components/navbar";
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        
-      </div>
-    );
-  }
+function App() {
+  return(
+    <div>
+      <Header/>
+      <Footer/>
+    </div>
+  );
 }
-
 export default App;
+
+
+
