@@ -31,7 +31,7 @@ const Idea_submission = () => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' ,  paddingTop: '10%' }}>
       <Typography variant="h2" component="h1" gutterBottom>
         Idea Submission
       </Typography>
