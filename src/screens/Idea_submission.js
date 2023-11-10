@@ -43,7 +43,7 @@ const Idea_submission = () => {
         required
         error={submitted && title === ''}
         onChange={(e) => setTitle(e.target.value)}
-        //inputProps={{ maxLength: 20 }}
+        inputProps={{ maxLength: 20 }}
       />
       <TextField
         id="idea-description"
@@ -55,7 +55,7 @@ const Idea_submission = () => {
         required
         error={submitted && description === ''}
         onChange={(e) => setDescription(e.target.value)}
-       // inputProps={{ maxLength: 250 }}
+        inputProps={{ maxLength: 250 }}
       />
       <Button variant="contained" color="primary" type="submit">
         Submit
