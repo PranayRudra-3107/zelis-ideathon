@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Footer from "./components/footer";
 import Header from "./components/navbar";
 import Idea_submission from "./screens/Idea_submission";
+import Idea_list from './screens/Idea_list';
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <Header/>
-        <Idea_submission/>
-        <Footer/>
-      </div>
-    );
-  }
+const App = () => {
+  return (
+    <div>
+      <Header/>
+      <Idea_list/>
+      <Footer/>
+    </div>
+  );
 }
 
 export default App;
-
-
-

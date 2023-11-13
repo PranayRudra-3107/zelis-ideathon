@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import {
   AppBar,
   Tab,
@@ -11,6 +12,7 @@ const Header = () => {
   const [value, setValue] = useState();
 
   return (
+    <Router>
       <AppBar sx={{ background: "#063970" }}>
         <Toolbar>
           <EmojiObjectsTwoToneIcon sx={{ transform: "scale(2)" }} />
@@ -24,8 +26,9 @@ const Header = () => {
                 textColor="inherit"
                 value={value}
                 onChange={(e, value) => setValue(value)}
+               // component={Idea_submission}
               >
-                <Tab label="Idea" />
+                <Tab label="Idea" component={Link} to="/idea_submission" />
                 <Tab label="My Idea" />
                 <Tab label="Show Ideas Visually" />
               </Tabs>
@@ -33,6 +36,8 @@ const Header = () => {
           
         </Toolbar>
       </AppBar>
+    </Router>
+      
   );
 };
 
