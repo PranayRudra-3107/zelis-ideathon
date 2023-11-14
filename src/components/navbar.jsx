@@ -26,9 +26,8 @@ const Header = () => {
                 textColor="inherit"
                 value={value}
                 onChange={(e, value) => setValue(value)}
-               // component={Idea_submission}
               >
-                <Tab label="Idea" component={Link} to="/idea_submission" />
+                <Tab label="Idea" component={Link} to="/Idea_submission" />
                 <Tab label="My Idea" />
                 <Tab label="Show Ideas Visually" />
               </Tabs>
