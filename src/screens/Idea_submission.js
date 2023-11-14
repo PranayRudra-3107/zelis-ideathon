@@ -22,8 +22,14 @@ const Idea_submission = () => {
       setAlert({ severity: 'info', message: 'Title or description is too long.' });
     } else {
       setAlert({ severity: 'success', message: 'Form submitted successfully.' });
-      // Handle form submission here
+      
+      const idea = { title, description , status: 'Submitted' };
+      let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
+      ideas.push(idea);
+      localStorage.setItem('ideas', JSON.stringify(ideas));
+      console.log(JSON.parse(localStorage.getItem('ideas')));
     }
+
   };
 
   useEffect(() => {
