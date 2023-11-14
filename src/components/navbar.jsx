@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link , Outlet} from 'react-router-dom';
 import {
   AppBar,
   Tab,
@@ -12,7 +12,7 @@ const Header = () => {
   const [value, setValue] = useState();
 
   return (
-    <Router>
+    <>
       <AppBar sx={{ background: "#063970" }}>
         <Toolbar>
           <EmojiObjectsTwoToneIcon sx={{ transform: "scale(2)" }} />
@@ -27,16 +27,17 @@ const Header = () => {
                 value={value}
                 onChange={(e, value) => setValue(value)}
               >
-                <Tab label="Ideas" component={Link} to="/ideas" />
+                <Tab label="Ideas" component={Link} to="/list" />
                 <Tab label="My Idea" />
                 <Tab label="Submit Idea" component={Link} to="/submit"/>
                 <Tab label="Show Ideas Visually" />
               </Tabs>
+
               <Tab label="Logout" />
-          
+          <Outlet/>
         </Toolbar>
       </AppBar>
-    </Router>
+    </>
       
   );
 };

@@ -26,7 +26,7 @@ const Idea_list = () => {
             <Button variant="contained" sx={{ bgcolor: 'success.main' }} onClick={() => accept(params.row.id)}>Accept</Button>
             <Button variant="contained" sx={{ bgcolor: 'error.main' }} onClick={() => reject(params.row.id)}>Reject</Button>
             <Button variant="outlined" onClick={() => edit(params.row.id)}>Edit</Button>
-            {/* <Button variant="contained" sx={{ bgcolor: 'error.main' }} onClick={() => delete(params.row.id)}>Delete</Button> */}
+            <Button variant="contained" sx={{ bgcolor: 'error.main' }} onClick={() => remove(params.row.id)}>Remove</Button>
           </>
         );
       },
@@ -37,8 +37,19 @@ const Idea_list = () => {
   // Action handlers
   const accept = (id) => {
     console.log(`Accept action for row with id: ${id}`);
-    // Implement your accept logic here
+    // Get the current list of ideas
+    let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
+    // Find the index of the idea with the given id
+    let index = ideas.findIndex(idea => idea.id === id);
+    // If the idea is found
+    if(index !== -1) {
+      // Update the status of the idea
+      ideas[index].status = 'Accepted';
+      // Save the updated list of ideas back to local storage
+      localStorage.setItem('ideas', JSON.stringify(ideas));
+    }
   };
+  
 
   const reject = (id) => {
     console.log(`Reject action for row with id: ${id}`);
@@ -50,10 +61,10 @@ const Idea_list = () => {
     // Implement your edit logic here
   };
 
-  // const delete = (id) => {
-  //   console.log(`Delete action for row with id: ${id}`);
-  //   // Implement your delete logic here
-  // };
+  const remove = (id) => {
+    console.log(`Delete action for row with id: ${id}`);
+    // Implement your delete logic here
+  };
 
   return (
     <Box
