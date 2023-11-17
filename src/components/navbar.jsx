@@ -16,7 +16,7 @@ const Header = () => {
       <AppBar sx={{ background: "#063970" }}>
         <Toolbar>
           <EmojiObjectsTwoToneIcon sx={{ transform: "scale(2)" }} />
-          <Typography sx={{ fontSize: "2rem", paddingLeft: "1%" }}>
+          <Typography sx={{ fontSize: "2rem", paddingLeft: "2%" }}>
                 IDEATHON
               </Typography>
           
@@ -33,7 +33,7 @@ const Header = () => {
                 <Tab label="Show Ideas Visually" />
               </Tabs>
 
-              <Tab label="Logout" />
+              <Tab label="Register" component={Link} to="/register"/>
           <Outlet/>
         </Toolbar>
       </AppBar>
