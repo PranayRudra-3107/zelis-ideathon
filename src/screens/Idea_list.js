@@ -1,32 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const Idea_list = () => {
   const [ideas, setIdeas] = useState([]);
 
+  // useEffect(() => {
+  //   // Fetch ideas from local storage when the component mounts
+  //   const storedIdeas = JSON.parse(localStorage.getItem('ideas')) || [];
+  //   setIdeas(storedIdeas.map((idea, index) => ({ ...idea, id: index + 1 })));
+  // }, []);
   useEffect(() => {
-    // Fetch ideas from local storage when the component mounts
-    const storedIdeas = JSON.parse(localStorage.getItem('ideas')) || [];
-    setIdeas(storedIdeas.map((idea, index) => ({ ...idea, id: index + 1 })));
-  }, []);
+    // Fetch ideas from the server when the component mounts
+    fetch('http://localhost:3001/')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setIdeas(data.map((idea, index) => ({ ...idea, id: index + 1 })));
+      })
+      .catch(error => {
+        console.error('Error fetching ideas:', error);
+      });
+  }, [setIdeas]);
 
   // Column definitions
   const columns = [
-    { field: 'title', headerName: 'Idea Title', width: 300 },
-    { field: 'description', headerName: 'Idea Description', width: 500 },
-    { field: 'status', headerName: 'Status', width: 100 },
+    { field: 'idea_name', headerName: 'Idea Title', width: 300 },
+    { field: 'idea_description', headerName: 'Idea Description', width: 500 },
+    { field: 'status', headerName: 'Status', width: 200 },
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 300,
+      width: 200,
       renderCell: (params, GridActionsCellItem) => {
         return (
           <>
-            <Button variant="contained" sx={{ bgcolor: 'success.main' }} onClick={() => accept(params.row.id)}>Accept</Button>
-            <Button variant="contained" sx={{ bgcolor: 'error.main' }} onClick={() => reject(params.row.id)}>Reject</Button>
-            <Button variant="outlined" onClick={() => edit(params.row.id)}>Edit</Button>
-            <Button variant="contained" sx={{ bgcolor: 'error.main' }} onClick={() => remove(params.row.id)}>Remove</Button>
+           <IconButton sx={{ color: 'success.main' }} onClick={() => accept(params.row.id)}><CheckIcon /></IconButton>
+          <IconButton sx={{ color: 'error.main' }} onClick={() => reject(params.row.id)}><CloseIcon /></IconButton>
+          <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>
+          <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>
+
           </>
         );
       },
@@ -37,23 +56,25 @@ const Idea_list = () => {
   // Action handlers
   const accept = (id) => {
     console.log(`Accept action for row with id: ${id}`);
-    // Get the current list of ideas
     let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
-    // Find the index of the idea with the given id
+    console.log(ideas); // Debugging line
     let index = ideas.findIndex(idea => idea.id === id);
-    // If the idea is found
     if(index !== -1) {
-      // Update the status of the idea
       ideas[index].status = 'Accepted';
-      // Save the updated list of ideas back to local storage
       localStorage.setItem('ideas', JSON.stringify(ideas));
+      setIdeas(JSON.parse(localStorage.getItem('ideas')) || []);
     }
   };
   
-
   const reject = (id) => {
     console.log(`Reject action for row with id: ${id}`);
-    // Implement your reject logic here
+    let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
+    let index = ideas.findIndex(idea => idea.id === id);
+    if(index !== -1) {
+      ideas[index].status = 'Rejected';
+      localStorage.setItem('ideas', JSON.stringify(ideas));
+      setIdeas(JSON.parse(localStorage.getItem('ideas')) || []);
+    }
   };
 
   const edit = (id) => {
@@ -62,9 +83,17 @@ const Idea_list = () => {
   };
 
   const remove = (id) => {
+    localStorage.clear();
     console.log(`Delete action for row with id: ${id}`);
-    // Implement your delete logic here
+    let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
+    let index = ideas.findIndex(idea => idea.id === id);
+    if(index !== -1) {
+      ideas.splice(index, 1);
+      localStorage.setItem('ideas', JSON.stringify(ideas));
+      setIdeas(JSON.parse(localStorage.getItem('ideas')) || []); // This will cause the component to re-render
+    }
   };
+  
 
   return (
     <Box

@@ -23,11 +23,11 @@ const Idea_submission = () => {
     } else {
       setAlert({ severity: 'success', message: 'Form submitted successfully.' });
       
-      const idea = { title, description , status: 'Submitted' };
-      let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
-      ideas.push(idea);
-      localStorage.setItem('ideas', JSON.stringify(ideas));
-      console.log(JSON.parse(localStorage.getItem('ideas')));
+      // let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
+      // const idea = { id: ideas.length + 1, title, description , status: 'Submitted' };
+      // ideas.push(idea);
+      // localStorage.setItem('ideas', JSON.stringify(ideas));
+      // console.log(JSON.parse(localStorage.getItem('ideas')));
     }
 
   };

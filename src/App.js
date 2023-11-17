@@ -16,7 +16,7 @@ const App = () => {
       <Route path="/submit" element={<Idea_submission />} />
       </Routes>
       <Footer/>
-    </BrowserRouter>
+      </BrowserRouter>
 
      
     </div>
