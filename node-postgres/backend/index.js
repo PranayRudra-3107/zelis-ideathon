@@ -24,7 +24,37 @@ app.get('/', (req, res) => {
   })
 })
 
+app.post('/idea_list', (req, res) => {
+  ideas_model.createIdeas(req.body)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
 
+app.delete('/idea_list/:id', (req, res) => {
+  ideas_model.deleteIdeas(req.params.id)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+app.put("/idea_list/:id", (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+  ideas_model
+    .updateIdeas(id, body)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })

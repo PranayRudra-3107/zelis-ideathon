@@ -96,7 +96,7 @@ const Signup = () => {
 
     return (
         <Container maxWidth="xs">
-            <Box paddingTop="20%">
+            <Box paddingTop="35%">
                 <form onSubmit={handleSubmit}>
                     <Grid container direction="column" spacing={2}>
                         <Grid item container direction="row" spacing={2}>
