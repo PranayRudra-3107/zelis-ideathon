@@ -5,6 +5,7 @@ import {
   Typography,
 } from "@mui/material";
 import Alert from '@mui/material/Alert';
+import Idea_list from "./Idea_list";
 
 const Idea_submission = () => {
   
@@ -27,7 +28,21 @@ const Idea_submission = () => {
       // const idea = { id: ideas.length + 1, title, description , status: 'Submitted' };
       // ideas.push(idea);
       // localStorage.setItem('ideas', JSON.stringify(ideas));
-      // console.log(JSON.parse(localStorage.getItem('ideas')));
+      fetch('http://localhost:3001/ideas_list', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({title, description, status: 'Submitted' , employeeid: '15747'}),
+      })
+        .then(response => {
+          return response.text();
+        })
+        .then(data => { 
+          //alert(data);
+          //Idea_list();
+        });
+
     }
 
   };

@@ -30,10 +30,10 @@ const getIdeas = async () => {
   
   const createIdea = (body) => {
     return new Promise(function (resolve, reject) {
-      const { name, description , status, employeeid } = body;
+      const { title, description , status, employeeid } = body;
       pool.query(
-        "INSERT INTO merchants (idea_name, idea_description,status,employee_id) VALUES ($1, $2, $3, $4) RETURNING *",
-        [name, description, status, employeeid],
+        "INSERT INTO idea_list (idea_name, idea_description,status,employee_id) VALUES ($1, $2, $3, $4) RETURNING *",
+        [title, description, status, employeeid],
         (error, results) => {
           if (error) {
             reject(error);
@@ -50,22 +50,22 @@ const getIdeas = async () => {
     });
   };
   //delete a merchant
-  const deleteIdeas = (id) => {
+  const deleteIdea = (id) => {
     return new Promise(function (resolve, reject) {
       pool.query(
-        "DELETE FROM merchants WHERE id = $1",
+        "DELETE FROM idea_list WHERE id = $1",
         [id],
         (error, results) => {
           if (error) {
             reject(error);
           }
-          resolve(`Merchant deleted with ID: ${id}`);
+          resolve(`Idea deleted with ID: ${id}`);
         }
       );
     });
   };
   //update a merchant record
-  const updateIdeas = (id, body) => {
+  const updateIdea = (id, body) => {
     return new Promise(function (resolve, reject) {
       const { name, description, status } = body;
       pool.query(
@@ -76,7 +76,7 @@ const getIdeas = async () => {
             reject(error);
           }
           if (results && results.rows) {
-            resolve(`Merchant updated: ${JSON.stringify(results.rows[0])}`);
+            resolve(`Idea updated: ${JSON.stringify(results.rows[0])}`);
           } else {
             reject(new Error("No results found"));
           }
@@ -84,7 +84,7 @@ const getIdeas = async () => {
       );
     });
   };
-  module.exports = {getIdeas , createIdea , deleteIdeas};
+  module.exports = {getIdeas , createIdea , deleteIdea , updateIdea};
 // pool.connect();
 
 // pool.query (`Select * from idea_list`,(err,res)=>{

@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3001
 
-const ideas_model = require('./Idea_list')
+const ideas_model = require('./Idea_model')
 
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 })
 
 app.post('/idea_list', (req, res) => {
-  ideas_model.createIdeas(req.body)
+  ideas_model.createIdea(req.body)
   .then(response => {
     res.status(200).send(response);
   })
@@ -35,7 +35,7 @@ app.post('/idea_list', (req, res) => {
 })
 
 app.delete('/idea_list/:id', (req, res) => {
-  ideas_model.deleteIdeas(req.params.id)
+  ideas_model.deleteIdea(req.params.id)
   .then(response => {
     res.status(200).send(response);
   })
@@ -47,7 +47,7 @@ app.put("/idea_list/:id", (req, res) => {
   const id = req.params.id;
   const body = req.body;
   ideas_model
-    .updateIdeas(id, body)
+    .updateIdea(id, body)
     .then((response) => {
       res.status(200).send(response);
     })
