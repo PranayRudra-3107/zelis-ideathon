@@ -28,20 +28,20 @@ const Idea_submission = () => {
       // const idea = { id: ideas.length + 1, title, description , status: 'Submitted' };
       // ideas.push(idea);
       // localStorage.setItem('ideas', JSON.stringify(ideas));
-      fetch('http://localhost:3001/ideas_list', {
+      fetch('http://localhost:3001/idea_list', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({title, description, status: 'Submitted' , employeeid: '15747'}),
+        body: JSON.stringify({title, description, status: 'Submitted' , employeeid: 15747}),
       })
-        .then(response => {
-          return response.text();
-        })
-        .then(data => { 
-          //alert(data);
-          //Idea_list();
-        });
+        // .then(response => {
+        //   return response.text();
+        // })
+        // .then(data => { 
+        //   alert(data);
+        //   // Idea_list();
+        // });
 
     }
 

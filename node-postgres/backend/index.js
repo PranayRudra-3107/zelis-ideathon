@@ -3,6 +3,7 @@ const app = express()
 const port = 3001
 
 const ideas_model = require('./Idea_model')
+app.use(express.json());
 
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
