@@ -28,6 +28,28 @@ const getIdeas = async () => {
     }
   };
   
+  const getIdeaById = async (ideaId) => {
+    try {
+      return await new Promise(function (resolve, reject) {
+        const query = `SELECT * FROM idea_list WHERE id = $1`;
+        pool.query(query, [ideaId], (error, results) => {
+          if (error) {
+            reject(error);
+          }
+          if (results && results.rows && results.rows.length > 0) {
+            console.log(results.rows[0]);
+            resolve(results.rows[0]);
+          } else {
+            reject(new Error("Idea not found"));
+          }
+        });
+      });
+    } catch (error_1) {
+      console.error(error_1);
+      throw new Error("Internal server error");
+    }
+  };
+  
   const createIdea = (body) => {
     return new Promise(function (resolve, reject) {
       const { title, description , status, employeeid } = body;
@@ -84,7 +106,7 @@ const getIdeas = async () => {
       );
     });
   };
-  module.exports = {getIdeas , createIdea , deleteIdea , updateIdea};
+  module.exports = {getIdeas , getIdeaById, createIdea , deleteIdea , updateIdea};
 // pool.connect();
 
 // pool.query (`Select * from idea_list`,(err,res)=>{

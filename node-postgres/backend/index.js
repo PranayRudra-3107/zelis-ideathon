@@ -15,8 +15,18 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/', (req, res) => {
+app.get('/idea_list', (req, res) => {
   ideas_model.getIdeas()
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+app.get('/idea_list/:id', (req, res) => {
+  ideas_model.getIdeaById(req.params.id)
   .then(response => {
     res.status(200).send(response);
   })

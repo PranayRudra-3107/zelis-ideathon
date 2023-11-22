@@ -6,13 +6,15 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router-dom';
 
 
 const Idea_list = () => {
   const [ideas, setIdeas] = useState([]);
   const [refresh, setRefresh] = useState(false); 
+  const navigate = useNavigate();
   useEffect(() => {
-    fetch('http://localhost:3001/')
+    fetch('http://localhost:3001/idea_list')
       .then(response => response.json())
       .then(data => {
         console.log(data)
@@ -37,7 +39,7 @@ const Idea_list = () => {
           <>
            {/* <IconButton sx={{ color: 'success.main' }} onClick={() => accept(params.row.id)}><CheckIcon /></IconButton>
           <IconButton sx={{ color: 'error.main' }} onClick={() => reject(params.row.id)}><CloseIcon /></IconButton> */}
-          <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>
+          <IconButton onClick={() => navigate(`/edit/${params.row.id}`)}><EditIcon /></IconButton>
           <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>
 
           </>
