@@ -8,12 +8,15 @@ const Idea_edit = () => {
   const [idea, setIdea] = useState(null);
 
   useEffect(() => {
-    // Fetch the idea from the database
     fetch(`http://localhost:3001/idea_list/${id}`)
       .then(response => response.json())
-      .then(data => setIdea(data));
+      .then(data => setIdea({
+        title: data.idea_name,
+        description: data.idea_description,
+      }))
+      .then(console.log(idea));
   }, [id]);
-
+  
   const handleSubmit = (updatedIdea) => {
     fetch(`http://localhost:3001/idea_list/${id}`, {
       method: 'PUT',
@@ -27,8 +30,8 @@ const Idea_edit = () => {
     }, 2000);
   };
 
-  // Render the form only after the idea has been fetched
-  return idea ? <IdeaForm idea={idea} onSubmit={handleSubmit} /> : null;
+  // Render the form only after the idea has been fetched  
+  return <IdeaForm idea={idea} onSubmit={handleSubmit} /> 
 };
 
 export default Idea_edit;
