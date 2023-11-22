@@ -4,18 +4,21 @@ import Footer from "./components/footer";
 import Header from "./components/navbar";
 import Idea_list from './screens/Idea_list';
 import Idea_submission from './screens/Idea_submission';
+import LoginPage from './screens/Login';
 import Signup from './screens/Registration';
-import Idea_edit from './screens/Edit_idea';
+import BarGraph from './screens/BarGraph'
 const App = () => {
   return (
+
     <div>
       <BrowserRouter>
       <Header/>
       <Routes>
+      <Route path="/" element={<LoginPage/>} />
       <Route path="/list" element={<Idea_list />} />
       <Route path="/submit" element={<Idea_submission />} />
-      <Route path="/edit/:id" element={<Idea_edit />} />
-      <Route path="/register" element={<Signup />} />            
+      <Route path="/register" element={<Signup />} />  
+      <Route path="/graphs" element={<BarGraph/>} />           
       </Routes>
       <Footer/>
     </BrowserRouter>

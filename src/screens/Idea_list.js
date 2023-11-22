@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const Idea_list = () => {
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
-  const navigate = useNavigate();
+  //const nav = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:3001/idea_list')
