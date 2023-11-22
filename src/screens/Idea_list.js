@@ -10,24 +10,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const Idea_list = () => {
   const [ideas, setIdeas] = useState([]);
-
-  // useEffect(() => {
-  //   // Fetch ideas from local storage when the component mounts
-  //   const storedIdeas = JSON.parse(localStorage.getItem('ideas')) || [];
-  //   setIdeas(storedIdeas.map((idea, index) => ({ ...idea, id: index + 1 })));
-  // }, []);
+  const [refresh, setRefresh] = useState(false); 
   useEffect(() => {
-    // Fetch ideas from the server when the component mounts
     fetch('http://localhost:3001/')
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        setIdeas(data.map((idea, index) => ({ ...idea, id: index + 1 })));
+        setIdeas(data.map((idea) => ({ ...idea})));
       })
       .catch(error => {
         console.error('Error fetching ideas:', error);
       });
-  }, [setIdeas]);
+  }, [refresh]);
 
   // Column definitions
   const columns = [
@@ -41,8 +35,8 @@ const Idea_list = () => {
       renderCell: (params, GridActionsCellItem) => {
         return (
           <>
-           <IconButton sx={{ color: 'success.main' }} onClick={() => accept(params.row.id)}><CheckIcon /></IconButton>
-          <IconButton sx={{ color: 'error.main' }} onClick={() => reject(params.row.id)}><CloseIcon /></IconButton>
+           {/* <IconButton sx={{ color: 'success.main' }} onClick={() => accept(params.row.id)}><CheckIcon /></IconButton>
+          <IconButton sx={{ color: 'error.main' }} onClick={() => reject(params.row.id)}><CloseIcon /></IconButton> */}
           <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>
           <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>
 
@@ -83,16 +77,25 @@ const Idea_list = () => {
   };
 
   const remove = (id) => {
-    localStorage.clear();
-    console.log(`Delete action for row with id: ${id}`);
-    let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
-    let index = ideas.findIndex(idea => idea.id === id);
-    if(index !== -1) {
-      ideas.splice(index, 1);
-      localStorage.setItem('ideas', JSON.stringify(ideas));
-      setIdeas(JSON.parse(localStorage.getItem('ideas')) || []); // This will cause the component to re-render
-    }
+    fetch(`http://localhost:3001/idea_list/${id}`, {
+      method: 'DELETE',
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      setIdeas(ideas.filter(idea => idea.id !== id));
+      setRefresh(!refresh); 
+    })
+    .catch(error => {
+      console.error('Error deleting idea:', error);
+    });
   };
+  
   
 
   return (

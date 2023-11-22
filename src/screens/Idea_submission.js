@@ -5,6 +5,7 @@ import {
   Typography,
 } from "@mui/material";
 import Alert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom';
 import Idea_list from "./Idea_list";
 
 const Idea_submission = () => {
@@ -13,7 +14,8 @@ const Idea_submission = () => {
   const [description, setDescription] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [alert, setAlert] = useState(null);
-  
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitted(true);
@@ -23,25 +25,17 @@ const Idea_submission = () => {
       setAlert({ severity: 'info', message: 'Title or description is too long.' });
     } else {
       setAlert({ severity: 'success', message: 'Form submitted successfully.' });
-      
-      // let ideas = JSON.parse(localStorage.getItem('ideas')) || [];
-      // const idea = { id: ideas.length + 1, title, description , status: 'Submitted' };
-      // ideas.push(idea);
-      // localStorage.setItem('ideas', JSON.stringify(ideas));
+
       fetch('http://localhost:3001/idea_list', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({title, description, status: 'Submitted' , employeeid: 15747}),
-      })
-        // .then(response => {
-        //   return response.text();
-        // })
-        // .then(data => { 
-        //   alert(data);
-        //   // Idea_list();
-        // });
+      });          
+        setTimeout(() => {
+          navigate('/list');
+        }, 2000);
 
     }
 
