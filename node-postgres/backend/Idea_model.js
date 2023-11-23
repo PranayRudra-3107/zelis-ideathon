@@ -88,24 +88,25 @@ const getIdeas = async () => {
   };
   //update a merchant record
   const updateIdea = (id, body) => {
-    return new Promise(function (resolve, reject) {
-      const { name, description, status } = body;
-      pool.query(
-        "UPDATE idea_list SET name = $1, description = $2, status = $3 WHERE id = $4 RETURNING *",
-        [name, description, status, id],
-        (error, results) => {
-          if (error) {
-            reject(error);
-          }
-          if (results && results.rows) {
-            resolve(`Idea updated: ${JSON.stringify(results.rows[0])}`);
-          } else {
-            reject(new Error("No results found"));
-          }
+  return new Promise(function (resolve, reject) {
+    const { idea_name, idea_description, status } = body;
+    pool.query(
+      "UPDATE idea_list SET idea_name = $1, idea_description = $2, status = $3 WHERE id = $4 RETURNING *",
+      [idea_name, idea_description, status, id],
+      (error, results) => {
+        if (error) {
+          reject(error);
         }
-      );
-    });
-  };
+        if (results && results.rows && results.rows.length > 0) {
+          resolve(results.rows[0]);
+        } else {
+          reject(new Error("No results found"));
+        }
+      }
+    );
+  });
+};
+
   module.exports = {getIdeas , getIdeaById, createIdea , deleteIdea , updateIdea};
 // pool.connect();
 

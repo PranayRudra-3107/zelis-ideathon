@@ -50,7 +50,7 @@ const Header = () => {
             onChange={(e, value) => setValue(value)}
           >
             <Tab label="Ideas" component={Link} to="/list" />
-            <Tab label="My Idea" />
+            <Tab label="My Idea" component={Link} to="/myideas"/>
             <Tab label="Submit Idea" component={Link} to="/submit"/>
             <Tab label="Show Ideas Visually" component={Link} to="/graphs"/>
           </Tabs>

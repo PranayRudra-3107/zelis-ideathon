@@ -6,11 +6,13 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import { useNavigate } from 'react-router-dom';
 
 // manager role - 1 , employee role -2 
 const Idea_list = () => {
-  const role = 1;
+  const role = 2;
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
   //const nav = useNavigate();
@@ -27,15 +29,40 @@ const Idea_list = () => {
   }, []);
 
   // Column definitions
-  const columns = [
+  const statuses = ["submitted", "in review", "manager approval", "director approval", "in progress", "deployed"];
+
+const columns = [
     { field: 'idea_name', headerName: 'Idea Title', width: 300, editable: true },
     { field: 'idea_description', headerName: 'Idea Description', width: 500, editable: true },
-    { field: 'status', headerName: 'Status', width: 200 },
+    { 
+      field: 'status', 
+      headerName: 'Status', 
+      width: 200,
+      renderCell: (params) => {
+        if (role === 1 && editRows.includes(params.row.id)) {
+          return (
+            <Select
+              value={params.row.status}
+              onChange={(event) => handleStatusChange(params.row.id, event.target.value)}
+            >
+              {statuses.map((status) => (
+                <MenuItem key={status} value={status}>
+                  {status}
+                </MenuItem>
+              ))}
+            </Select>
+          );
+        } else {
+          return params.row.status;
+        }
+      },
+      editable: role === 1,
+    },
     {
       field: 'actions',
       headerName: 'Actions',
       width: 200,
-      renderCell: (params, GridActionsCellItem) => {
+      renderCell: (params) => {
         const isEditing = editRows.includes(params.row.id);
         return (
           <>
@@ -47,7 +74,7 @@ const Idea_list = () => {
             ) : (
               <>
                 <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>
-                <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>
+                {role === 2 && <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>}
               </>
             )}
           </>
@@ -56,6 +83,28 @@ const Idea_list = () => {
     }
   ];
 
+
+  const handleStatusChange = (id, newStatus) => {
+    // Find the index of the idea with the given id in the state
+    const ideaIndex = ideas.findIndex((idea) => idea.id === id);
+  
+    if (ideaIndex !== -1) {
+      // Create a copy of the ideas array to avoid mutating state directly
+      const updatedIdeas = [...ideas];
+  
+      // Update the status of the idea at the found index
+      updatedIdeas[ideaIndex] = {
+        ...updatedIdeas[ideaIndex],
+        status: newStatus,
+      };
+  
+      // Update the state with the new array of ideas
+      setIdeas(updatedIdeas);
+    }
+  };
+  
+  
+
   // Action handlers
   const edit = (id) => {
     setEditRows([...editRows, id]);
@@ -63,12 +112,18 @@ const Idea_list = () => {
 
   const save = (id) => {
     const updatedIdea = ideas.find(idea => idea.id === id);
+    const requestBody = {
+      idea_name: updatedIdea.idea_name,
+      idea_description: updatedIdea.idea_description,
+      status: updatedIdea.status,
+    };
+    console.log(requestBody);
     fetch(`http://localhost:3001/idea_list/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updatedIdea),
+      body: JSON.stringify(requestBody),
     })
     .then(response => {
       if (!response.ok) {
@@ -120,18 +175,20 @@ const Idea_list = () => {
     >
       <h1>Ideas List</h1>
       <div style={{ height: 400, width: '90%' }}>
-        <DataGrid 
-          rows={ideas} 
-          columns={columns} 
-          pageSize={5} 
-          onEditCellChangeCommitted={(e) => {
+      <DataGrid 
+        rows={ideas} 
+        columns={columns} 
+        pageSize={5} 
+        onEditCellChangeCommitted={(e) => {
           const updatedIdeas = [...ideas];
-          const updatedIdea = updatedIdeas.find(idea => idea.id === e.id);
-          updatedIdea[e.field] = e.props.value;
-          console.log(`Edited idea: ${JSON.stringify(updatedIdea)}`); // Log the edited idea
-          setIdeas(updatedIdeas);
-          }} 
-        />
+          const updatedIdea = updatedIdeas.find((idea) => idea.id === e.id);
+          if (updatedIdea) {
+            updatedIdea[e.field] = e.props.value;
+            setIdeas(updatedIdeas);
+            save(e.id);
+          }
+        }}
+      />
       </div>
     </Box>
   );
