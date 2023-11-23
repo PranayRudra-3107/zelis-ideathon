@@ -8,7 +8,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 
+// manager role - 1 , employee role -2 
 const Idea_list = () => {
+  const role = 1;
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
   //const nav = useNavigate();
@@ -118,12 +120,18 @@ const Idea_list = () => {
     >
       <h1>Ideas List</h1>
       <div style={{ height: 400, width: '90%' }}>
-        <DataGrid rows={ideas} columns={columns} pageSize={5} onEditCellChangeCommitted={(e) => {
+        <DataGrid 
+          rows={ideas} 
+          columns={columns} 
+          pageSize={5} 
+          onEditCellChangeCommitted={(e) => {
           const updatedIdeas = [...ideas];
           const updatedIdea = updatedIdeas.find(idea => idea.id === e.id);
           updatedIdea[e.field] = e.props.value;
+          console.log(`Edited idea: ${JSON.stringify(updatedIdea)}`); // Log the edited idea
           setIdeas(updatedIdeas);
-        }} />
+          }} 
+        />
       </div>
     </Box>
   );

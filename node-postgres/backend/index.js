@@ -4,6 +4,7 @@ const port = 3001
 
 const ideas_model = require('./Idea_model')
 const emp_model = require('./employee_model')
+const status_model = require('./Status_model')
 
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -89,6 +90,16 @@ app.put("/employee_details/:employee_id", (req, res) => {
       res.status(500).send(error);
     });
 });
+
+app.get('/idea_status', (req, res) => {
+  status_model.getStatus()
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })
