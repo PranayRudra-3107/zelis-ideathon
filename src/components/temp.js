@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Link , Outlet} from 'react-router-dom';
+import { BrowserRouter as  Link , Outlet} from 'react-router-dom';
 const Temp = () => {
     return (
         <>

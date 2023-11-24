@@ -1,7 +1,7 @@
-import IdeaForm from "../components/Ideaform";
+import IdeaForm from "../components/IdeaForm";
 import { useNavigate } from "react-router-dom";
 
-const Idea_submission = () => {
+const IdeaSubmission = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (idea) => {
@@ -20,4 +20,4 @@ const Idea_submission = () => {
   return <IdeaForm onSubmit={handleSubmit} />;
 };
 
-export default Idea_submission;
+export default IdeaSubmission;

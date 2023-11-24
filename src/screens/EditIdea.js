@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import IdeaForm from '../components/Ideaform';
+import IdeaForm from '../components/IdeaForm';
 import { useNavigate , useParams } from 'react-router-dom';
 
-const Idea_edit = () => {
+const IdeaEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [idea, setIdea] = useState(null);
@@ -34,4 +34,4 @@ const Idea_edit = () => {
   return <IdeaForm idea={idea} onSubmit={handleSubmit} /> 
 };
 
-export default Idea_edit;
+export default IdeaEdit;

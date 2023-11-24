@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
+import { DataGrid} from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,10 +8,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
+//import { Button, TextField } from '@mui/material';
 
 // manager role - 1 , employee role -2 
-const Idea_list = () => {
+const IdeaList = () => {
   const role = 2;
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
@@ -194,4 +195,4 @@ const columns = [
   );
 };
 
-export default Idea_list;
+export default IdeaList;

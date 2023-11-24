@@ -31,9 +31,18 @@ const Signup = () => {
         });
         setStrength(strength);
     }
+    useEffect(() => {
+        if (registered) {
+            setTimeout(function() {
+                nav('/login');
+            }, 2000); 
+        }
+    }, [registered]);
     const handleSubmit = (event) => 
     {
         calculateStrength(password);
+
+       
 
         event.preventDefault();
         //firstname
@@ -87,12 +96,11 @@ const Signup = () => {
         }
 
         else {
-        setAlert({ severity: 'success', message: 'Registered Successfully' });
         setRegistered(true);
+        setAlert({ severity: 'success', message: 'Registered Successfully' });
         } 
 
-        if(registered){
-            nav('/');}
+       
         fetch('http://localhost:3001/employee_details', {
         method: 'POST',
         headers: {
@@ -106,17 +114,13 @@ const Signup = () => {
             email: email,
             created_date: new Date(),
             updated_date: new Date(),
-            encrypted_password: password
+             password: password
           }),
         })
         .then(response => {
             return response.text();
           });
     };
-
-    useEffect(() => {
-        document.title = "Registration";
-      }, []);
 
     return (
         <Container maxWidth="xs">
