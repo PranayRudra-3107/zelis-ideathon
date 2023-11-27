@@ -8,11 +8,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
 
 // manager role - 1 , employee role -2 
 const Idea_list = () => {
-  const role = 2;
+  const role = ReactSession.get("role");
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
   const [updatedIdeas, setupdatedIdeas] = useState([]);
@@ -43,8 +44,8 @@ const columns = [
         if (role === 1 && editRows.includes(params.row.id)) {
           return (
             <Select
-              value={params.row.status}
-              onChange={(event) => handleStatusChange(params.row.id, event.target.value)}
+              // value={params.row.status}
+              // onChange={(event) => handleStatusChange(params.row.id, event.target.value)}
             >
               {statuses.map((status) => (
                 <MenuItem key={status} value={status}>
@@ -112,6 +113,7 @@ const columns = [
   };
 
   const save = (id) => {
+    debugger;
     var updatedIdea;
     if(id === updatedIdeas.id){
        updatedIdea = updatedIdeas;

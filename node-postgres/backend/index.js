@@ -114,6 +114,27 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.post('/employee_mapping', async (req, res) => {
+  emp_model.setEmployeeMaping(req.body)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+});
+
+app.get('/employee_mapping/:employee_id', async (req, res) => {
+  const id = req.params.employee_id;
+  emp_model.getRole(id)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+});
+
 app.get('/idea_status', (req, res) => {
   status_model.getStatus()
   .then(response => {

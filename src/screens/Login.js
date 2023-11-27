@@ -1,13 +1,15 @@
 import { Container, Box, Grid, TextField, Checkbox, FormControlLabel, Button } from '@material-ui/core';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Alert from '@mui/material/Alert'; 
 import { useNavigate } from "react-router-dom";
+import { ReactSession }  from 'react-client-session';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [ password, setEncryptedPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [alert,setAlert] = useState(null);
+  const [role, setRole] = useState([]);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -28,6 +30,9 @@ const LoginPage = () => {
   
       if (response.status === 200) {
         setAlert({ severity: 'success', message: 'Successfully logged in' });
+        debugger;
+        ReactSession.set("id",username);
+        const id = ReactSession.get("id");
         setTimeout(() => {
           navigate('/list');
         }, 2000);
@@ -41,8 +46,22 @@ const LoginPage = () => {
     }
 
   };
-  
 
+  useEffect(() => {
+    const username = ReactSession.get("username");
+    fetch('http://localhost:3001/employee_mapping/${username}')
+      .then(response => response.json())
+      .then(data => {
+        setRole(data.role_id);
+        ReactSession.set("role", data.role_id);
+        const role1 = ReactSession.get("role");
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
+  debugger;
+  const role2 = ReactSession.get("role");
   return (
     <Container maxWidth="xs">
       <Box paddingTop="45%">

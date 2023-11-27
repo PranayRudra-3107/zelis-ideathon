@@ -18,7 +18,6 @@ const getUser = async () => {
             reject(error);
           }
           if (results && results.rows) {
-            console.log(results.rows);
             resolve(results.rows);
           } else {
             reject(new Error("No results found"));
@@ -112,5 +111,51 @@ const getUser = async () => {
       return { status: 500, error: 'Internal server error' };
     }
   };
+
+  const setEmployeeMaping = (body) => {
+    return new Promise(async function (resolve, reject) {
+      const { employee_id, department_id , role_id } = body;
+      pool.query(
+        "INSERT INTO employee_mapping (employee_id, department_id , role_id) VALUES ($1, $2, $3) RETURNING *",
+        [employee_id, department_id , role_id],
+        (error, results) => {
+          if (error) {
+            reject("error");
+          }
+          else if (results && results.rows) {
+            resolve(
+              `Registration successful ${JSON.stringify(results.rows[0])}`
+            );
+          } else {
+            reject(new Error("Unable to map"));
+          }
+        }
+      );
+    
+    });
+  };
+
+  const getRole = (employee_id) => {
+    debugger;
+    return new Promise(async function (resolve, reject) {     
+      pool.query(
+        "SELECT role_id From employee_mapping WHERE employee_id = $1 ",
+        [employee_id],
+        (error, results) => {
+          if (error) {
+            reject("error");
+          }
+          else if (results && results.rows) {
+            resolve(
+              `${JSON.stringify(results.rows[0])}`
+            );
+          } else {
+            reject(new Error("Unable to map"));
+          }
+        }
+      );
+    
+    });
+  };
   
-  module.exports = {getUser , createUser , updateUser, loginUser};
+  module.exports = {getUser , createUser , updateUser, loginUser , setEmployeeMaping , getRole};

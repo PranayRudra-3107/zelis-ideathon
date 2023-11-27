@@ -41,9 +41,6 @@ const Signup = () => {
     const handleSubmit = (event) => 
     {
         calculateStrength(password);
-
-       
-
         event.preventDefault();
         //firstname
         if (firstName === '') {
@@ -96,11 +93,10 @@ const Signup = () => {
         }
 
         else {
+            debugger;
         setRegistered(true);
         setAlert({ severity: 'success', message: 'Registered Successfully' });
-        } 
 
-       debugger;
         fetch('http://localhost:3001/employee_details', {
         method: 'POST',
         headers: {
@@ -119,8 +115,24 @@ const Signup = () => {
         })
         .then(response => {
             return response.text();
-            console.log(response.text());
           });
+
+
+        fetch('http://localhost:3001/employee_mapping', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            employee_id: id,
+            department_id :department,
+            role_id : role
+          }),
+        })
+        .then(response => {
+            return response.text();
+          });       
+        } 
     };
 
     return (
@@ -133,7 +145,6 @@ const Signup = () => {
                                 <TextField
                                     label="First Name"
                                     variant="outlined"
-
                                     name="firstName"
                                     onChange={(e) => setFirstName(e.target.value)}
                                 />
@@ -142,7 +153,6 @@ const Signup = () => {
                                 <TextField
                                     label="Last Name"
                                     variant="outlined"
-
                                     name="lastName"
                                     onChange={(e) => setLastName(e.target.value)}
                                 />
@@ -155,7 +165,6 @@ const Signup = () => {
                                     label="ID"
                                     variant="outlined"
                                     inputProps={{ maxLength: 6 }}
-
                                     name="id"
                                     onChange={(e) => setId(e.target.value)}
                                 />
@@ -164,10 +173,8 @@ const Signup = () => {
                                 <PhoneInput
                                     label="Phone Number"
                                     variant="outlined"
-
                                     country={"in"}
                                     enableSearch={true}
-
                                     name="phoneNo"
                                     onChange={setPhoneNo}
                                 />
@@ -179,7 +186,6 @@ const Signup = () => {
                                 label="Email"
                                 variant="outlined"
                                 fullWidth
-
                                 name="email"
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -191,15 +197,14 @@ const Signup = () => {
                                     <InputLabel>Department</InputLabel>
                                     <Select
                                         label="Department"
-
                                         name="department"
                                         onChange={(e) => setDepartment(e.target.value)}
                                     >
-                                        <MenuItem value="ZNA">ZNA</MenuItem>
-                                        <MenuItem value="CCS">CCS</MenuItem>
-                                        <MenuItem value="PAYMENTS">PAYMENTS</MenuItem>
-                                        <MenuItem value="SUPPORT">SUPPORT</MenuItem>
-                                        <MenuItem value="ZADA/ZDI">ZADA/ZDI</MenuItem>
+                                        <MenuItem value="1">ZNA</MenuItem>
+                                        <MenuItem value="2">CCS</MenuItem>
+                                        <MenuItem value="3">PAYMENTS</MenuItem>
+                                        <MenuItem value="4">SUPPORT</MenuItem>
+                                        <MenuItem value="5">ZADA/ZDI</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -212,8 +217,8 @@ const Signup = () => {
                                         name="role"
                                         onChange={(e) => setRole(e.target.value)}
                                     >
-                                        <MenuItem value="manager">Manager</MenuItem>
-                                        <MenuItem value="employee">Employee</MenuItem>
+                                        <MenuItem value="1">Manager</MenuItem>
+                                        <MenuItem value="2">Employee</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -225,7 +230,6 @@ const Signup = () => {
                                     label="Password"
                                     type="password"
                                     variant="outlined"
-
                                     name="password"
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
