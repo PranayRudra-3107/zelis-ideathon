@@ -10,7 +10,7 @@ const IdeaSubmission = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ ...idea, status: 'Submitted' , employeeid: 15747 }),
+      body: JSON.stringify({ ...idea, status: 1 , employeeid: 15747 }),
     });  
     setTimeout(() => {
       navigate('/list');

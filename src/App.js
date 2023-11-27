@@ -6,7 +6,7 @@ import IdeaList from './screens/IdeaList';
 import IdeaSubmission from './screens/IdeaSubmission';
 import LoginPage from './screens/Login';
 import Signup from './screens/Registration';
-import BarGraph from './screens/BarGraph'
+import Graph from './screens/Graph'
 const App = () => {
   return (
 
@@ -18,7 +18,7 @@ const App = () => {
       <Route path="/list" element={<IdeaList />} />
       <Route path="/submit" element={<IdeaSubmission />} />
       <Route path="/register" element={<Signup />} />  
-      <Route path="/graphs" element={<BarGraph/>} />           
+      <Route path="/graphs" element={<Graph/>} />           
       </Routes>
       <Footer/>
     </BrowserRouter>
