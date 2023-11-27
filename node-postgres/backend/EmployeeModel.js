@@ -36,17 +36,16 @@ const getUser = async () => {
       const { firstname, lastname, employee_id, phone_no, email, created_date, updated_date, password } = body;
        // Generate a salt
     const salt = await bcrypt.genSalt(saltRounds);
-   debugger;
     // Hash the password with the salt
     const hashedPassword = await bcrypt.hash(password, salt);
 
     
       pool.query(
-        "INSERT INTO employee_details (firstname, lastname, employee_id, phone_no, email, created_date, updated_date, encrypted_password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+        "INSERT INTO employee_details (firstname, lastname, employee_id, phone_no, email, created_date, updated_date, password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
         [firstname, lastname, employee_id, phone_no, email, created_date, updated_date, hashedPassword],
         (error, results) => {
           if (error) {
-            reject(error);
+            reject("hello");
           }
           else if (results && results.rows) {
             resolve(

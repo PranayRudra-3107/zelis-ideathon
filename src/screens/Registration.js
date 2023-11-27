@@ -100,7 +100,7 @@ const Signup = () => {
         setAlert({ severity: 'success', message: 'Registered Successfully' });
         } 
 
-       
+       debugger;
         fetch('http://localhost:3001/employee_details', {
         method: 'POST',
         headers: {
@@ -119,6 +119,7 @@ const Signup = () => {
         })
         .then(response => {
             return response.text();
+            console.log(response.text());
           });
     };
 

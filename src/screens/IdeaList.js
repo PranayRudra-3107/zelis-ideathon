@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
-import { DataGrid} from '@mui/x-data-grid';
+import { Box, Button, TextField } from '@mui/material';
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,14 +8,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-//import { useNavigate } from 'react-router-dom';
-//import { Button, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 // manager role - 1 , employee role -2 
-const IdeaList = () => {
+const Idea_list = () => {
   const role = 2;
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
+  const [updatedIdeas, setupdatedIdeas] = useState([]);
   //const nav = useNavigate();
 
   useEffect(() => {
@@ -31,10 +31,10 @@ const IdeaList = () => {
 
   // Column definitions
   const statuses = ["submitted", "in review", "manager approval", "director approval", "in progress", "deployed"];
-
+ 
 const columns = [
-    { field: 'idea_name', headerName: 'Idea Title', width: 300, editable: true },
-    { field: 'idea_description', headerName: 'Idea Description', width: 500, editable: true },
+    { field: 'idea_name', headerName: 'Idea Title', width: 300, editable: (params) => editRows.includes(params.row.id) },
+    { field: 'idea_description', headerName: 'Idea Description', width: 500, editable:(params) => editRows.includes(params.row.id) },
     { 
       field: 'status', 
       headerName: 'Status', 
@@ -112,14 +112,17 @@ const columns = [
   };
 
   const save = (id) => {
-    const updatedIdea = ideas.find(idea => idea.id === id);
+    var updatedIdea;
+    if(id === updatedIdeas.id){
+       updatedIdea = updatedIdeas;
+    }
+    console.log(updatedIdea);
     const requestBody = {
       idea_name: updatedIdea.idea_name,
       idea_description: updatedIdea.idea_description,
       status: updatedIdea.status,
     };
-    console.log(requestBody);
-    fetch(`http://localhost:3001/idea_list/${id}`, {
+    fetch(`http://localhost:3001/idea_list/${updatedIdea.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +137,7 @@ const columns = [
     })
     .then(data => {
       console.log(data);
-      setEditRows(editRows.filter(rowId => rowId !== id));
+      setEditRows(editRows.filter(rowId => rowId !== updatedIdea.id));
     })
     .catch(error => {
       console.error('Error updating idea:', error);
@@ -153,11 +156,9 @@ const columns = [
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
       setIdeas(ideas.filter(idea => idea.id !== id));
+      return response.json();
+      
     })
     .catch(error => {
       console.error('Error deleting idea:', error);
@@ -180,14 +181,13 @@ const columns = [
         rows={ideas} 
         columns={columns} 
         pageSize={5} 
-        onEditCellChangeCommitted={(e) => {
-          const updatedIdeas = [...ideas];
-          const updatedIdea = updatedIdeas.find((idea) => idea.id === e.id);
-          if (updatedIdea) {
-            updatedIdea[e.field] = e.props.value;
-            setIdeas(updatedIdeas);
-            save(e.id);
-          }
+        onRowEditStop={(params, event) => {
+          console.log('Row edit stopped:', params, event);
+
+        }}
+        processRowUpdate={(params) => {
+          console.log('Row updated:', params);
+          setupdatedIdeas(params);
         }}
       />
       </div>
@@ -195,4 +195,4 @@ const columns = [
   );
 };
 
-export default IdeaList;
+export default Idea_list;
