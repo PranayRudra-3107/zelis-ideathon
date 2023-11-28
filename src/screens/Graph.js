@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PieChart, Pie, LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area, ScatterChart, Scatter, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, AreaChart, Area, ScatterChart, Scatter, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import axios from 'axios';
 
 //const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#f22fc3', '#f64c3d'];
@@ -7,7 +7,7 @@ import axios from 'axios';
 const Graph = () => {
   const [chartType, setChartType] = useState('line');
   const [data, setData] = useState([]);
-  const total = data.reduce((acc, cur) => acc + cur.count, 0);
+  //const total = data.reduce((acc, cur) => acc + cur.count, 0);
 
   useEffect(() => {
     axios.get('http://localhost:3001/graphs')
@@ -19,20 +19,20 @@ const Graph = () => {
       });
   }, []);
 
-  const renderTooltip = (props) => {
-    const { active, payload } = props;
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      const percentage = ((data.count / total) * 100).toFixed(2);
-      return (
-        <div style={{ backgroundColor: '#fff', padding: '5px', border: '1px solid #ccc' }}>
-          <p>{`Count: ${data.count}`}</p>
-          <p>{`Percentage: ${percentage}%`}</p>
-        </div>
-      );
-    }
-    return null;
-  };
+  // const renderTooltip = (props) => {
+  //   const { active, payload } = props;
+  //   if (active && payload && payload.length) {
+  //     const data = payload[0].payload;
+  //     const percentage = ((data.count / total) * 100).toFixed(2);
+  //     return (
+  //       <div style={{ backgroundColor: '#fff', padding: '5px', border: '1px solid #ccc' }}>
+  //         <p>{`Count: ${data.count}`}</p>
+  //         <p>{`Percentage: ${percentage}%`}</p>
+  //       </div>
+  //     );
+  //   }
+  //   return null;
+  // };
 
   const renderAreaChart = () => {
     return (
