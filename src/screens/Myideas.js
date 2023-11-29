@@ -1,227 +1,159 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, TextField } from '@mui/material';
+import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Close';
-import { DataGrid, GridActionsCellItem, GridRowModes, GridToolbarContainer, GridRowEditStopReasons } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import { ReactSession }  from 'react-client-session';
+import { useNavigate } from 'react-router-dom';
 
-// Define your own random functions or use another library
-const randomId = () => Math.random().toString(36).substring(7);
-const randomTraderName = () => "John Doe"; // Replace with your own logic
-const randomCreatedDate = () => new Date(); // Replace with your own logic
-const randomArrayItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
+// manager role - 1 , employee role -2 
+const My_Ideas = () => {
+  const role = 2;
+  const [ideas, setIdeas] = useState([]);
+  const [editRows, setEditRows] = useState([]);
+  const [updatedIdeas, setupdatedIdeas] = useState([]);
+  
 
-const roles = ['Market', 'Finance', 'Development'];
-const randomRole = () => randomArrayItem(roles);
+  const empid = ReactSession.get("id");
+  useEffect(() => {
+    fetch(`http://localhost:3001/myidea_list/${empid}`)
+      .then(response => response.json())
+      .then(data => {        
+        setIdeas(data.map((idea) => ({ ...idea})));
+      })
+      .catch(error => {
+        console.error('Error fetching ideas:', error);
+      });
+  }, []);
 
-const initialRows = [
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 25,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 36,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 19,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 28,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-  {
-    id: randomId(),
-    name: randomTraderName(),
-    age: 23,
-    joinDate: randomCreatedDate(),
-    role: randomRole(),
-  },
-];
-
-function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-    }));
-  };
-
-  return (
-    <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
-}
-
-export default function FullFeaturedCrudGrid() {
-  const [rows, setRows] = React.useState(initialRows);
-  const [rowModesModel, setRowModesModel] = React.useState({});
-
-  const handleRowEditStop = (params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
-
-  const handleEditClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
-
-  const handleSaveClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-  };
-
-  const handleCancelClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
-
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
-    }
-  };
-
-  const processRowUpdate = (newRow) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
-  };
-
-  const handleRowModesModelChange = (newRowModesModel) => {
-    setRowModesModel(newRowModesModel);
-  };
-
-  const columns = [
-    { field: 'name', headerName: 'Name', width: 180, editable: true },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: 'number',
-      width: 80,
-      align: 'left',
-      headerAlign: 'left',
-      editable: true,
-    },
-    {
-      field: 'joinDate',
-      headerName: 'Join date',
-      type: 'date',
-      width: 180,
-      editable: true,
-    },
-    {
-      field: 'role',
-      headerName: 'Department',
-      width: 220,
-      editable: true,
-      type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development'],
+ 
+const columns = [
+    { field: 'idea_name', headerName: 'Idea Title', width: 300, editable: (params) => editRows.includes(params.row.id) },
+    { field: 'idea_description', headerName: 'Idea Description', width: 500, editable:(params) => editRows.includes(params.row.id) },
+    { 
+      field: 'status_name', 
+      headerName: 'Status', 
+      width: 200,      
+      editable: role === 1,
     },
     {
       field: 'actions',
-      type: 'actions',
       headerName: 'Actions',
-      width: 100,
-      cellClassName: 'actions',
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
-
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
-        ];
+      width: 200,
+      renderCell: (params) => {
+        const isEditing = editRows.includes(params.row.id);
+        return (
+          <>
+            {isEditing ? (
+              <>
+                <IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton>
+                <IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton>
+              </>
+            ) : (
+              <>
+                <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>
+                {role === 2 && <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>}
+              </>
+            )}
+          </>
+        );
       },
-    },
+    }
   ];
+
+  // Action handlers
+  const edit = (id) => {
+    setEditRows([...editRows, id]);
+  };
+
+  const save = (id) => {
+    debugger;
+    var updatedIdea;
+    if(id === updatedIdeas.id){
+       updatedIdea = updatedIdeas;
+    }
+    console.log(updatedIdea);
+    const requestBody = {
+      idea_name: updatedIdea.idea_name,
+      idea_description: updatedIdea.idea_description,
+      status: updatedIdea.status_id,
+    };
+    fetch(`http://localhost:3001/idea_list/${updatedIdea.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      setEditRows(editRows.filter(rowId => rowId !== updatedIdea.id));
+    })
+    .catch(error => {
+      console.error('Error updating idea:', error);
+    });
+  };
+
+  const cancel = (id) => {
+    setEditRows(editRows.filter(rowId => rowId !== id));
+  };
+
+  const remove = (id) => {
+    fetch(`http://localhost:3001/idea_list/${id}`, {
+      method: 'DELETE',
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      setIdeas(ideas.filter(idea => idea.id !== id));
+      return response.json();
+      
+    })
+    .catch(error => {
+      console.error('Error deleting idea:', error);
+    });
+  };
 
   return (
     <Box
       sx={{
-        height: 500,
-        width: '100%',
-        '& .actions': {
-          color: 'text.secondary',
-        },
-        '& .textPrimary': {
-          color: 'text.primary',
-        },
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
       }}
     >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
-        processRowUpdate={processRowUpdate}
-        slots={{
-          toolbar: EditToolbar,
+      <h1>Ideas List</h1>
+      <div style={{ height: 400, width: '90%' }}>
+      <DataGrid 
+        rows={ideas} 
+        columns={columns} 
+        pageSize={5} 
+        onRowEditStop={(params, event) => {
+          console.log('Row edit stopped:', params, event);
+
         }}
-        slotProps={{
-          toolbar: { setRows, setRowModesModel },
+        processRowUpdate={(params) => {
+          console.log('Row updated:', params);
+          setupdatedIdeas(params);
         }}
       />
+      </div>
     </Box>
   );
-}
+};
+
+export default My_Ideas;

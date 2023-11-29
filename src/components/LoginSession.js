@@ -3,9 +3,9 @@ import { ReactSession }  from 'react-client-session';
 
 const LoginSession = () => {
     const [role, setRole] = useState([]);
-  
+    const username = ReactSession.get("username");
     useEffect(() => {
-      const username = ReactSession.get("username");
+      
       fetch('http://localhost:3001/employee_mapping/${username}')
         .then(response => response.json())
         .then(data => {

@@ -37,6 +37,28 @@ app.get('/idea_list', (req, res) => {
   })
 })
 
+app.get('/idea_list/:id', async (req, res) => {
+  const ideaId = req.params.id;
+  ideas_model.getIdeaById(ideaId)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+});
+
+app.get('/myidea_list/:id', async (req, res) => {
+  const Empid = req.params.id;
+  ideas_model.getIdeaByEmpid(Empid)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+});
+
 app.get('/employee_details', (req, res) => {
   emp_model.getUser()
   .then(response => {
@@ -135,7 +157,7 @@ app.get('/idea_status', (req, res) => {
 
 app.get('/graphs', async (req, res) => {
   try {
-    const query = "SELECT SUM(CASE WHEN status = '1' THEN 1 ELSE 0 END) AS s1, SUM(CASE WHEN status = '2' THEN 1 ELSE 0 END) AS s2, SUM(CASE WHEN status = '3' THEN 1 ELSE 0 END) AS s3, SUM(CASE WHEN status = '4' THEN 1 ELSE 0 END) AS s4, SUM(CASE WHEN status = '5' THEN 1 ELSE 0 END) AS s5, SUM(CASE WHEN status = '6' THEN 1 ELSE 0 END) AS s6, SUM(CASE WHEN status = '7' THEN 1 ELSE 0 END) AS s7 FROM idea_list"; 
+    const query = "SELECT SUM(CASE WHEN status_id = '1' THEN 1 ELSE 0 END) AS s1, SUM(CASE WHEN status_id = '2' THEN 1 ELSE 0 END) AS s2, SUM(CASE WHEN status_id = '3' THEN 1 ELSE 0 END) AS s3, SUM(CASE WHEN status_id = '4' THEN 1 ELSE 0 END) AS s4, SUM(CASE WHEN status_id = '5' THEN 1 ELSE 0 END) AS s5, SUM(CASE WHEN status_id = '6' THEN 1 ELSE 0 END) AS s6, SUM(CASE WHEN status_id = '7' THEN 1 ELSE 0 END) AS s7 FROM idea_list"; 
     const result = await pool.query(query);
     const data = [
       { name: 'Submitted', count: result.rows[0].s1 },
@@ -151,6 +173,27 @@ app.get('/graphs', async (req, res) => {
     console.error('Error executing query:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+});
+
+app.post('/employee_mapping', async (req, res) => {
+  emp_model.setEmployeeMaping(req.body)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+});
+ 
+app.get('/employee_mapping/:employee_id', async (req, res) => {
+  const id = req.params.employee_id;
+  emp_model.getRole(id)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
 });
 
 app.listen(port, () => {

@@ -11,6 +11,7 @@ const LoginPage = () => {
   const [alert,setAlert] = useState(null);
   const [role, setRole] = useState([]);
   const navigate = useNavigate();
+  ReactSession.setStoreType("localStorage");
 
   const handleLogin = async (e) => {
     e.preventDefault(); 
@@ -27,12 +28,11 @@ const LoginPage = () => {
           rememberMe,
         })
       });
-  
+   if(username!=null&&password!=null){
       if (response.status === 200) {
         setAlert({ severity: 'success', message: 'Successfully logged in' });
         debugger;
         ReactSession.set("id",username);
-        const id = ReactSession.get("id");
         setTimeout(() => {
           navigate('/list');
         }, 2000);
@@ -40,28 +40,27 @@ const LoginPage = () => {
       else {
         setAlert({ severity: 'error', message: 'Login failed. Please try again.' });
       }
+    }
     } 
     catch (error) {
      setAlert({ severity: 'error', message: 'An error occurred. Please try again later.' });
     }
 
   };
-
-  useEffect(() => {
-    const username = ReactSession.get("username");
-    fetch('http://localhost:3001/employee_mapping/${username}')
+  
+  useEffect(() => {    
+    // eslint-disable-next-line no-template-curly-in-string
+    fetch(`http://localhost:3001/employee_mapping/${username}`)
       .then(response => response.json())
       .then(data => {
         setRole(data.role_id);
         ReactSession.set("role", data.role_id);
-        const role1 = ReactSession.get("role");
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, []);
+  }, [username]);
   debugger;
-  const role2 = ReactSession.get("role");
   return (
     <Container maxWidth="xs">
       <Box paddingTop="45%">
@@ -73,6 +72,7 @@ const LoginPage = () => {
                   variant="outlined"
                   name="username"
                   onChange={(e) => setUsername(e.target.value)}
+                  required
                 />
               </Grid>
               <Grid item xs sx={6}>
@@ -82,6 +82,7 @@ const LoginPage = () => {
                   variant="outlined"
                   name="password"
                   onChange={(e) => setEncryptedPassword(e.target.value)}
+                  required
                 />
               </Grid>
               <Grid item xs sx={6}>

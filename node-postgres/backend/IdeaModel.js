@@ -10,7 +10,7 @@ const pool = new Pool({
 const getIdeas = async () => {
     try {
       return await new Promise(function (resolve, reject) {
-        pool.query("SELECT * FROM idea_list", (error, results) => {
+        pool.query("select id , idea_name, idea_description, status_name ,il.status_id, employee_id  from idea_list il join idea_status ist on il.status_id = ist.status_id", (error, results) => {
           if (error) {
             reject(error);
           }
@@ -49,12 +49,33 @@ const getIdeas = async () => {
       throw new Error("Internal server error");
     }
   };
+
+  const getIdeaByEmpid = async (Empid) => {
+    try {
+      return await new Promise(function (resolve, reject) {
+        const query = `SELECT * FROM idea_list WHERE employee_id = $1`;
+        pool.query(query, [Empid], (error, results) => {
+          if (error) {
+            reject(error);
+          }
+          if (results && results.rows && results.rows.length > 0) {
+            resolve(results.rows);
+          } else {
+            reject(new Error("Idea not found"));
+          }
+        });
+      });
+    } catch (error_1) {
+      console.error(error_1);
+      throw new Error("Internal server error");
+    }
+  };
   
   const createIdea = (body) => {
     return new Promise(function (resolve, reject) {
       const { title, description , status, employeeid } = body;
       pool.query(
-        "INSERT INTO idea_list (idea_name, idea_description,status,employee_id) VALUES ($1, $2, $3, $4) RETURNING *",
+        "INSERT INTO idea_list (idea_name, idea_description,status_id,employee_id) VALUES ($1, $2, $3, $4) RETURNING *",
         [title, description, status, employeeid],
         (error, results) => {
           if (error) {
@@ -91,7 +112,7 @@ const getIdeas = async () => {
   return new Promise(function (resolve, reject) {
     const { idea_name, idea_description, status } = body;
     pool.query(
-      "UPDATE idea_list SET idea_name = $1, idea_description = $2, status = $3 WHERE id = $4 RETURNING *",
+      "UPDATE idea_list SET idea_name = $1, idea_description = $2, status_id = $3 WHERE id = $4 RETURNING *",
       [idea_name, idea_description, status, id],
       (error, results) => {
         if (error) {
@@ -107,15 +128,4 @@ const getIdeas = async () => {
   });
 };
 
-  module.exports = {getIdeas , getIdeaById, createIdea , deleteIdea , updateIdea};
-// pool.connect();
-
-// pool.query (`Select * from idea_list`,(err,res)=>{
-//     if(!err){
-//         console.log(res.rows);
-//     }
-//     else{
-//         console.log(err.message);
-//     }
-//     pool.end;
-// })
+  module.exports = {getIdeas , getIdeaById, createIdea , deleteIdea , updateIdea , getIdeaByEmpid};
