@@ -18,7 +18,7 @@ const My_Ideas = () => {
   const [editRows, setEditRows] = useState([]);
   const [updatedIdeas, setupdatedIdeas] = useState([]);
   
-
+  ReactSession.setStoreType("localStorage");
   const empid = ReactSession.get("id");
   useEffect(() => {
     fetch(`http://localhost:3001/myidea_list/${empid}`)

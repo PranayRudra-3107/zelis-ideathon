@@ -39,8 +39,8 @@ const Idea_list = () => {
   const statuses = ["submitted", "in review", "manager approval", "director approval", "in progress", "deployed"];
  
 const columns = [
-    { field: 'idea_name', headerName: 'Idea Title', width: 300, editable: (params) => editRows.includes(params.row.id)},
-    { field: 'idea_description', headerName: 'Idea Description', width: 500, editable:(params) => editRows.includes(params.row.id) },
+    { field: 'idea_name', headerName: 'Idea Title', width: 300},
+    { field: 'idea_description', headerName: 'Idea Description', width: 500},
     { 
       field: 'status_name', 
       headerName: 'Status', 

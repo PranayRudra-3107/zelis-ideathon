@@ -53,7 +53,7 @@ const getIdeas = async () => {
   const getIdeaByEmpid = async (Empid) => {
     try {
       return await new Promise(function (resolve, reject) {
-        const query = `SELECT * FROM idea_list WHERE employee_id = $1`;
+        const query = `select id , idea_name, idea_description, status_name ,il.status_id, employee_id  from idea_list il join idea_status ist on il.status_id = ist.status_id WHERE employee_id = $1`;
         pool.query(query, [Empid], (error, results) => {
           if (error) {
             reject(error);

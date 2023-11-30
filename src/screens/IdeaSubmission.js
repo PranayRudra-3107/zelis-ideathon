@@ -5,6 +5,7 @@ import {ReactSession} from "react-client-session";
 const IdeaSubmission = () => {
   const navigate = useNavigate();
   debugger;
+  ReactSession.setStoreType("localStorage");
   const empid =  parseInt(ReactSession.get("id"));
   const handleSubmit = (idea) => {
     fetch('http://localhost:3001/idea_list', {

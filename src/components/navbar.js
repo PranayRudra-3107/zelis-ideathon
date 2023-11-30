@@ -36,7 +36,7 @@ const Header = () => {
     <>
      <AppBar sx={{ background: "#063970" }}>
   <Toolbar>
-    <RootContainer as={Link} to="/login">
+    <RootContainer>
       <IconContainer>
         <EmojiObjectsTwoToneIcon />
       </IconContainer>
