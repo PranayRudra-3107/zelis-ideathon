@@ -11,6 +11,10 @@ import {
 import EmojiObjectsTwoToneIcon from '@mui/icons-material/EmojiObjectsTwoTone';
 import { styled } from '@mui/system';
 import {ReactSession} from 'react-client-session';
+import IconButton from '@mui/material/IconButton';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const RootContainer = styled('div')({
   display: 'flex',
@@ -32,10 +36,20 @@ const Header = () => {
   const [value, setValue] = useState();
   ReactSession.setStoreType("localStorage");
   const role = ReactSession.get("role");
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+const open = Boolean(anchorEl);
+
+const handleMenu = (event) => {
+  setAnchorEl(event.currentTarget);
+};
+const handleClose = () => {
+  setAnchorEl(null);
+};
   return (
     <>
      <AppBar sx={{ background: "#063970" }}>
-  <Toolbar>
+  <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
     <RootContainer>
       <IconContainer>
         <EmojiObjectsTwoToneIcon />
@@ -57,8 +71,37 @@ const Header = () => {
         <Tab label="Submit Idea" component={Link} to="/submit"/>
         <Tab label="Show Ideas Visually" component={Link} to="/graphs"/>
         <Tab label="Employee Details" component={Link} to="/details"/>
-        <Tab label="Logout" component={Link} to="/logout" sx={{ mr: '5px' }}/>
       </Tabs>
+      <IconButton
+      size="large"
+      edge="end"
+      aria-label="account of current user"
+      aria-controls="menu-appbar"
+      aria-haspopup="true"
+      onClick={handleMenu}
+      color="inherit"
+    >
+      <AccountCircle />
+    </IconButton>
+    <Menu
+      id="menu-appbar"
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={open}
+      onClose={handleClose}
+    >
+      <MenuItem onClick={handleClose}>Profile</MenuItem>
+      <MenuItem onClick={handleClose}>My account</MenuItem>
+      <MenuItem component={Link} to="/logout" onClick={handleClose}>Logout</MenuItem>    
+    </Menu>
       <Outlet/>
     </Toolbar>
   </AppBar>

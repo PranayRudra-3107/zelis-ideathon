@@ -167,18 +167,28 @@ app.get('/idea_status', (req, res) => {
 
 app.get('/graphs', async (req, res) => {
   try {
-    const query = "SELECT SUM(CASE WHEN status_id = '1' THEN 1 ELSE 0 END) AS s1, SUM(CASE WHEN status_id = '2' THEN 1 ELSE 0 END) AS s2, SUM(CASE WHEN status_id = '3' THEN 1 ELSE 0 END) AS s3, SUM(CASE WHEN status_id = '4' THEN 1 ELSE 0 END) AS s4, SUM(CASE WHEN status_id = '5' THEN 1 ELSE 0 END) AS s5, SUM(CASE WHEN status_id = '6' THEN 1 ELSE 0 END) AS s6, SUM(CASE WHEN status_id = '7' THEN 1 ELSE 0 END) AS s7 FROM idea_list"; 
-    const result = await pool.query(query);
-    const data = [
-      { name: 'Submitted', count: result.rows[0].s1 },
-      { name: 'In Review', count: result.rows[0].s2 },
-      { name: 'Manager Approval', count: result.rows[0].s3 },
-      { name: 'Director Approval', count: result.rows[0].s4 },
-      { name: 'In Progress', count: result.rows[0].s5 },
-      { name: 'Deployed', count: result.rows[0].s6 },
-      { name: 'Rejected', count: result.rows[0].s7 }
+    const query1 = "SELECT SUM(CASE WHEN status_id = '1' THEN 1 ELSE 0 END) AS s1, SUM(CASE WHEN status_id = '2' THEN 1 ELSE 0 END) AS s2, SUM(CASE WHEN status_id = '3' THEN 1 ELSE 0 END) AS s3, SUM(CASE WHEN status_id = '4' THEN 1 ELSE 0 END) AS s4, SUM(CASE WHEN status_id = '5' THEN 1 ELSE 0 END) AS s5, SUM(CASE WHEN status_id = '6' THEN 1 ELSE 0 END) AS s6, SUM(CASE WHEN status_id = '7' THEN 1 ELSE 0 END) AS s7 FROM idea_list";
+    const query2 = "SELECT r.role_name, COUNT(i.idea_name) AS idea_count FROM roles r JOIN employee_mapping em ON r.role_id = em.role_id JOIN idea_list i ON em.employee_id = i.employee_id GROUP BY r.role_name;";
+   
+    const result1 = await pool.query(query1);
+    const result2 = await pool.query(query2);
+ 
+    const data1 = [
+      { name: 'Submitted', count: result1.rows[0].s1 },
+      { name: 'In Review', count: result1.rows[0].s2 },
+      { name: 'Manager Approval', count: result1.rows[0].s3 },
+      { name: 'Director Approval', count: result1.rows[0].s4 },
+      { name: 'In Progress', count: result1.rows[0].s5 },
+      { name: 'Deployed', count: result1.rows[0].s6 },
+      { name: 'Rejected', count: result1.rows[0].s7 }
     ];
-    res.json(data);
+    const data2 =[
+      { name: result2.rows[0].role_name, count: result2.rows[0].idea_count },
+      { name: result2.rows[1].role_name, count: result2.rows[1].idea_count }
+    ];
+ 
+    res.json({data1: data1, data2: data2});
+ 
   } catch (error) {
     console.error('Error executing query:', error);
     res.status(500).json({ error: 'Internal Server Error' });
