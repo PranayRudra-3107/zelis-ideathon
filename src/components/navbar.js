@@ -56,6 +56,7 @@ const Header = () => {
         <Tab label="My Idea" component={Link} to="/mylist" />
         <Tab label="Submit Idea" component={Link} to="/submit"/>
         <Tab label="Show Ideas Visually" component={Link} to="/graphs"/>
+        <Tab label="Employee Details" component={Link} to="/details"/>
         <Tab label="Logout" component={Link} to="/logout" sx={{ mr: '5px' }}/>
       </Tabs>
       <Outlet/>

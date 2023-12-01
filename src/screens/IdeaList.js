@@ -140,40 +140,7 @@ const columns = [
         console.error('Error updating idea:', error);
       });
   };
-  // const save = (id) => {
-  //   debugger;
-  //   var updatedIdea;
-  //   if(id === updatedIdeas.id){
-  //      updatedIdea = updatedIdeas;
-  //   }
-  //   console.log(updatedIdea);
-  //   const requestBody = {
-  //     idea_name: updatedIdea.idea_name,
-  //     idea_description: updatedIdea.idea_description,
-  //     status: updatedIdea.status,
-  //   };
-  //   fetch(`http://localhost:3001/idea_list/${updatedIdea.id}`, {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(requestBody),
-  //   })
-  //   .then(response => {
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-  //     return response.json();
-  //   })
-  //   .then(data => {
-  //     console.log(data);
-  //     setEditRows(editRows.filter(rowId => rowId !== updatedIdea.id));
-  //   })
-  //   .catch(error => {
-  //     console.error('Error updating idea:', error);
-  //   });
-  // };
-
+ 
   const cancel = (id) => {
     setEditRows(editRows.filter(rowId => rowId !== id));
   };

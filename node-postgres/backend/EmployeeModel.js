@@ -162,7 +162,7 @@ const getUser = async () => {
     debugger;
     return new Promise(async function (resolve, reject) {     
       pool.query(
-        "SELECT ed.firstname,ed.lastname,ed.phone_no,r.role_name, ed.employee_id,ed.email,d.department_name FROM public.employee_details AS ed JOIN public.employee_mapping AS em ON ed.employee_id = em.employee_id JOIN public.roles AS r ON em.role_id = r.role_id JOIN public.departments AS d ON em.department_id = d.department_id;",
+        "SELECT ROW_NUMBER() OVER (ORDER BY ed.employee_id) AS id, ed.firstname,ed.lastname,ed.phone_no,r.role_name, ed.employee_id,ed.email,d.department_name FROM public.employee_details AS ed JOIN public.employee_mapping AS em ON ed.employee_id = em.employee_id JOIN public.roles AS r ON em.role_id = r.role_id JOIN public.departments AS d ON em.department_id = d.department_id;",
         
         (error, results) => {
           if (error) {
