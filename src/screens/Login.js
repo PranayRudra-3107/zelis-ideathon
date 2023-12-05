@@ -68,7 +68,7 @@ const LoginPage = () => {
             <Grid container direction="column" spacing={2} align="center">
               <Grid item xs sx={6}>
                 <TextField
-                  label="Username"
+                  label="Employee ID"
                   variant="outlined"
                   name="username"
                   onChange={(e) => setUsername(e.target.value)}

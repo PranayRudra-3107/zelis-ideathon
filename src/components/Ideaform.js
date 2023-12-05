@@ -56,7 +56,7 @@ const IdeaForm = ({ idea, onSubmit }) => {
         onChange={(e) => setDescription(e.target.value)}
         inputProps={{ maxLength: 250 }}
       />
-      <Button variant="contained" color="primary" type="submit">
+      <Button variant="contained" type="submit" style={{backgroundColor: '#063970', color: '#FFFFFF'}}>
         {idea ? "Update" : "Submit"}
       </Button>
       {alert && <Alert severity={alert.severity}>{alert.message}</Alert>}

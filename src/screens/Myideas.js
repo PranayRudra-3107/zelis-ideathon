@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
+import Chip from '@mui/material/Chip';
 
 // manager role - 1 , employee role -2 
 const My_Ideas = () => {
@@ -29,22 +30,32 @@ const My_Ideas = () => {
       .catch(error => {
         console.error('Error fetching ideas:', error);
       });
-  }, []);
+  }, [empid]);
 
- 
+  const COLORS = ['#C6E2FF', 'gold', '#DAF7A6', '#F89E38', '#60F283', '#FF7373'];
+  
 const columns = [
-    { field: 'idea_name', headerName: 'Idea Title', width: 300, editable: (params) => editRows.includes(params.row.id) },
-    { field: 'idea_description', headerName: 'Idea Description', width: 500, editable:(params) => editRows.includes(params.row.id) },
+    { field: 'idea_name', headerName: 'Idea Title',headerClassName: 'custom-header', width: 300, editable: (params) => editRows.includes(params.row.id) },
+    { field: 'idea_description', headerName: 'Idea Description',headerClassName: 'custom-header', width: 500, editable:(params) => editRows.includes(params.row.id) },
     { 
       field: 'status_name', 
       headerName: 'Status', 
+      headerClassName: 'custom-header',
       width: 200,      
-      editable: role === 1,
+      renderCell: (params) => {
+        return(
+        <Chip
+        key={params.row.status_id} 
+        label={params.row.status_name} 
+        style={{ backgroundColor: COLORS[(params.row.status_id)-1] }} 
+        />)},
+      editable: role === 1
     },
     {
       field: 'actions',
       headerName: 'Actions',
       width: 200,
+      headerClassName: 'custom-header',
       renderCell: (params) => {
         const isEditing = editRows.includes(params.row.id);
         return (
@@ -142,6 +153,13 @@ const columns = [
         rows={ideas} 
         columns={columns} 
         pageSize={5} 
+        sx={{
+          '& .custom-header': {
+            backgroundColor: '#063970',
+            color: 'white',
+            fontWeight: 'bold'
+          },
+        }}
         onRowEditStop={(params, event) => {
           console.log('Row edit stopped:', params, event);
 

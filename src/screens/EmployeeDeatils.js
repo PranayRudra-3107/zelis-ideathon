@@ -17,13 +17,13 @@ const EmployeeDeatils = () =>{
       }, []);
 
       const columns = [
-        { field: 'firstname', headerName: 'First Name', width: 200},
-        { field: 'lastname', headerName: 'Last Name', width: 200},
-        { field: 'phone_no', headerName: 'Phone Number', width: 200},      
-        { field: 'role_name', headerName: 'Role', width: 100},
-        { field: 'employee_id', headerName: 'Employee ID', width: 100},         
-        { field: 'email', headerName: 'Email', width: 300},
-        { field: 'department_name', headerName: 'Department', width: 100},
+        { field: 'firstname', headerName: 'First Name',headerClassName: 'custom-header', width: 200},
+        { field: 'lastname', headerName: 'Last Name',headerClassName: 'custom-header' , width: 200},
+        { field: 'phone_no', headerName: 'Phone Number',headerClassName: 'custom-header', width: 200},      
+        { field: 'role_name', headerName: 'Role',headerClassName: 'custom-header', width: 100},
+        { field: 'employee_id', headerName: 'Employee ID',headerClassName: 'custom-header', width: 100},         
+        { field: 'email', headerName: 'Email',headerClassName: 'custom-header', width: 300},
+        { field: 'department_name', headerName: 'Department',headerClassName: 'custom-header', width: 100},
       ];
     return(
         <Box
@@ -41,7 +41,13 @@ const EmployeeDeatils = () =>{
           rows={EmployeeList} 
           columns={columns} 
           pageSize={5} 
-        
+          sx={{
+            '& .custom-header': {
+              backgroundColor: '#063970',
+              color: 'white',
+              fontWeight: 'bold'
+            },
+          }}
         />
         </div>
       </Box>

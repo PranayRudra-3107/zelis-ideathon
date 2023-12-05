@@ -12,12 +12,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@material-ui/core/Select';
 import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
-
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 // manager role - 1 , employee role -2 
 const Idea_list = () => {
   ReactSession.setStoreType("localStorage");
   const role = ReactSession.get("role");
-  debugger;
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
   const [updatedIdeas, setupdatedIdeas] = useState([]);
@@ -34,41 +34,52 @@ const Idea_list = () => {
       });
   }, []);
 
-  // Column definitions
 
-  const statuses = ["submitted", "in review", "manager approval", "director approval", "in progress", "deployed"];
- 
+  const statuses = ["submitted", "in review", "manager approval", "in progress", "deployed", "rejected"];
+  const COLORS = ['#C6E2FF', 'gold', '#DAF7A6', '#F89E38', '#60F283', '#FF7373'];
+
+
 const columns = [
-    { field: 'idea_name', headerName: 'Idea Title', width: 300},
-    { field: 'idea_description', headerName: 'Idea Description', width: 500},
+    { field: 'idea_name', headerName: 'Idea Title', width: 300, headerClassName: 'custom-header'},
+    { field: 'idea_description', headerName: 'Idea Description', width: 500, headerClassName: 'custom-header'},
     { 
       field: 'status_name', 
       headerName: 'Status', 
       width: 200,
+      headerClassName: 'custom-header',
       renderCell: (params) => {
         if (role === 1 && editRows.includes(params.row.id)) {
           return (           
             <NativeSelect
-                value={params.row.status} // set the current status as the default value
+                value={params.row.status} 
                 onChange={(e) => handleStatusChange(params.row.id, e.target.value)}
               >
+
                 {statuses.map((status, index) => (
               <option key={index + 1} value={index + 1}>
-                {`${index + 1}. ${status}`}
+                {`${status}`}
               </option>
             ))}
               </NativeSelect>       
           );
         } else {
-          return params.row.status;
-        }
-      },
-      editable: role === 1,
+         return (
+          <Chip
+            key={params.row.status_id} 
+            label={params.row.status_name} 
+            style={{ backgroundColor: COLORS[(params.row.status_id)-1] }} 
+          />
+      );
+    }
     },
+      editable: role === 1,
+ },
+
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 200,
+      width: 200, 
+      headerClassName: 'custom-header',
       renderCell: (params) => {
         const isEditing = editRows.includes(params.row.id);
         return (
@@ -110,15 +121,14 @@ const columns = [
   };
 
   const save = (id) => {
-    debugger;
     const updatedIdea = ideas.find((idea) => idea.id === id);
-
+  
     const requestBody = {
       idea_name: updatedIdea.idea_name,
       idea_description: updatedIdea.idea_description,
       status: parseInt(updatedIdea.status_id, 10),
     };
-
+  
     fetch(`http://localhost:3001/idea_list/${id}`, {
       method: 'PUT',
       headers: {
@@ -126,20 +136,26 @@ const columns = [
       },
       body: JSON.stringify(requestBody),
     })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setEditRows(editRows.filter((rowId) => rowId !== id));
+        const updatedData = await response.json();
+        const updatedIdeasCopy = ideas.map((idea) => {
+          debugger;
+          if (idea.id === id) {
+            return { ...idea, ...updatedData };
+          }
+          return idea;
+        });
+        setIdeas(updatedIdeasCopy);
+        setEditRows(editRows.filter(rowId => rowId !== id));
       })
       .catch((error) => {
         console.error('Error updating idea:', error);
       });
   };
+  
  
   const cancel = (id) => {
     setEditRows(editRows.filter(rowId => rowId !== id));
@@ -178,6 +194,13 @@ const columns = [
         rows={ideas} 
         columns={columns} 
         pageSize={5} 
+        sx={{
+          '& .custom-header': {
+            backgroundColor: '#063970',
+            color: 'white',
+            fontWeight: 'bold',
+          },
+        }}
         // onRowEditStop={(params, event) => {
         //   console.log('Row edit stopped:', params, event);
 

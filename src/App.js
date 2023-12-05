@@ -10,6 +10,10 @@ import Signup from './screens/Registration';
 import Graph from './screens/Graph'
 import EndScreen from './screens/EndScreen';
 import EmployeeDeatils from './screens/EmployeeDeatils';
+import EditDetails from './screens/EditDetails';
+
+
+
 const App = () => {
   return (
 
@@ -25,6 +29,7 @@ const App = () => {
       <Route path="/register" element={<Signup />} />  
       <Route path="/graphs" element={<Graph/>} /> 
       <Route path="/details" element={<EmployeeDeatils/>} /> 
+      <Route path="/edit_details" element={<EditDetails/>} /> 
       <Route path="/logout" element={<EndScreen/>} />           
       </Routes>
       <Footer/>

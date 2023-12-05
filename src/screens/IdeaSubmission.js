@@ -8,6 +8,7 @@ const IdeaSubmission = () => {
   ReactSession.setStoreType("localStorage");
   const empid =  parseInt(ReactSession.get("id"));
   const handleSubmit = (idea) => {
+    debugger;
     fetch('http://localhost:3001/idea_list', {
       method: 'POST',
       headers: {
