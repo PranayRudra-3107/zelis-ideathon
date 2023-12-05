@@ -1,14 +1,15 @@
 const express = require('express')
 const app = express()
-const port = 3001
+
+require('dotenv').config()
 
 const Pool = require("pg").Pool;
 const pool = new Pool({
-  user: 'postgres',
-  host: '10.136.6.177',
-  database: 'zelis-ideathon',
-  password: 'postgres',
-  port: 5432,
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
+  port: process.env.PORT,
 });
 
 const ideas_model = require('./IdeaModel')
@@ -225,6 +226,6 @@ app.get('/employee_mapping/:employee_id', async (req, res) => {
   })
 });
 
-app.listen(port, () => {
-  console.log(`App running on port ${port}.`)
+app.listen(process.env.PORT1, () => {
+  console.log('App running on port ' + process.env.PORT1)
 })
