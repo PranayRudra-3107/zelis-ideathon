@@ -17,13 +17,13 @@ const EmployeeDeatils = () =>{
       }, []);
 
       const columns = [
-        { field: 'firstname', headerName: 'First Name',headerClassName: 'custom-header', width: 200},
-        { field: 'lastname', headerName: 'Last Name',headerClassName: 'custom-header' , width: 200},
-        { field: 'phone_no', headerName: 'Phone Number',headerClassName: 'custom-header', width: 200},      
-        { field: 'role_name', headerName: 'Role',headerClassName: 'custom-header', width: 100},
-        { field: 'employee_id', headerName: 'Employee ID',headerClassName: 'custom-header', width: 100},         
-        { field: 'email', headerName: 'Email',headerClassName: 'custom-header', width: 300},
-        { field: 'department_name', headerName: 'Department',headerClassName: 'custom-header', width: 100},
+        { field: 'firstname', headerName: 'First Name',headerClassName: 'custom-header', flex :0.2},
+        { field: 'lastname', headerName: 'Last Name',headerClassName: 'custom-header' , flex :0.2},
+        { field: 'phone_no', headerName: 'Phone Number',headerClassName: 'custom-header', flex :0.2},      
+        { field: 'role_name', headerName: 'Role',headerClassName: 'custom-header', flex :0.1},
+        { field: 'employee_id', headerName: 'Employee ID',headerClassName: 'custom-header', flex :0.1},         
+        { field: 'email', headerName: 'Email',headerClassName: 'custom-header', flex :0.3},
+        { field: 'department_name', headerName: 'Department',headerClassName: 'custom-header', flex :0.1},
       ];
     return(
         <Box
@@ -36,7 +36,7 @@ const EmployeeDeatils = () =>{
         }}
       >
         <h1>Employee's List</h1>
-        <div style={{ height: 400, width: '90%' }}>
+        <div style={{ height: '80%', width: '90%' }}>
         <DataGrid 
           rows={EmployeeList} 
           columns={columns} 

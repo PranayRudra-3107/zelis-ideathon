@@ -35,13 +35,13 @@ const My_Ideas = () => {
   const COLORS = ['#C6E2FF', 'gold', '#DAF7A6', '#F89E38', '#60F283', '#FF7373'];
   
 const columns = [
-    { field: 'idea_name', headerName: 'Idea Title',headerClassName: 'custom-header', width: 300, editable: (params) => editRows.includes(params.row.id) },
-    { field: 'idea_description', headerName: 'Idea Description',headerClassName: 'custom-header', width: 500, editable:(params) => editRows.includes(params.row.id) },
+    { field: 'idea_name', headerName: 'Idea Title',headerClassName: 'custom-header', flex :0.2 , editable: (params) => editRows.includes(params.row.id) },
+    { field: 'idea_description', headerName: 'Idea Description',headerClassName: 'custom-header', flex :0.5, editable:(params) => editRows.includes(params.row.id) },
     { 
       field: 'status_name', 
       headerName: 'Status', 
       headerClassName: 'custom-header',
-      width: 200,      
+      flex :0.1,      
       renderCell: (params) => {
         return(
         <Chip
@@ -54,7 +54,7 @@ const columns = [
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 200,
+      flex :0.1,
       headerClassName: 'custom-header',
       renderCell: (params) => {
         const isEditing = editRows.includes(params.row.id);
@@ -148,7 +148,7 @@ const columns = [
       }}
     >
       <h1>Ideas List</h1>
-      <div style={{ height: 400, width: '90%' }}>
+      <div style={{ height: '80%', width: '90%' }}>
       <DataGrid 
         rows={ideas} 
         columns={columns} 

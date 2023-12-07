@@ -40,12 +40,12 @@ const Idea_list = () => {
 
 
 const columns = [
-    { field: 'idea_name', headerName: 'Idea Title', width: 300, headerClassName: 'custom-header'},
-    { field: 'idea_description', headerName: 'Idea Description', width: 500, headerClassName: 'custom-header'},
+    { field: 'idea_name', headerName: 'Idea Title', flex: 0.2, headerClassName: 'custom-header'},
+    { field: 'idea_description', headerName: 'Idea Description',  flex: 0.5, headerClassName: 'custom-header'},
     { 
       field: 'status_name', 
       headerName: 'Status', 
-      width: 200,
+      flex: 0.1,
       headerClassName: 'custom-header',
       renderCell: (params) => {
         if (role === 1 && editRows.includes(params.row.id)) {
@@ -78,7 +78,7 @@ const columns = [
     {
       field: 'actions',
       headerName: 'Actions',
-      width: 200, 
+      flex: 0.1, 
       headerClassName: 'custom-header',
       renderCell: (params) => {
         const isEditing = editRows.includes(params.row.id);
@@ -189,11 +189,12 @@ const columns = [
       }}
     >
       <h1>Ideas List</h1>
-      <div style={{ height: 400, width: '90%' }}>
+      <div style={{ height: '80%', width: '90%' }}>
       <DataGrid 
         rows={ideas} 
         columns={columns} 
         pageSize={5} 
+        
         sx={{
           '& .custom-header': {
             backgroundColor: '#063970',

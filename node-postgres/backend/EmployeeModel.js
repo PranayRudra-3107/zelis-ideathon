@@ -62,28 +62,60 @@ const getUser = async () => {
   
   const updateUser = (employee_id, body) => {
     return new Promise(async function (resolve, reject) {
-      const { firstname, lastname, phone_no, updated_date, password } = body;
-       // Generate a salt
-    const salt = await bcrypt.genSalt(saltRounds);
-
-    // Hash the password with the salt
-    const hashedPassword = await bcrypt.hash(password, salt);
-      pool.query(
-        "UPDATE employee_details SET firstname=$1, lastname=$2, phone_no=$3, updated_date=$4, encrypted_password=$5 WHERE employee_id = $6 RETURNING *",
-        [firstname, lastname, phone_no, updated_date, hashedPassword, employee_id],
-        (error, results) => {
-          if (error) {
-            reject(error);
-          }
-          if (results && results.rows) {
-            resolve(`Details updated: ${JSON.stringify(results.rows[0])}`);
-          } else {
-            reject(new Error("Error while updating"));
-          }
+      const { firstname, lastname, phone_no, email, role_id, department_id, password , updated_date } = body;
+  
+      // Generate a salt
+      const salt = await bcrypt.genSalt(saltRounds);
+      // Hash the password with the salt
+      const hashedPassword = await bcrypt.hash(password, salt);
+  
+      pool.connect((err, client, done) => {
+        if (err) throw err;
+        try {
+          client.query('BEGIN', (err) => {
+            if (err) throw err;
+  
+            client.query(
+              "UPDATE employee_details SET firstname=$1, lastname=$2, phone_no=$3, email=$4, password=$5 ,updated_date = $6 WHERE employee_id = $7",
+              [firstname, lastname, phone_no, email, hashedPassword, updated_date, employee_id],
+              (error, results) => {
+                if (error) {
+                  throw error;
+                }
+  
+                client.query(
+                  "UPDATE employee_mapping SET role_id=$1, department_id=$2 WHERE employee_id = $3",
+                  [role_id, department_id, employee_id],
+                  (error, results) => {
+                    if (error) {
+                      throw error;
+                    }
+  
+                    client.query('COMMIT', (err) => {
+                      if (err) {
+                        console.error('Error committing transaction', err.stack);
+                      }
+                      resolve(`Details updated: ${JSON.stringify(results.rows[0])}`);
+                    });
+                  }
+                );
+              }
+            );
+          });
+        } catch (e) {
+          client.query('ROLLBACK', (err) => {
+            if (err) {
+              console.error('Error rolling back client', err.stack);
+            }
+          });
+          reject(e);
+        } finally {
+          done();
         }
-      );
+      });
     });
   };
+  
   
   const loginUser = async (username, password, rememberMe) => {
     try {
@@ -136,7 +168,6 @@ const getUser = async () => {
   };
 
   const getRole = (employee_id) => {
-    debugger;
     return new Promise(async function (resolve, reject) {     
       pool.query(
         "SELECT role_id From employee_mapping WHERE employee_id = $1 ",
@@ -158,10 +189,32 @@ const getUser = async () => {
     });
   };
 
+  const getEmployeeDetails = (employee_id) => {
+    return new Promise(async function (resolve, reject) {     
+      pool.query(
+        "SELECT ROW_NUMBER() OVER (ORDER BY ed.employee_id) AS id, ed.firstname,ed.lastname,ed.phone_no,r.role_id, ed.employee_id,ed.email,d.department_id FROM public.employee_details AS ed JOIN public.employee_mapping AS em ON ed.employee_id = em.employee_id JOIN public.roles AS r ON em.role_id = r.role_id JOIN public.departments AS d ON em.department_id = d.department_id WHERE ed.employee_id = $1",
+        [employee_id],
+        (error, results) => {
+          if (error) {
+            reject("error");
+          }
+          else if (results && results.rows) {
+            resolve(
+              `${JSON.stringify(results.rows)}`
+            );
+          } else {
+            reject(new Error("Unable to map"));
+          }
+        }
+      );
+    
+    });
+  };
+
   const getEmployeeList = () => {
     return new Promise(async function (resolve, reject) {     
       pool.query(
-        "SELECT ROW_NUMBER() OVER (ORDER BY ed.employee_id) AS id, ed.firstname,ed.lastname,ed.phone_no,r.role_name, ed.employee_id,ed.email,d.department_name FROM public.employee_details AS ed JOIN public.employee_mapping AS em ON ed.employee_id = em.employee_id JOIN public.roles AS r ON em.role_id = r.role_id JOIN public.departments AS d ON em.department_id = d.department_id;",
+        "SELECT ROW_NUMBER() OVER (ORDER BY ed.employee_id) AS id, ed.firstname,ed.lastname,ed.phone_no,r.role_name, ed.employee_id,ed.email,d.department_name FROM public.employee_details AS ed JOIN public.employee_mapping AS em ON ed.employee_id = em.employee_id JOIN public.roles AS r ON em.role_id = r.role_id JOIN public.departments AS d ON em.department_id = d.department_id",
         
         (error, results) => {
           if (error) {
@@ -180,4 +233,31 @@ const getUser = async () => {
     });
   };
   
-  module.exports = {getUser , createUser , updateUser, loginUser , setEmployeeMaping , getRole , getEmployeeList};
+  module.exports = {getUser , createUser , updateUser, loginUser , setEmployeeMaping , getRole , getEmployeeList , getEmployeeDetails};
+
+  // const updateUser = (employee_id, body) => {
+  //   return new Promise(async function (resolve, reject) {
+  //     const { firstname, lastname, phone_no, updated_date, password } = body;
+  //      // Generate a salt
+  //      const salt = await bcrypt.genSalt(saltRounds);
+  //      // Hash the password with the salt
+       
+  // debugger;
+  //      const hashedPassword = await bcrypt.hash(password, salt);
+  //     pool.query(
+  //       "UPDATE employee_details SET firstname=$1, lastname=$2, phone_no=$3, updated_date=$4, password=$5 WHERE employee_id = $6 RETURNING *",
+  //       [firstname, lastname, phone_no, updated_date, hashedPassword, employee_id],
+  //       (error, results) => {
+  //         if (error) {
+  //           reject(error);
+  //         }
+  //         if (results && results.rows) {
+  //           resolve(`Details updated: ${JSON.stringify(results.rows[0])}`);
+  //         } else {
+  //           reject(new Error("Error while updating"));
+  //         }
+  //       }
+  //     );
+  //   });
+  // };
+  

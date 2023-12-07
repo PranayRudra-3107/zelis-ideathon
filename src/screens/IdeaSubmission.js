@@ -1,4 +1,4 @@
-import IdeaForm from "../components/IdeaForm";
+import IdeaForm from "../components/Ideaform";
 import { useNavigate } from "react-router-dom";
 import {ReactSession} from "react-client-session";
 

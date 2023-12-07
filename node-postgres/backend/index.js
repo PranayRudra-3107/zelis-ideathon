@@ -123,6 +123,18 @@ app.put("/employee_details/:employee_id", (req, res) => {
     });
 });
 
+app.get("/employee_details/:employee_id", (req, res) => {
+  const id = req.params.employee_id;
+  emp_model
+    .getEmployeeDetails(id)
+    .then((response) => {
+      res.status(200).send(response);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    });
+});
+
 app.get('/employee_list', (req, res) => {
   emp_model.getEmployeeList()
   .then(response => {
