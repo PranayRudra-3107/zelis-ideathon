@@ -87,8 +87,7 @@ const columns = [
     var updatedIdea;
     if(id === updatedIdeas.id){
        updatedIdea = updatedIdeas;
-    }
-    console.log(updatedIdea);
+       console.log(updatedIdea);
     const requestBody = {
       idea_name: updatedIdea.idea_name,
       idea_description: updatedIdea.idea_description,
@@ -114,6 +113,8 @@ const columns = [
     .catch(error => {
       console.error('Error updating idea:', error);
     });
+    }
+    
   };
 
   const cancel = (id) => {
