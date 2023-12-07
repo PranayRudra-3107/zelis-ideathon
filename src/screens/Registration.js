@@ -32,6 +32,7 @@ const Signup = () => {
         setStrength(strength);
     }
     useEffect(() => {
+        
         if (registered) {
             setTimeout(function() {
                 nav('/login');
