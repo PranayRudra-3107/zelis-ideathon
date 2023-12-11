@@ -1,6 +1,7 @@
-import IdeaForm from "../components/Ideaform";
+import IdeaForm from "../components/IdeaForm";
 import { useNavigate } from "react-router-dom";
 import {ReactSession} from "react-client-session";
+import configData from "./config.json";
 
 const IdeaSubmission = () => {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ const IdeaSubmission = () => {
   const empid =  parseInt(ReactSession.get("id"));
   const handleSubmit = (idea) => {
     debugger;
-    fetch('http://localhost:3001/idea_list', {
+    fetch(`${configData.SERVER_URL}/idea_list`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

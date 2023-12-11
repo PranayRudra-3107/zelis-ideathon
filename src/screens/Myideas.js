@@ -11,6 +11,7 @@ import Select from '@material-ui/core/Select';
 import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
+import configData from "./config.json";
 
 // manager role - 1 , employee role -2 
 const My_Ideas = () => {
@@ -22,7 +23,7 @@ const My_Ideas = () => {
   ReactSession.setStoreType("localStorage");
   const empid = ReactSession.get("id");
   useEffect(() => {
-    fetch(`http://localhost:3001/myidea_list/${empid}`)
+    fetch(`${configData.SERVER_URL}/myidea_list/${empid}`)
       .then(response => response.json())
       .then(data => {        
         setIdeas(data.map((idea) => ({ ...idea})));
@@ -93,7 +94,7 @@ const columns = [
       idea_description: updatedIdea.idea_description,
       status: updatedIdea.status_id,
     };
-    fetch(`http://localhost:3001/idea_list/${updatedIdea.id}`, {
+    fetch(`${configData.SERVER_URL}/idea_list/${updatedIdea.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ const columns = [
   };
 
   const remove = (id) => {
-    fetch(`http://localhost:3001/idea_list/${id}`, {
+    fetch(`${configData.SERVER_URL}/idea_list/${id}`, {
       method: 'DELETE',
     })
     .then(response => {
@@ -149,7 +150,7 @@ const columns = [
       }}
     >
       <h1>Ideas List</h1>
-      <div style={{ height: '80%', width: '90%' }}>
+      <div style={{ height: '75%', width: '90%' }}>
       <DataGrid 
         rows={ideas} 
         columns={columns} 

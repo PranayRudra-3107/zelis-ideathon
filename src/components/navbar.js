@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet,useLocation } from 'react-router-dom';
 import {
   AppBar,
   Tab,
@@ -33,10 +33,13 @@ const useStyles = {
 };
 
 const Header = () => {
+  const location = useLocation();
+  const nonLoggedInPaths = ['/', '/login', '/register'];
+  const isLoggedIn = !nonLoggedInPaths.includes(location.pathname);
+
   const [value, setValue] = useState();
   ReactSession.setStoreType("localStorage");
   const role = ReactSession.get("role");
-
   const [anchorEl, setAnchorEl] = React.useState(null);
 const open = Boolean(anchorEl);
 
@@ -50,14 +53,14 @@ const handleClose = () => {
     <>
      <AppBar sx={{ background: "#063970" }}>
   <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-    <RootContainer>
+            <RootContainer>
       <IconContainer>
         <EmojiObjectsTwoToneIcon />
       </IconContainer>
       <Typography sx={{ fontSize: "2rem" }}>
         IDEATHON
       </Typography>
-    </RootContainer>
+      </RootContainer>
 
     <Tabs
       sx={useStyles}
@@ -66,11 +69,14 @@ const handleClose = () => {
       value={value}
       onChange={(e, value) => setValue(value)}
     >
-        <Tab label="Ideas" component={Link} to="/list" />
-        <Tab label="My Idea" component={Link} to="/mylist" />
-        <Tab label="Submit Idea" component={Link} to="/submit"/>
-        <Tab label="Show Ideas Visually" component={Link} to="/graphs"/>
-        <Tab label="Employee Details" component={Link} to="/details"/>
+        <Tab label="Ideas" component={Link} to="/list" disabled={!isLoggedIn}/>
+        <Tab label="My Idea" component={Link} to="/mylist" disabled={!isLoggedIn}/>
+        <Tab label="Submit Idea" component={Link} to="/submit" disabled={!isLoggedIn}/>
+        <Tab label="Show Ideas Visually" component={Link} to="/graphs" disabled={!isLoggedIn}/>
+        {console.log(role)}
+        {role!== 2 && (
+    <Tab label="Employee Details" component={Link} to="/details" disabled={!isLoggedIn}/>
+  )}
       </Tabs>
       <IconButton
       size="large"
@@ -80,6 +86,7 @@ const handleClose = () => {
       aria-haspopup="true"
       onClick={handleMenu}
       color="inherit"
+      disabled={!isLoggedIn}
     >
       <AccountCircle />
     </IconButton>

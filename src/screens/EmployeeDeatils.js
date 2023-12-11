@@ -2,11 +2,12 @@ import React from "react";
 import { useEffect , useState} from "react";
 import { Box } from "@mui/system";
 import { DataGrid } from "@mui/x-data-grid";
+import configData from "./config.json";
 
 const EmployeeDeatils = () =>{
     const [EmployeeList , setEmployeeList] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:3001/employee_list')
+        fetch(`${configData.SERVER_URL}/employee_list`)
           .then(response => response.json())
           .then(data => {        
             setEmployeeList(data.map((employeelist) => ({ ...employeelist})));

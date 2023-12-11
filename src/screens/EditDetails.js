@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ReactSession }  from 'react-client-session';
+import configData from "./config.json";
 
 const EditDetails = () => {
     const nav = useNavigate();
@@ -29,7 +30,7 @@ const EditDetails = () => {
     // Fetch existing data when component mounts
     useEffect(() => {
         // Fetch employee data using employee_id
-        fetch(`http://localhost:3001/employee_details/${employee_id}`)
+        fetch(`${configData.SERVER_URL}/employee_details/${employee_id}`)
             .then(response => response.json())
             .then(data => {
                 // Populate the form fields with existing data
@@ -112,7 +113,7 @@ const EditDetails = () => {
         setRegistered(true);
         setAlert({ severity: 'success', message: 'Registered Successfully' });
              // Use the fetch PUT method to update the employee data
-        fetch(`http://localhost:3001/employee_details/${employee_id}`, {
+        fetch(`${configData.SERVER_URL}/employee_details/${employee_id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

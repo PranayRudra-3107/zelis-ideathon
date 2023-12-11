@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import IdeaForm from '../components/IdeaForm';
 import { useNavigate , useParams } from 'react-router-dom';
+import configData from "./config.json";
 
 const IdeaEdit = () => {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ const IdeaEdit = () => {
   const [idea, setIdea] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/idea_list/${id}`)
+    fetch(`${configData.SERVER_URL}/idea_list/${id}`)
       .then(response => response.json())
       .then(data => setIdea({
         title: data.idea_name,
@@ -18,7 +19,7 @@ const IdeaEdit = () => {
   }, [id]);
   
   const handleSubmit = (updatedIdea) => {
-    fetch(`http://localhost:3001/idea_list/${id}`, {
+    fetch(`${configData.SERVER_URL}/idea_list/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

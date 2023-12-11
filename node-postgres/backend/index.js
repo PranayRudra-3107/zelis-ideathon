@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-<<<<<<< HEAD
 
 require('dotenv').config();
 
@@ -11,17 +10,6 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PG_PORT,
-=======
-const port = 3001
-
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: 'postgres',
-  host: '10.136.6.177',
-  database: 'zelis-ideathon',
-  password: 'postgres',
-  port: 5432,
->>>>>>> 45bdd65a0c30efa37996af44588f397e4367f965
 });
 module.exports = pool;
 
@@ -251,11 +239,6 @@ app.get('/employee_mapping/:employee_id', async (req, res) => {
   })
 });
 
-<<<<<<< HEAD
 app.listen(process.env.DB_PORT, () => {
   console.log('App running on port ' + process.env.DB_PORT)
-=======
-app.listen(port, () => {
-  console.log(`App running on port ${port}.`)
->>>>>>> 45bdd65a0c30efa37996af44588f397e4367f965
 })

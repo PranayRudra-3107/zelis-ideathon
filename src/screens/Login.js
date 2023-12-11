@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Alert from '@mui/material/Alert'; 
 import { useNavigate } from "react-router-dom";
 import { ReactSession }  from 'react-client-session';
+import configData from "./config.json";
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -17,7 +18,7 @@ const LoginPage = () => {
     e.preventDefault(); 
   
     try {
-      const response = await fetch('http://localhost:3001/login', {
+      const response = await fetch(`${configData.SERVER_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -38,7 +39,7 @@ const LoginPage = () => {
         }, 2000);
       } 
       else {
-        setAlert({ severity: 'error', message: 'Login failed. Please try again.' });
+        setAlert({ severity: 'error', message: 'Invalid credentials. Please try again.' });
       }
     }
     } 
@@ -50,7 +51,7 @@ const LoginPage = () => {
   
   useEffect(() => {    
     // eslint-disable-next-line no-template-curly-in-string
-    fetch(`http://localhost:3001/employee_mapping/${username}`)
+    fetch(`${configData.SERVER_URL}/employee_mapping/${username}`)
       .then(response => response.json())
       .then(data => {
         setRole(data.role_id);

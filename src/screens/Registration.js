@@ -5,6 +5,8 @@ import "react-phone-input-2/lib/bootstrap.css";
 import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useNavigate } from 'react-router-dom';
+import configData from "./config.json";
+
 
 const Signup = () => {
 
@@ -98,7 +100,7 @@ const Signup = () => {
         setRegistered(true);
         setAlert({ severity: 'success', message: 'Registered Successfully' });
 
-        fetch('http://localhost:3001/employee_details', {
+        fetch(`${configData.SERVER_URL}/employee_details`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +121,7 @@ const Signup = () => {
           });
 
 
-        fetch('http://localhost:3001/employee_mapping', {
+        fetch(`${configData.SERVER_URL}/employee_mapping`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
