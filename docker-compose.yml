@@ -17,8 +17,11 @@ services:
     ports:
       - "3001:3001"
     environment:
+      - CLIENT= http://localhost:3000
       - USER=postgres
       - HOST=10.136.6.177
       - DATABASE=zelis-ideathon
       - PASSWORD=postgres
-      - PORT1=3001
+      - PGPORT= 5432
+      - PORT=3001
+  
