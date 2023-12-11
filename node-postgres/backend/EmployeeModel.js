@@ -119,8 +119,13 @@ const getUser = async () => {
   
   const loginUser = async (username, password, rememberMe) => {
     try {
+      debugger;
       console.log('retrieving data');
-      const user = await pool.query('SELECT * FROM employee_details WHERE employee_id = $1 OR email = $2 OR phone_no = $3', [parseInt(username), username, parseInt(username)]);
+      let employee_id;
+      if (/^\d+$/.test(username) && username.length < 7) {
+          employee_id = username;
+      } 
+      const user = await pool.query('SELECT * FROM employee_details WHERE employee_id = $1 OR email = $2 OR phone_no = $3', [employee_id, username, username]);
       console.log('retrieved data');
       console.log(username);
       console.log(password);
@@ -235,29 +240,27 @@ const getUser = async () => {
   
   module.exports = {getUser , createUser , updateUser, loginUser , setEmployeeMaping , getRole , getEmployeeList , getEmployeeDetails};
 
-  // const updateUser = (employee_id, body) => {
-  //   return new Promise(async function (resolve, reject) {
-  //     const { firstname, lastname, phone_no, updated_date, password } = body;
-  //      // Generate a salt
-  //      const salt = await bcrypt.genSalt(saltRounds);
-  //      // Hash the password with the salt
-       
-  // debugger;
-  //      const hashedPassword = await bcrypt.hash(password, salt);
-  //     pool.query(
-  //       "UPDATE employee_details SET firstname=$1, lastname=$2, phone_no=$3, updated_date=$4, password=$5 WHERE employee_id = $6 RETURNING *",
-  //       [firstname, lastname, phone_no, updated_date, hashedPassword, employee_id],
-  //       (error, results) => {
-  //         if (error) {
-  //           reject(error);
-  //         }
-  //         if (results && results.rows) {
-  //           resolve(`Details updated: ${JSON.stringify(results.rows[0])}`);
-  //         } else {
-  //           reject(new Error("Error while updating"));
-  //         }
-  //       }
-  //     );
-  //   });
+  // const loginUser = async (username, password, rememberMe) => {
+  //   try {
+  //     debugger;
+  //     console.log('retrieving data');
+  //     const user = await pool.query('SELECT * FROM employee_details WHERE employee_id = $1 OR email = $2 OR phone_no = $3', [parseInt(username), username, username]);
+  
+  //     if (user.rows.length === 0) {
+  //       return { status: 401, error: 'Invalid credentials' };
+  //     }
+  
+  //     const retrievedUser = user.rows[0];
+  //     const passwordMatch = await bcrypt.compare(password, retrievedUser.password);
+  
+  //     if (passwordMatch) {
+  //       return { status: 200, message: 'Login successful', user: retrievedUser };
+  //     } else {
+  //       return { status: 401, error: 'Invalid credentials' };
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during login:', error);
+  //     return { status: 500, error: 'Internal server error' };
+  //   }
   // };
   

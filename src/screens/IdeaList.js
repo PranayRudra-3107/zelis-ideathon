@@ -54,12 +54,11 @@ const columns = [
                 value={params.row.status} 
                 onChange={(e) => handleStatusChange(params.row.id, e.target.value)}
               >
-
                 {statuses.map((status, index) => (
               <option key={index + 1} value={index + 1}>
                 {`${status}`}
               </option>
-            ))}
+            ))} 
               </NativeSelect>       
           );
         } else {

@@ -9,7 +9,7 @@ const EndScreen = () => {
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             navigate('/');
-        }, 5000);
+        }, 1000);
 
         // Clear the timeout to avoid navigation if the component unmounts before the timeout
         return () => clearTimeout(timeoutId);
