@@ -1,8 +1,8 @@
-FROM node:14-alpine
+FROM node:14
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-COPY . .
-RUN npm start
+COPY ./ .
 EXPOSE 3000
+ENV REACT_APP_API_URL=http://backend:3001
 CMD ["npm", "start"]

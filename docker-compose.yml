@@ -1,0 +1,22 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: ./node-postgres/backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - USER=postgres
+      - HOST=10.136.6.177
+      - DATABASE=zelis-ideathon
+      - PASSWORD=postgres
+      - PORT1=3001
