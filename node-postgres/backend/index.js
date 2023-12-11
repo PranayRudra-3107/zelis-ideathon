@@ -11,6 +11,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PG_PORT,
 });
+
 module.exports = pool;
 
 const ideas_model = require('./IdeaModel')
