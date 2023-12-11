@@ -13,10 +13,10 @@ services:
       context: ./node-postgres/backend
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "3001:3001"
     environment:
       - USER=postgres
       - HOST=10.136.6.177
       - DATABASE=zelis-ideathon
       - PASSWORD=postgres
-      - PORT1=5000
+      - PORT1=3001
