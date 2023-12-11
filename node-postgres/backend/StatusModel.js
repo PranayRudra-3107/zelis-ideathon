@@ -1,11 +1,4 @@
- const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: 'postgres',
-  host: '10.136.6.177',
-  database: 'zelis-ideathon',
-  password: 'postgres',
-  port: 5432,
-});
+const pool = require('./index');
 
 const getStatus = async () => {
     try {

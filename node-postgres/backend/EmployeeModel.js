@@ -1,11 +1,4 @@
-const Pool = require("pg").Pool;
-const pool = new Pool({
-  user: 'postgres',
-  host: '10.136.6.177',
-  database: 'zelis-ideathon',
-  password: 'postgres',
-  port: 5432,
-});
+const pool = require('./index');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -119,12 +112,10 @@ const getUser = async () => {
   
   const loginUser = async (username, password, rememberMe) => {
     try {
-      debugger;
-      console.log('retrieving data');
       let employee_id;
-      if (/^\d+$/.test(username) && username.length < 7) {
-          employee_id = username;
-      } 
+      if(/^\d+$/.test(username) && username.length<7){
+        employee_id = username;
+      }
       const user = await pool.query('SELECT * FROM employee_details WHERE employee_id = $1 OR email = $2 OR phone_no = $3', [employee_id, username, username]);
       console.log('retrieved data');
       console.log(username);
@@ -240,27 +231,5 @@ const getUser = async () => {
   
   module.exports = {getUser , createUser , updateUser, loginUser , setEmployeeMaping , getRole , getEmployeeList , getEmployeeDetails};
 
-  // const loginUser = async (username, password, rememberMe) => {
-  //   try {
-  //     debugger;
-  //     console.log('retrieving data');
-  //     const user = await pool.query('SELECT * FROM employee_details WHERE employee_id = $1 OR email = $2 OR phone_no = $3', [parseInt(username), username, username]);
-  
-  //     if (user.rows.length === 0) {
-  //       return { status: 401, error: 'Invalid credentials' };
-  //     }
-  
-  //     const retrievedUser = user.rows[0];
-  //     const passwordMatch = await bcrypt.compare(password, retrievedUser.password);
-  
-  //     if (passwordMatch) {
-  //       return { status: 200, message: 'Login successful', user: retrievedUser };
-  //     } else {
-  //       return { status: 401, error: 'Invalid credentials' };
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during login:', error);
-  //     return { status: 500, error: 'Internal server error' };
-  //   }
-  // };
+ 
   
