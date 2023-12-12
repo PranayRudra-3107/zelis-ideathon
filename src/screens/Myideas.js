@@ -70,7 +70,7 @@ const columns = [
               <>
                 <Tooltip title="Edit">
                 <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton></Tooltip>
-                {role === 2 && <Tooltip title="Save"><IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton></Tooltip>}
+                {role === 2 && <Tooltip title="Delete"><IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton></Tooltip>}
               </>
             )}
           </>
