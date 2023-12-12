@@ -6,7 +6,7 @@
 -- idea_list
 -- idea_history
 
-create database zelis-ideathon;
+-- create database zelis-ideathon;
 
 --CREATE
 -- employee_details
