@@ -1,7 +1,7 @@
 
 create database zelis_ideathon;
 
-\c zelis_ideathon;
+
  
 --DDL
 --employee_details
