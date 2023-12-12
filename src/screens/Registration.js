@@ -32,6 +32,20 @@ const Signup = () => {
         });
         setStrength(strength);
     }
+    const handlePasswordChange = (e) => {
+        const newPassword = e.target.value;
+        calculateStrength(newPassword);
+        setPassword(newPassword);
+    }
+    const getColorForProgress = (progress) => {
+        if (progress <= 25) {
+          return '#FF0000'; // Red
+        } else if (progress <= 50) {
+          return '#FFFF00'; // Yellow
+        }else {
+          return '#00FF00'; // Green
+        }
+      };
     useEffect(() => {
         
         if (registered) {
@@ -233,7 +247,7 @@ const Signup = () => {
                                     type="password"
                                     variant="outlined"
                                     name="password"
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={handlePasswordChange}
                                 />
                             </Grid>
                             <Grid item xs sx={6}>
@@ -247,7 +261,20 @@ const Signup = () => {
                                 />
                             </Grid>
                         </Grid>
-                        <LinearProgress variant="determinate" value={strength} />
+                        <LinearProgress
+                            variant="determinate"
+                            value={strength}
+                            style={{
+                            width: '100%',
+                            borderRadius: 5,
+                            background: '#e0e0e0', // Background color of the progress bar
+                            height: 10,
+                            marginTop: 10,
+                            marginBottom: 10,
+                            transition: 'background-color 0.5s ease', // Smooth color transition
+                            backgroundColor: getColorForProgress(strength),
+                            }}
+                        />
                         <Grid item container justify="center" alignItems="center" xs sx={6}>
                             <Button variant="contained" color="primary" type="submit">
                                 Register

@@ -56,7 +56,7 @@ const columns = [
       
           return (
             <NativeSelect
-              value={params.row.status} 
+              value={params.row.status_name} 
               onChange={(e) => handleStatusChange(params.row.id, e.target.value)}
             >
               {sortedStatuses.map((status, index) => (
@@ -114,6 +114,7 @@ const columns = [
     updatedIdeasCopy[ideaIndex] = {
       ...updatedIdeasCopy[ideaIndex],
       status_id: statusId,
+      status_name: newStatus
     };
     setIdeas(updatedIdeasCopy);
    
