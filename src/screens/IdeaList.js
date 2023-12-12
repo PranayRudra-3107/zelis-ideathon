@@ -198,14 +198,6 @@ const columns = [
             fontWeight: 'bold',
           },
         }}
-        // onRowEditStop={(params, event) => {
-        //   console.log('Row edit stopped:', params, event);
-
-        // }}
-        // processRowUpdate={(params) => {
-        //   console.log('Row updated:', params);
-        //   setupdatedIdeas(params);
-        // }}
       />
       </div>
     </Box>
