@@ -39,9 +39,10 @@ CREATE TABLE IF NOT EXISTS  departments
 
 
 -- roles
+CREATE SEQUENCE roles_role_id_seq;
 CREATE TABLE IF NOT EXISTS  roles
 (
-    role_id integer NOT NULL DEFAULT nextval('roles_role_id_seq'::regclass),
+    role_id integer NOT NULL DEFAULT nextval('roles_role_id_seq'),
     role_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT roles_pkey PRIMARY KEY (role_id)
 )
