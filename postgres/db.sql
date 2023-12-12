@@ -37,8 +37,6 @@ CREATE TABLE IF NOT EXISTS public.departments
     CONSTRAINT departments_pkey PRIMARY KEY (department_id)
 )
 
-ALTER TABLE IF EXISTS public.departments
-    OWNER to postgres;
 
 -- roles
 CREATE TABLE IF NOT EXISTS public.roles
