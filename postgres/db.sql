@@ -21,14 +21,19 @@ CREATE TABLE IF NOT EXISTS employee_details
  
 --departments
 
+CREATE SEQUENCE departments_department_id_seq;
+
 CREATE TABLE IF NOT EXISTS departments
 (
     department_id integer NOT NULL DEFAULT nextval('departments_department_id_seq'::regclass),
     department_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT departments_pkey PRIMARY KEY (department_id)
 );
+
  
 --roles
+
+CREATE SEQUENCE roles_role_id_seq;
 
 CREATE TABLE IF NOT EXISTS roles
 (
@@ -36,8 +41,8 @@ CREATE TABLE IF NOT EXISTS roles
     role_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT roles_pkey PRIMARY KEY (role_id)
 );
- 
---idea_status
+
+CREATE SEQUENCE idea_status_status_id_seq;
 
 CREATE TABLE IF NOT EXISTS  idea_status
 (
@@ -45,8 +50,8 @@ CREATE TABLE IF NOT EXISTS  idea_status
     status_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT idea_status_pkey PRIMARY KEY (status_id)
 );
- 
---employee_mapping
+
+CREATE SEQUENCE employee_mapping_employee_id_seq;
 
 CREATE TABLE IF NOT EXISTS  employee_mapping
 (
@@ -63,8 +68,8 @@ CREATE TABLE IF NOT EXISTS  employee_mapping
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
- 
---idea_list
+
+CREATE SEQUENCE idea_list_id_seq;
 
 CREATE TABLE IF NOT EXISTS  idea_list
 (
@@ -79,8 +84,8 @@ CREATE TABLE IF NOT EXISTS  idea_list
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
- 
---idea_history
+
+CREATE SEQUENCE idea_history_idea_id_seq;
 
 CREATE TABLE IF NOT EXISTS  idea_history
 (
@@ -101,6 +106,7 @@ CREATE TABLE IF NOT EXISTS  idea_history
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
+
  
 --DML
 --departments
