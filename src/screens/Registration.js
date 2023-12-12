@@ -153,7 +153,7 @@ const Signup = () => {
 
     return (
         <Container maxWidth="xs">
-            <Box paddingTop="35%">
+            <Box paddingTop="20%">
                 <form onSubmit={handleSubmit}>
                     <Grid container direction="column" spacing={2}>
                         <Grid item container direction="row" spacing={2}>
@@ -267,9 +267,9 @@ const Signup = () => {
                             style={{
                             width: '100%',
                             background: '#e0e0e0', // Background color of the progress bar
-                            height: 10,
-                            marginTop: 10,
-                            marginBottom: 10,
+                            height: 5,
+                            marginTop: 5,
+                            marginBottom: 5,
                             transition: 'background-color 0.5s ease', // Smooth color transition
                             backgroundColor: getColorForProgress(strength),
                             }}
@@ -278,7 +278,6 @@ const Signup = () => {
                             <Button variant="contained" color="primary" type="submit">
                                 Register
                             </Button>
-                            
                         </Grid>
                         {alert && <Alert severity={alert.severity}>{alert.message}</Alert>}
                     </Grid>

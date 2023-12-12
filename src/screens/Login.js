@@ -105,7 +105,7 @@ const LoginPage = () => {
                 />
               </Grid>
               <Grid item xs sx={6}>
-                <a href="./register">Don't have account?Register</a>
+                <a href="./register">Don't have account? Register</a>
               </Grid>
               <Grid item xs sx={6}>
                 <Button type="submit"  variant="contained" color="primary">
