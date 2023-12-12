@@ -11,6 +11,7 @@ import Select from '@material-ui/core/Select';
 import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
+import Tooltip from '@mui/material/Tooltip';
 
 // manager role - 1 , employee role -2 
 const My_Ideas = () => {
@@ -62,13 +63,14 @@ const columns = [
           <>
             {isEditing ? (
               <>
-                <IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton>
-                <IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton>
+                <Tooltip title="Save"><IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton></Tooltip>
+                <Tooltip title="Cancel"><IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton></Tooltip>
               </>
             ) : (
               <>
-                <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>
-                {role === 2 && <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>}
+                <Tooltip title="Edit">
+                <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton></Tooltip>
+                {role === 2 && <Tooltip title="Save"><IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton></Tooltip>}
               </>
             )}
           </>

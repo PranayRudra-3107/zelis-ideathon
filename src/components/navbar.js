@@ -15,6 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Tooltip from "@mui/material/Tooltip";
 
 const RootContainer = styled('div')({
   display: 'flex',
@@ -78,6 +79,7 @@ const handleClose = () => {
     <Tab label="Employee Details" component={Link} to="/details" disabled={!isLoggedIn}/>
   )}
       </Tabs>
+      <Tooltip title="Profile">
       <IconButton
       size="large"
       edge="end"
@@ -90,6 +92,7 @@ const handleClose = () => {
     >
       <AccountCircle />
     </IconButton>
+    </Tooltip>
     <Menu
       id="menu-appbar"
       anchorEl={anchorEl}

@@ -13,6 +13,7 @@ import Select from '@material-ui/core/Select';
 import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
+import Tooltip from '@mui/material/Tooltip';
 // manager role - 1 , employee role -2 
 const Idea_list = () => {
   ReactSession.setStoreType("localStorage");
@@ -44,7 +45,7 @@ const columns = [
     { 
       field: 'status_name', 
       headerName: 'Status', 
-      flex: 0.1,
+      flex: 0.2,
       headerClassName: 'custom-header',
       renderCell: (params) => {
         if (role === 1 && editRows.includes(params.row.id)) {
@@ -90,13 +91,13 @@ const columns = [
           <>
             {isEditing ? (
               <>
-                <IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton>
-                <IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton>
+                <Tooltip title="Save"><IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton></Tooltip>
+                <Tooltip title="Cancel"><IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton></Tooltip>
               </>
             ) : (
-              <>
+              <Tooltip title="Edit">
                 <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>                
-              </>
+              </Tooltip>
             )}
           </>
         );
