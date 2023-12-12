@@ -19,7 +19,7 @@ const emp_model = require('./EmployeeModel')
 const status_model = require('./StatusModel')
 
 app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "http://10.136.6.184:3000");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
   res.setHeader(
     "Access-Control-Allow-Headers",
