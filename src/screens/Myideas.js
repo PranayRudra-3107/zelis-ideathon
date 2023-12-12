@@ -78,36 +78,50 @@ const columns = [
     }
   ];
 
-  const processRowUpdate = (params) =>{
-    debugger;    
-    if(params){
-    const requestBody = {
-      idea_name: params.idea_name,
-      idea_description: params.idea_description,
-      status: params.status_id,
-    };
-    fetch(`${configData.SERVER_URL}/idea_list/${params.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-      setEditRows(editRows.filter(rowId => rowId !== params.id));
-    })
-    .catch(error => {
-      console.error('Error updating idea:', error);
-    });
+  const processRowUpdate = (params) => {
+    if (params) {
+      const requestBody = {
+        idea_name: params.idea_name,
+        idea_description: params.idea_description,
+        status: params.status_id,
+      };
+      fetch(`${configData.SERVER_URL}/idea_list/${params.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+          // Update the ideas state with the updated row
+          setIdeas(prevIdeas => {
+            return prevIdeas.map(idea => {
+              if (idea.id === params.id) {
+                // Update only the necessary fields
+                return {
+                  ...idea,
+                  idea_name: params.idea_name,
+                  idea_description: params.idea_description,
+                  status_id: params.status_id,
+                };
+              }
+              return idea;
+            });
+          });
+        })
+        .catch(error => {
+          console.error('Error updating idea:', error);
+        });
     }
   };
+  
 
   // Action handlers
   const edit = (id) => {
