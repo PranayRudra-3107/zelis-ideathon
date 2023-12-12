@@ -106,12 +106,13 @@ const columns = [
 
 
   const handleStatusChange = (id, newStatus) => {
-    const ideaIndex = ideas.findIndex((idea) => idea.id === id);
-    
+    debugger;
+    const ideaIndex = ideas.findIndex((idea) => idea.id === id);    
+    const statusId = statuses.indexOf(newStatus) + 1;
     const updatedIdeasCopy = [...ideas];
     updatedIdeasCopy[ideaIndex] = {
       ...updatedIdeasCopy[ideaIndex],
-      status_id: newStatus,
+      status_id: statusId,
     };
     setIdeas(updatedIdeasCopy);
    
