@@ -24,3 +24,13 @@ services:
       - DB_PASSWORD=postgres
       - DB_PGPORT= 5432
       - DB_PORT=3001
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    environment:
+      DB_DATABASE: zelis-ideathon
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - "5432:5432"
