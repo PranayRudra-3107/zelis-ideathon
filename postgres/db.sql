@@ -1,5 +1,5 @@
 
-create database zelis-ideathon;
+create database zelis_ideathon;
 
 \c zelis_ideathon;
  
