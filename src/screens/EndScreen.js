@@ -6,7 +6,6 @@ import Snackbar from '@mui/material/Snackbar';
 
 const EndScreen = () => {
     const navigate = useNavigate();
-    const location = useLocation();
     ReactSession.remove("id");
     ReactSession.remove("role");
 
