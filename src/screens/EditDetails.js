@@ -151,7 +151,7 @@ const EditDetails = () => {
 
     return (
         <Container maxWidth="xs">
-            <Box paddingTop="55%">
+            <Box paddingTop="25%">
                 <form onSubmit={handleSubmit}>
                     <Grid container direction="column" spacing={2}>
                         <Grid item container direction="row" spacing={2}>
