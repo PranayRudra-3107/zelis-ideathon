@@ -33,6 +33,7 @@ services:
     environment:
       DB_DATABASE: zelis_ideathon
       DB_USER: postgres
+      POSTGRES_PASSWORD: postgres
       DB_PASSWORD: postgres
     ports:
       - "5432:5432"
