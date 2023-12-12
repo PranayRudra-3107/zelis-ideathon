@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS employee_details
     updated_date timestamp without time zone,
     password character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT employee_details_pkey PRIMARY KEY (employee_id)
-)
+);
  
 --departments
 
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS departments
     department_id integer NOT NULL DEFAULT nextval('departments_department_id_seq'::regclass),
     department_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT departments_pkey PRIMARY KEY (department_id)
-)
+);
  
 --roles
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS roles
     role_id integer NOT NULL DEFAULT nextval('roles_role_id_seq'::regclass),
     role_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT roles_pkey PRIMARY KEY (role_id)
-)
+);
  
 --idea_status
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS  idea_status
     status_id integer NOT NULL DEFAULT nextval('idea_status_status_id_seq'::regclass),
     status_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT idea_status_pkey PRIMARY KEY (status_id)
-)
+);
  
 --employee_mapping
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS  employee_mapping
         REFERENCES  roles (role_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
+);
  
 --idea_list
 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS  idea_list
         REFERENCES  idea_status (status_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
+);
  
 --idea_history
 
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS  idea_history
         REFERENCES  idea_list (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-)
+);
  
 --DML
 --departments
