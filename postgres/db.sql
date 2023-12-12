@@ -46,10 +46,7 @@ CREATE TABLE IF NOT EXISTS  roles
     CONSTRAINT roles_pkey PRIMARY KEY (role_id)
 )
 
-TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS  roles
-    OWNER to postgres;
 
 -- idea_status
 CREATE TABLE IF NOT EXISTS  idea_status
@@ -59,10 +56,7 @@ CREATE TABLE IF NOT EXISTS  idea_status
     CONSTRAINT idea_status_pkey PRIMARY KEY (status_id)
 )
 
-TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS  idea_status
-    OWNER to postgres;
 
 -- employee_mapping
 CREATE TABLE IF NOT EXISTS  employee_mapping
@@ -81,10 +75,7 @@ CREATE TABLE IF NOT EXISTS  employee_mapping
         ON DELETE NO ACTION
 )
 
-TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS  employee_mapping
-    OWNER to postgres;
 
 -- idea_list
 CREATE TABLE IF NOT EXISTS  idea_list
@@ -101,10 +92,6 @@ CREATE TABLE IF NOT EXISTS  idea_list
         ON DELETE NO ACTION
 )
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS  idea_list
-    OWNER to postgres;
 
 -- idea_history
 CREATE TABLE IF NOT EXISTS  idea_history
@@ -127,10 +114,6 @@ CREATE TABLE IF NOT EXISTS  idea_history
         ON DELETE NO ACTION
 )
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS  idea_history
-    OWNER to postgres;
 
 -- INSERT
 -- departments
