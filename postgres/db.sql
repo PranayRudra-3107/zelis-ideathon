@@ -10,7 +10,7 @@
 
 --CREATE
 -- employee_details
-CREATE TABLE IF NOT EXISTS public.employee_details
+CREATE TABLE IF NOT EXISTS  employee_details
 (
     firstname character varying(255) COLLATE pg_catalog."default",
     lastname character varying(255) COLLATE pg_catalog."default",
@@ -25,12 +25,12 @@ CREATE TABLE IF NOT EXISTS public.employee_details
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.employee_details
+ALTER TABLE IF EXISTS  employee_details
     OWNER to postgres;
 
 -- departments
 CREATE SEQUENCE departments_department_id_seq;
-CREATE TABLE IF NOT EXISTS public.departments
+CREATE TABLE IF NOT EXISTS  departments
 (
     department_id integer NOT NULL DEFAULT nextval('departments_department_id_seq'),
     department_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS public.departments
 
 
 -- roles
-CREATE TABLE IF NOT EXISTS public.roles
+CREATE TABLE IF NOT EXISTS  roles
 (
     role_id integer NOT NULL DEFAULT nextval('roles_role_id_seq'::regclass),
     role_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -48,11 +48,11 @@ CREATE TABLE IF NOT EXISTS public.roles
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.roles
+ALTER TABLE IF EXISTS  roles
     OWNER to postgres;
 
 -- idea_status
-CREATE TABLE IF NOT EXISTS public.idea_status
+CREATE TABLE IF NOT EXISTS  idea_status
 (
     status_id integer NOT NULL DEFAULT nextval('idea_status_status_id_seq'::regclass),
     status_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -61,33 +61,33 @@ CREATE TABLE IF NOT EXISTS public.idea_status
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.idea_status
+ALTER TABLE IF EXISTS  idea_status
     OWNER to postgres;
 
 -- employee_mapping
-CREATE TABLE IF NOT EXISTS public.employee_mapping
+CREATE TABLE IF NOT EXISTS  employee_mapping
 (
     employee_id integer NOT NULL DEFAULT nextval('employee_mapping_employee_id_seq'::regclass),
     department_id integer,
     role_id integer,
     CONSTRAINT employee_mapping_pkey PRIMARY KEY (employee_id),
     CONSTRAINT employee_mapping_department_id_fkey FOREIGN KEY (department_id)
-        REFERENCES public.departments (department_id) MATCH SIMPLE
+        REFERENCES  departments (department_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT employee_mapping_role_id_fkey FOREIGN KEY (role_id)
-        REFERENCES public.roles (role_id) MATCH SIMPLE
+        REFERENCES  roles (role_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.employee_mapping
+ALTER TABLE IF EXISTS  employee_mapping
     OWNER to postgres;
 
 -- idea_list
-CREATE TABLE IF NOT EXISTS public.idea_list
+CREATE TABLE IF NOT EXISTS  idea_list
 (
     id integer NOT NULL DEFAULT nextval('idea_list_id_seq'::regclass),
     idea_name text COLLATE pg_catalog."default" NOT NULL,
@@ -96,18 +96,18 @@ CREATE TABLE IF NOT EXISTS public.idea_list
     employee_id integer NOT NULL,
     CONSTRAINT idea_list_pkey PRIMARY KEY (id),
     CONSTRAINT fk_status FOREIGN KEY (status_id)
-        REFERENCES public.idea_status (status_id) MATCH SIMPLE
+        REFERENCES  idea_status (status_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.idea_list
+ALTER TABLE IF EXISTS  idea_list
     OWNER to postgres;
 
 -- idea_history
-CREATE TABLE IF NOT EXISTS public.idea_history
+CREATE TABLE IF NOT EXISTS  idea_history
 (
     idea_id integer NOT NULL DEFAULT nextval('idea_history_idea_id_seq'::regclass),
     employee_id integer,
@@ -118,18 +118,18 @@ CREATE TABLE IF NOT EXISTS public.idea_history
     status_id integer,
     CONSTRAINT idea_history_pkey PRIMARY KEY (idea_id),
     CONSTRAINT fk2_idea_history FOREIGN KEY (status_id)
-        REFERENCES public.idea_status (status_id) MATCH SIMPLE
+        REFERENCES  idea_status (status_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT fk_idea_history FOREIGN KEY (idea_id)
-        REFERENCES public.idea_list (id) MATCH SIMPLE
+        REFERENCES  idea_list (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.idea_history
+ALTER TABLE IF EXISTS  idea_history
     OWNER to postgres;
 
 -- INSERT
