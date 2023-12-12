@@ -29,14 +29,13 @@ ALTER TABLE IF EXISTS public.employee_details
     OWNER to postgres;
 
 -- departments
+CREATE SEQUENCE departments_department_id_seq;
 CREATE TABLE IF NOT EXISTS public.departments
 (
-    department_id integer NOT NULL DEFAULT nextval('departments_department_id_seq'::regclass),
+    department_id integer NOT NULL DEFAULT nextval('departments_department_id_seq'),
     department_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT departments_pkey PRIMARY KEY (department_id)
 )
-
-TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.departments
     OWNER to postgres;
