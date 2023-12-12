@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { ReactSession }  from 'react-client-session';
 import configData from "./config.json";
 
+global.base = configData.SERVER_URL;
+console.log(configData.SERVER_URL);
+
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [ password, setEncryptedPassword] = useState('');
@@ -18,7 +21,7 @@ const LoginPage = () => {
     e.preventDefault(); 
   
     try {
-      const response = await fetch(`${configData.SERVER_URL}/login`, {
+      const response = await fetch(`${global.base}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -48,10 +51,12 @@ const LoginPage = () => {
     }
 
   };
+
+  console.log(global.base);
   
   useEffect(() => {    
     // eslint-disable-next-line no-template-curly-in-string
-    fetch(`${configData.SERVER_URL}/employee_mapping/${username}`)
+    fetch(`${global.base}/employee_mapping/${username}`)
       .then(response => response.json())
       .then(data => {
         setRole(data.role_id);

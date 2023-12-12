@@ -1,13 +1,12 @@
 import { useState , useEffect } from 'react';
 import { ReactSession }  from 'react-client-session';
-import configData from "./config.json";
 
 const LoginSession = () => {
     const [role, setRole] = useState([]);
     const username = ReactSession.get("username");
     useEffect(() => {
-      
-      fetch(`${configData.SERVER_URL}/employee_mapping/${username}`)
+
+      fetch(`${global.base}/employee_mapping/${username}`)
         .then(response => response.json())
         .then(data => {
           setRole(data.role_id);
@@ -20,7 +19,6 @@ const LoginSession = () => {
   
     // rest of your component
   }
-  
   export default LoginSession;
 
 

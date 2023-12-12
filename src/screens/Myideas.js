@@ -11,7 +11,6 @@ import Select from '@material-ui/core/Select';
 import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
-import configData from "./config.json";
 
 // manager role - 1 , employee role -2 
 const My_Ideas = () => {
@@ -23,7 +22,7 @@ const My_Ideas = () => {
   ReactSession.setStoreType("localStorage");
   const empid = ReactSession.get("id");
   useEffect(() => {
-    fetch(`${configData.SERVER_URL}/myidea_list/${empid}`)
+    fetch(`${global.base}/myidea_list/${empid}`)
       .then(response => response.json())
       .then(data => {        
         setIdeas(data.map((idea) => ({ ...idea})));
@@ -94,7 +93,7 @@ const columns = [
       idea_description: updatedIdea.idea_description,
       status: updatedIdea.status_id,
     };
-    fetch(`${configData.SERVER_URL}/idea_list/${updatedIdea.id}`, {
+    fetch(`${global.base}/idea_list/${updatedIdea.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +122,7 @@ const columns = [
   };
 
   const remove = (id) => {
-    fetch(`${configData.SERVER_URL}/idea_list/${id}`, {
+    fetch(`${global.base}/idea_list/${id}`, {
       method: 'DELETE',
     })
     .then(response => {

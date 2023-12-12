@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import axios from 'axios';
-import configData from "./config.json";
  
 const Graph = () => {
   const [chartType, setChartType] = useState('status');
@@ -10,7 +9,7 @@ const Graph = () => {
   const [data3, setData3] = useState([]);
  
   useEffect(() => {
-    axios.get(`${configData.SERVER_URL}/graphs`)
+    axios.get(`${global.base}/graphs`)
       .then(res => {
         setData1(res.data.data1);
         setData2(res.data.data2);
