@@ -36,7 +36,7 @@ const EmployeeDeatils = () =>{
         }}
       >
         <h1>Employee's List</h1>
-        <div style={{ height: '80%', width: '90%' }}>
+        <div style={{ height: '75%', width: '90%' }}>
         <DataGrid 
           rows={EmployeeList} 
           columns={columns} 
