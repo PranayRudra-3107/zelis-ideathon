@@ -9,7 +9,7 @@ services:
     depends_on:
       - backend
     environment:
-      - SERVER_URL = http://backend:3001
+      - SERVER_URL=http://backend:3001
   backend:
     build:
       context: ./node-postgres/backend
