@@ -48,28 +48,34 @@ const columns = [
       headerClassName: 'custom-header',
       renderCell: (params) => {
         if (role === 1 && editRows.includes(params.row.id)) {
-          return (           
+          const sortedStatuses = [
+            params.row.status_name, 
+            ...statuses.filter(status => status !== params.row.status_name)
+          ];
+      
+          return (
             <NativeSelect
-                value={params.row.status} 
-                onChange={(e) => handleStatusChange(params.row.id, e.target.value)}
-              >
-                {statuses.map((status, index) => (
-              <option key={index + 1} value={index + 1}>
-                {`${status}`}
-              </option>
-            ))} 
-              </NativeSelect>       
+              value={params.row.status} 
+              onChange={(e) => handleStatusChange(params.row.id, e.target.value)}
+            >
+              {sortedStatuses.map((status, index) => (
+                <option key={index} value={status}>
+                  {`${status}`}
+                </option>
+              ))} 
+            </NativeSelect>       
           );
         } else {
-         return (
-          <Chip
-            key={params.row.status_id} 
-            label={params.row.status_name} 
-            style={{ backgroundColor: COLORS[(params.row.status_id)-1] }} 
-          />
-      );
-    }
-    },
+          return (
+            <Chip
+              key={params.row.status_id} 
+              label={params.row.status_name} 
+              style={{ backgroundColor: COLORS[(params.row.status_id)-1] }} 
+            />
+          );
+        }
+      },      
+      
       editable: role === 1,
  },
 
