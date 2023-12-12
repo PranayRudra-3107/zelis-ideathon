@@ -18,7 +18,6 @@ const My_Ideas = () => {
   const role = 2;
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
-  const [updatedIdeas, setupdatedIdeas] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   
   ReactSession.setStoreType("localStorage");
@@ -79,30 +78,15 @@ const columns = [
     }
   ];
 
-  // Action handlers
-  const edit = (id) => {
-    setRowModesModel((prevRowModesModel) => ({
-      ...prevRowModesModel,
-      [id]: { mode: GridRowModes.Edit },
-    }));
-    setEditRows([...editRows, id]);
-  };
-
-  const save = (id) => {    
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View},
-    });
-    var updatedIdea;
-    if(id === updatedIdeas.id){
-       updatedIdea = updatedIdeas;
-       console.log(updatedIdea);
+  const processRowUpdate = (params) =>{
+    debugger;    
+    if(params){
     const requestBody = {
-      idea_name: updatedIdea.idea_name,
-      idea_description: updatedIdea.idea_description,
-      status: updatedIdea.status_id,
+      idea_name: params.idea_name,
+      idea_description: params.idea_description,
+      status: params.status_id,
     };
-    fetch(`${configData.SERVER_URL}/idea_list/${updatedIdea.id}`, {
+    fetch(`${configData.SERVER_URL}/idea_list/${params.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -117,14 +101,28 @@ const columns = [
     })
     .then(data => {
       console.log(data);
-      setEditRows(editRows.filter(rowId => rowId !== updatedIdea.id));
+      setEditRows(editRows.filter(rowId => rowId !== params.id));
     })
     .catch(error => {
       console.error('Error updating idea:', error);
     });
     }
-    
-    setEditRows(editRows.filter(rowId => rowId !== id));
+  };
+
+  // Action handlers
+  const edit = (id) => {
+    setRowModesModel((prevRowModesModel) => ({
+      ...prevRowModesModel,
+      [id]: { mode: GridRowModes.Edit },
+    }));
+    setEditRows([...editRows, id]);
+  };
+
+  const save = (id) => {    
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View},
+    });        
   };
 
   const cancel = (id) => {
@@ -178,11 +176,7 @@ const columns = [
           },          
         }}
         
-        processRowUpdate={(params) => {
-          console.log('Row updated:', params);
-          debugger;
-          setupdatedIdeas(params);
-        }}
+        processRowUpdate={processRowUpdate}
         rowModesModel={rowModesModel}
       />
       </div>
