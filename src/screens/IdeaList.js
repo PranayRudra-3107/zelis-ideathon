@@ -89,15 +89,19 @@ const columns = [
         const isEditing = editRows.includes(params.row.id);
         return (
           <>
-            {isEditing ? (
+            {role !== 2 && (
               <>
-                <Tooltip title="Save"><IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton></Tooltip>
-                <Tooltip title="Cancel"><IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton></Tooltip>
+                {isEditing ? (
+                  <>
+                    <Tooltip title="Save"><IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton></Tooltip>
+                    <Tooltip title="Cancel"><IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton></Tooltip>
+                  </>
+                ) : (
+                  <Tooltip title="Edit">
+                    <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>                
+                  </Tooltip>
+                )}
               </>
-            ) : (
-              <Tooltip title="Edit">
-                <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>                
-              </Tooltip>
             )}
           </>
         );
@@ -168,22 +172,7 @@ const columns = [
     setEditRows(editRows.filter(rowId => rowId !== id));
   };
 
-  const remove = (id) => {
-    fetch(`${global.base}/idea_list/${id}`, {
-      method: 'DELETE',
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      setIdeas(ideas.filter(idea => idea.id !== id));
-      return response.json();
-      
-    })
-    .catch(error => {
-      console.error('Error deleting idea:', error);
-    });
-  };
+  
 
   return (
     <Box

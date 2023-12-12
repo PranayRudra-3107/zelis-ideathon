@@ -45,7 +45,7 @@ const Signup = () => {
         }else {
           return '#00FF00'; // Green
         }
-      };
+    };
     useEffect(() => {
         
         if (registered) {
@@ -266,7 +266,6 @@ const Signup = () => {
                             value={strength}
                             style={{
                             width: '100%',
-                            borderRadius: 5,
                             background: '#e0e0e0', // Background color of the progress bar
                             height: 10,
                             marginTop: 10,
