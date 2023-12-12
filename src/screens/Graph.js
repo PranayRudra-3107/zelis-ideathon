@@ -21,12 +21,13 @@ const Graph = () => {
   }, []);
  
   const renderStatusChart = () => {
+    const maxCount = Math.max(...data1.map(item => item.count))
     return (
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <BarChart width={1100} height={300} data={data1} barSize={100}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis domain={[0, 'auto']} />
+          <YAxis domain={[0, maxCount+10]} />
           <Tooltip />
           <Legend />
           <Bar dataKey="count" fill="#0092d6" />
@@ -36,12 +37,13 @@ const Graph = () => {
   };
  
   const renderIdeaChart = () => {
+    const maxCount = Math.max(...data1.map(item => item.count))
     return (
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <BarChart width={800} height={300} data={data2} barSize={100}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis domain={[0, maxCount+10]}/>
           <Tooltip />
           <Legend />
           <Bar dataKey="count" fill="#00a989" />
@@ -51,12 +53,13 @@ const Graph = () => {
   };
 
   const renderDepartmentChart = () => {
+    const maxCount = Math.max(...data3.map(item => item.count))
     return (
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
         <BarChart width={800} height={300} data={data3} barSize={100}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis />
+          <YAxis domain={[0, maxCount+10]}/>
           <Tooltip />
           <Legend />
           <Bar dataKey="count" fill="#F96167" />

@@ -27,10 +27,13 @@ services:
     depends_on:
       - postgres
   postgres:
-    image: postgres:latest
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
     environment:
-      DB_DATABASE: zelis-ideathon
+      DB_DATABASE: zelis_ideathon
       DB_USER: postgres
       DB_PASSWORD: postgres
     ports:
       - "5432:5432"
+      
