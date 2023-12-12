@@ -1,16 +1,12 @@
--- employee_details
--- departments
--- roles
--- idea_status
--- employee_mapping
--- idea_list
--- idea_history
 
--- create database zelis-ideathon;
+create database zelis-ideathon;
 
---CREATE
--- employee_details
-CREATE TABLE IF NOT EXISTS  employee_details
+\c zelis_ideathon;
+ 
+--DDL
+--employee_details
+
+CREATE TABLE IF NOT EXISTS employee_details
 (
     firstname character varying(255) COLLATE pg_catalog."default",
     lastname character varying(255) COLLATE pg_catalog."default",
@@ -22,44 +18,36 @@ CREATE TABLE IF NOT EXISTS  employee_details
     password character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT employee_details_pkey PRIMARY KEY (employee_id)
 )
+ 
+--departments
 
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS  employee_details
-    OWNER to postgres;
-
--- departments
-CREATE SEQUENCE departments_department_id_seq;
-CREATE TABLE IF NOT EXISTS  departments
+CREATE TABLE IF NOT EXISTS departments
 (
-    department_id integer NOT NULL DEFAULT nextval('departments_department_id_seq'),
+    department_id integer NOT NULL DEFAULT nextval('departments_department_id_seq'::regclass),
     department_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT departments_pkey PRIMARY KEY (department_id)
 )
+ 
+--roles
 
-
--- roles
-CREATE SEQUENCE roles_role_id_seq;
-CREATE TABLE IF NOT EXISTS  roles
+CREATE TABLE IF NOT EXISTS roles
 (
-    role_id integer NOT NULL DEFAULT nextval('roles_role_id_seq'),
+    role_id integer NOT NULL DEFAULT nextval('roles_role_id_seq'::regclass),
     role_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT roles_pkey PRIMARY KEY (role_id)
 )
+ 
+--idea_status
 
-
-
--- idea_status
 CREATE TABLE IF NOT EXISTS  idea_status
 (
     status_id integer NOT NULL DEFAULT nextval('idea_status_status_id_seq'::regclass),
     status_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT idea_status_pkey PRIMARY KEY (status_id)
 )
+ 
+--employee_mapping
 
-
-
--- employee_mapping
 CREATE TABLE IF NOT EXISTS  employee_mapping
 (
     employee_id integer NOT NULL DEFAULT nextval('employee_mapping_employee_id_seq'::regclass),
@@ -75,10 +63,9 @@ CREATE TABLE IF NOT EXISTS  employee_mapping
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
+ 
+--idea_list
 
-
-
--- idea_list
 CREATE TABLE IF NOT EXISTS  idea_list
 (
     id integer NOT NULL DEFAULT nextval('idea_list_id_seq'::regclass),
@@ -92,9 +79,9 @@ CREATE TABLE IF NOT EXISTS  idea_list
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
+ 
+--idea_history
 
-
--- idea_history
 CREATE TABLE IF NOT EXISTS  idea_history
 (
     idea_id integer NOT NULL DEFAULT nextval('idea_history_idea_id_seq'::regclass),
@@ -114,24 +101,20 @@ CREATE TABLE IF NOT EXISTS  idea_history
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
+ 
+--DML
+--departments
 
-
--- INSERT
--- departments
 INSERT INTO departments (department_id, department_name) 
 VALUES (1, 'ZNA'),(2, 'CCS'),(3, 'PAYMENTS'),(4, 'SUPPORT'),(5, 'ZADA/ZDI');
+ 
+--roles
 
--- roles
 INSERT INTO roles (role_id, role_name) 
 VALUES (1, 'manager'),(2, 'employee');
+ 
+--idea_status
 
--- idea_status
-INSERT INTO status (department_id, department_name) 
+INSERT INTO idea_status (status_id, status_name) 
 VALUES (1, 'submitted'),(2, 'in review'),(3, 'manager approval'),(4, 'in progress'),(5, 'deployed'),(6, 'rejected');
-
--- employee_mapping
-INSERT INTO employee_mapping (employee_id, department_id , role_id) VALUES ($1, $2, $3) RETURNING *
-
-
-
-
+ 
