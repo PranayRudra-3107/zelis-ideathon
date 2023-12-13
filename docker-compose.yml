@@ -11,7 +11,7 @@ services:
     environment:
       - SERVER_URL=http://backend:3001
     networks:
-      - appnetwork
+      - fnet
   backend:
     build:
       context: ./node-postgres/backend
@@ -28,7 +28,8 @@ services:
     depends_on:
       - postgres
     networks:
-      - appnetwork
+      - fnet
+      - bnet
   postgres:
     image: postgres
     environment:
@@ -40,11 +41,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - appnetwork
+      - bnet
     
 networks:
-  appnetwork:
+  fnet:
     driver: bridge
-
+  bnet:
+    driver: bridge
 volumes:
   postgres_data:
