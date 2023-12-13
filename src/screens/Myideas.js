@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem , GridRowModes } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,19 +11,19 @@ import Select from '@material-ui/core/Select';
 import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
-import Tooltip from '@mui/material/Tooltip';
+import configData from "./config.json";
 
 // manager role - 1 , employee role -2 
 const My_Ideas = () => {
   const role = 2;
   const [ideas, setIdeas] = useState([]);
   const [editRows, setEditRows] = useState([]);
-  const [updatedIdeas, setupdatedIdeas] = useState([]);
+  const [rowModesModel, setRowModesModel] = useState({});
   
   ReactSession.setStoreType("localStorage");
   const empid = ReactSession.get("id");
   useEffect(() => {
-    fetch(`${global.base}/myidea_list/${empid}`)
+    fetch(`${configData.SERVER_URL}/myidea_list/${empid}`)
       .then(response => response.json())
       .then(data => {        
         setIdeas(data.map((idea) => ({ ...idea})));
@@ -63,14 +63,13 @@ const columns = [
           <>
             {isEditing ? (
               <>
-                <Tooltip title="Save"><IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton></Tooltip>
-                <Tooltip title="Cancel"><IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton></Tooltip>
+                <IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton>
+                <IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton>
               </>
             ) : (
               <>
-                <Tooltip title="Edit">
-                <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton></Tooltip>
-                {role === 2 && <Tooltip title="Delete"><IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton></Tooltip>}
+                <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>
+                {role === 2 && <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>}
               </>
             )}
           </>
@@ -79,52 +78,78 @@ const columns = [
     }
   ];
 
+  const processRowUpdate = (params) => {
+    if (params) {
+      const requestBody = {
+        idea_name: params.idea_name,
+        idea_description: params.idea_description,
+        status: params.status_id,
+      };
+      fetch(`${configData.SERVER_URL}/idea_list/${params.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+          // Update the ideas state with the updated row
+          setIdeas(prevIdeas => {
+            return prevIdeas.map(idea => {
+              if (idea.id === params.id) {
+                // Update only the necessary fields
+                return {
+                  ...idea,
+                  idea_name: params.idea_name,
+                  idea_description: params.idea_description,
+                  status_id: params.status_id,
+                };
+              }
+              return idea;
+            });
+          });
+        })
+        .catch(error => {
+          console.error('Error updating idea:', error);
+        });
+    }
+    cancel(params.id);
+  };
+  
+
   // Action handlers
   const edit = (id) => {
+    setRowModesModel((prevRowModesModel) => ({
+      ...prevRowModesModel,
+      [id]: { mode: GridRowModes.Edit },
+    }));
     setEditRows([...editRows, id]);
   };
 
-  const save = (id) => {
-    debugger;
-    var updatedIdea;
-    if(id === updatedIdeas.id){
-       updatedIdea = updatedIdeas;
-       console.log(updatedIdea);
-    const requestBody = {
-      idea_name: updatedIdea.idea_name,
-      idea_description: updatedIdea.idea_description,
-      status: updatedIdea.status_id,
-    };
-    fetch(`${global.base}/idea_list/${updatedIdea.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data);
-      setEditRows(editRows.filter(rowId => rowId !== updatedIdea.id));
-    })
-    .catch(error => {
-      console.error('Error updating idea:', error);
-    });
-    }
-    
+  const save = (id) => {    
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View},
+    });        
   };
 
   const cancel = (id) => {
     setEditRows(editRows.filter(rowId => rowId !== id));
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
   };
 
   const remove = (id) => {
-    fetch(`${global.base}/idea_list/${id}`, {
+    fetch(`${configData.SERVER_URL}/idea_list/${id}`, {
       method: 'DELETE',
     })
     .then(response => {
@@ -139,6 +164,8 @@ const columns = [
       console.error('Error deleting idea:', error);
     });
   };
+
+  
 
   return (
     <Box
@@ -161,16 +188,11 @@ const columns = [
             backgroundColor: '#063970',
             color: 'white',
             fontWeight: 'bold'
-          },
+          },          
         }}
-        onRowEditStop={(params, event) => {
-          console.log('Row edit stopped:', params, event);
-
-        }}
-        processRowUpdate={(params) => {
-          console.log('Row updated:', params);
-          setupdatedIdeas(params);
-        }}
+        
+        processRowUpdate={processRowUpdate}
+        rowModesModel={rowModesModel}
       />
       </div>
     </Box>

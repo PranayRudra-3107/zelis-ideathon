@@ -9,7 +9,9 @@ services:
     depends_on:
       - backend
     environment:
-      - SERVER_URL = http://backend:3001
+      - SERVER_URL=http://backend:3001
+    networks:
+      - appnetwork
   backend:
     build:
       context: ./node-postgres/backend
@@ -17,23 +19,32 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - DB_CLIENT= http://localhost:3000
+      - DB_CLIENT=http://localhost:3000
       - DB_USER=postgres
-      - DB_HOST=10.136.6.177
+      - DB_HOST=postgres
       - DB_DATABASE=zelis-ideathon
       - DB_PASSWORD=postgres
-      - DB_PGPORT= 5432
       - DB_PORT=3001
     depends_on:
       - postgres
+    networks:
+      - appnetwork
   postgres:
-    build:
-      context: ./postgres
-      dockerfile: Dockerfile
+    image: postgres
     environment:
-      DB_DATABASE: zelis_ideathon
+      POSTGRES_PASSWORD: postgres
+      DB_DATABASE: zelis-ideathon
       DB_USER: postgres
-      DB_PASSWORD: postgres
     ports:
       - "5432:5432"
-      
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - appnetwork
+    
+networks:
+  appnetwork:
+    driver: bridge
+
+volumes:
+  postgres_data:

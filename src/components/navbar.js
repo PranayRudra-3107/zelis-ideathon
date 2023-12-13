@@ -132,7 +132,7 @@ const handleClose = () => {
       open={open}
       onClose={handleClose}
     >
-      <MenuItem component={Link} to="/edit_details" onClick={handleClose}>Profile</MenuItem>
+      <MenuItem component={Link} to="/edit_details">Profile</MenuItem>
       <MenuItem component={Link} to="/logout" onClick={handleClose}>Logout</MenuItem>    
     </Menu>
   </>

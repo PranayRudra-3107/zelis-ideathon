@@ -187,7 +187,7 @@ const EditDetails = () => {
                                 />
                             </Grid>
                         </Grid>
-
+      
                         <Grid item container direction="row" spacing={2} justify="center" alignItems="center">
                             <Grid item xs sx={6}>
                                 <TextField
@@ -211,7 +211,7 @@ const EditDetails = () => {
                                 />
                             </Grid>
                         </Grid>
-
+      
                         <Grid item>
                             <TextField
                                 label="Email"
@@ -222,7 +222,7 @@ const EditDetails = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </Grid>
-
+      
                         <Grid item container direction="row" spacing={2} justify="center" alignItems="center">
                             <Grid item xs sx={6}>
                                 <FormControl variant="outlined" fullWidth   >
@@ -256,7 +256,7 @@ const EditDetails = () => {
                                 </FormControl>
                             </Grid>
                         </Grid>
-
+      
                         <Grid item container direction="row" spacing={2} justify="center" alignItems="center">
                             <Grid item xs sx={6}>
                                 <TextField
@@ -301,7 +301,7 @@ const EditDetails = () => {
                 </form>
             </Box>
         </Container>
-    );
+      );
 }
 
 export default EditDetails;
