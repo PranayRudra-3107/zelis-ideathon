@@ -8,8 +8,8 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    environment:
-      - SERVER_URL=http://backend:3001
+    env_file:
+      - ./node-postgres/backend/.env.dev
     networks:
       - fnet
   backend:
@@ -18,14 +18,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
-    environment:
-      - DB_CLIENT=http://backend:3001
-      - DB_USER=postgres
-      - DB_HOST=postgres
-      - DB_DATABASE=zelis-ideathon
-      - DB_PASSWORD=postgres
-      - DB_PGPORT=5432
-      - DB_PORT=3001
+    env_file:
+      - ./node-postgres/backend/.env.dev
     depends_on:
       - postgres
     networks:
@@ -34,8 +28,8 @@ services:
     image: postgres
     environment:
       POSTGRES_PASSWORD=postgres
-      DB_DATABASE=zelis-ideathon
-      DB_USER=postgres
+    env_file:
+      - ./node-postgres/backend/.env.dev
     ports:
       - "5432:5432"
     volumes:
