@@ -22,7 +22,6 @@ services:
       - DB_HOST=postgrs
       - DB_DATABASE=zelis-ideathon
       - DB_PASSWORD=postgres
-      - DB_PGPORT= 5432
       - DB_PORT=3001
     depends_on:
       - postgres
