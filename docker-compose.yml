@@ -26,8 +26,6 @@ services:
       - fnet
   postgres:
     image: postgres
-    environment:
-      POSTGRES_PASSWORD=postgres
     env_file:
       - ./node-postgres/backend/.env.dev
     ports:
