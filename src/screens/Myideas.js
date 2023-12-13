@@ -120,6 +120,7 @@ const columns = [
           console.error('Error updating idea:', error);
         });
     }
+    cancel(params.id);
   };
   
 
