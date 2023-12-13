@@ -23,14 +23,19 @@ const EndScreen = () => {
     };
     },[navigate]);
     return (
-        <Snackbar
-        open={true}
-        anchorOrigin={{ vertical: 'center', horizontal: 'center'}}
-      >
-        <Alert severity="info" sx={{ fontSize: '15px' }} variant="filled">
+      <Snackbar
+      open={true}
+      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+      style={{
+          marginTop: '5%', 
+          marginLeft: '85%', 
+          position: 'absolute',
+      }}
+  >
+      <Alert severity="info" sx={{ fontSize: '15px' }} variant="filled">
           Logged out
-        </Alert>
-      </Snackbar>
+      </Alert>
+  </Snackbar>
       
     );
 }
