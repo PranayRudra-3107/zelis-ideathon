@@ -25,9 +25,9 @@ const IdeaForm = ({ idea, onSubmit }) => {
     }
   };
 
-  useEffect(() => {
-    document.title = idea ? "Edit Idea" : "Submit Idea";
-  }, [idea]);
+  // useEffect(() => {
+  //   document.title = idea ? "Edit Idea" : "Submit Idea";
+  // }, [idea]);
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' ,  paddingTop: '10%' }}>
