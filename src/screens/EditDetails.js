@@ -68,8 +68,9 @@ const EditDetails = () => {
     }
 
     const handleSubmit = (event) => {
-        calculateStrength(password);
+        
         event.preventDefault();
+        calculateStrength(password);
 
         if (firstName === '') {
             setAlert({ severity: 'error', message: 'Firstname is required!' });
