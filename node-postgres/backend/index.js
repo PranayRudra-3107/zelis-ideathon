@@ -240,6 +240,17 @@ app.get('/employee_mapping/:employee_id', async (req, res) => {
   })
 });
 
+// app.get('/roles', async (req, res) => {
+//   const id = req.params.role_id;
+//   emp_model.getRoleName(id)
+//   .then(response => {
+//     res.status(200).send(response);
+//   })
+//   .catch(error => {
+//     res.status(500).send(error);
+//   })
+// });
+
 app.listen(process.env.DB_PORT, () => {
   console.log('App running on port ' + process.env.DB_PORT)
 })

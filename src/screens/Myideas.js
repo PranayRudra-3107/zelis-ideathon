@@ -150,7 +150,7 @@ const columns = [
         height: '100vh',
       }}
     >
-      <h1>Ideas List</h1>
+      <h1>Your Ideas</h1>
       <div style={{ height: '75%', width: '90%' }}>
       <DataGrid 
         rows={ideas} 

@@ -185,6 +185,24 @@ const getUser = async () => {
     });
   };
 
+  // const getRoleName = (role_id) => {
+  //   return new Promise(async function (resolve, reject) {     
+  //     pool.query(
+  //       "SELECT role_name From roles WHERE role_id = $1 ",
+  //       [role_id],
+  //       (error, results) => {
+  //         if (error) {
+  //           reject("error");
+  //         }
+  //         else {
+  //           reject(new Error("Unable to get role"));
+  //         }
+  //       }
+  //     );
+    
+  //   });
+  // };
+
   const getEmployeeDetails = (employee_id) => {
     return new Promise(async function (resolve, reject) {     
       pool.query(
@@ -229,7 +247,7 @@ const getUser = async () => {
     });
   };
   
-  module.exports = {getUser , createUser , updateUser, loginUser , setEmployeeMaping , getRole , getEmployeeList , getEmployeeDetails};
+  module.exports = {getUser , createUser , updateUser, loginUser , setEmployeeMaping , getRole ,getRoleName, getEmployeeList , getEmployeeDetails};
 
  
   
