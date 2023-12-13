@@ -19,7 +19,7 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - DB_CLIENT=http://localhost:3000
+      - DB_CLIENT=http://backend:3001
       - DB_USER=postgres
       - DB_HOST=postgres
       - DB_DATABASE=zelis-ideathon
