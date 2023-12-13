@@ -52,8 +52,6 @@ const LoginPage = () => {
 
   };
 
-  console.log(global.base);
-  
   useEffect(() => {    
     // eslint-disable-next-line no-template-curly-in-string
     fetch(`${global.base}/employee_mapping/${username}`)
