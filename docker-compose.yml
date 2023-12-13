@@ -19,7 +19,7 @@ services:
     environment:
       - DB_CLIENT= http://localhost:3000
       - DB_USER=postgres
-      - DB_HOST=postgrs
+      - DB_HOST=postgres
       - DB_DATABASE=zelis-ideathon
       - DB_PASSWORD=postgres
       - DB_PORT=3001
