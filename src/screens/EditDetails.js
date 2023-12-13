@@ -164,7 +164,7 @@ const EditDetails = () => {
 
     return (
         <Container maxWidth="xs">
-            <Box paddingTop="20%">
+            <Box paddingTop="30%">
                 <form onSubmit={handleSubmit}>
                     <Grid container direction="column" spacing={2}>
                         <Grid item container direction="row" spacing={2}>
@@ -188,7 +188,7 @@ const EditDetails = () => {
                             </Grid>
                         </Grid>
       
-                        <Grid item container direction="row" spacing={2} justify="center" alignItems="center">
+                        <Grid item container direction="row" spacing={2}  alignItems="center">
                             <Grid item xs sx={6}>
                                 <TextField
                                     label="ID"
@@ -223,7 +223,7 @@ const EditDetails = () => {
                             />
                         </Grid>
       
-                        <Grid item container direction="row" spacing={2} justify="center" alignItems="center">
+                        <Grid item container direction="row" spacing={2} alignItems="center">
                             <Grid item xs sx={6}>
                                 <FormControl variant="outlined" fullWidth   >
                                     <InputLabel>Department</InputLabel>
@@ -257,7 +257,7 @@ const EditDetails = () => {
                             </Grid>
                         </Grid>
       
-                        <Grid item container direction="row" spacing={2} justify="center" alignItems="center">
+                        <Grid item container direction="row" spacing={2}  alignItems="center">
                             <Grid item xs sx={6}>
                                 <TextField
                                     label="Password"
@@ -282,19 +282,18 @@ const EditDetails = () => {
                             value={strength}
                             style={{
                             width: '100%',
-                            background: '#e0e0e0', // Background color of the progress bar
+                            background: '#e0e0e0', 
                             height: 5,
                             marginTop: 5,
                             marginBottom: 5,
-                            transition: 'background-color 0.5s ease', // Smooth color transition
+                            transition: 'background-color 0.5s ease', 
                             backgroundColor: getColorForProgress(strength),
                             }}
-                        />
-                        <Grid item container justify="center" alignItems="center" xs sx={6}>
+                        />                          
+                        <Grid item container alignItems="center" justifyContent="center" xs sx={2}>
                             <Button variant="contained" color="primary" type="submit">
                                 Update
-                            </Button>
-                            
+                            </Button>                            
                         </Grid>
                         {alert && <Alert severity={alert.severity}>{alert.message}</Alert>}
                     </Grid>
