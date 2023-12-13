@@ -24,6 +24,18 @@ const Signup = () => {
     const [registered,setRegistered] = useState(false);
 
     const [strength, setStrength] = useState(0);
+
+    const isEmployeeIdExists = async (employeeid) => {
+        try {
+            const response = await fetch(`${global.base}/employee_details?id=${employeeid}`);
+            const data = await response.json();
+            return data.length > 0; 
+        } catch (error) {
+            console.error('Error checking employee ID:', error);
+            return false;
+        }
+    };
+
     const calculateStrength = (password) => {
         let strength = 0;
         const criteria = [/[a-z]/, /[A-Z]/, /\d/, /[^A-Za-z0-9]/];
@@ -54,10 +66,17 @@ const Signup = () => {
             }, 2000); 
         }
     }, [registered]);
-    const handleSubmit = (event) => 
+
+    const handleSubmit = async (event) => 
     {
         calculateStrength(password);
         event.preventDefault();
+
+        const idExists = await isEmployeeIdExists(id);
+        if (idExists) {
+            setAlert({ severity: 'error', message: 'Employee ID already exists!' });
+            return; // Stop further execution
+        }
         //firstname
         if (firstName === '') {
             setAlert({ severity: 'error', message: 'Firstname is required!' });
