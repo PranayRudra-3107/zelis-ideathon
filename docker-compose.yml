@@ -33,10 +33,10 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: postgres
-      DB_DATABASE: zelis-ideathon
-      DB_USER: postgres
-      DB_PGPORT: 5432
+      POSTGRES_PASSWORD=postgres
+      DB_DATABASE=zelis-ideathon
+      DB_USER=postgres
+      DB_PGPORT=5432
     ports:
       - "5432:5432"
     volumes:
