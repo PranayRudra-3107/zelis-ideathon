@@ -31,10 +31,15 @@ services:
       context: ./postgres
       dockerfile: Dockerfile
     environment:
+      POSTGRES_PASSWORD: postgres
       DB_DATABASE: zelis_ideathon
       DB_USER: postgres
-      POSTGRES_PASSWORD: postgres
       DB_PASSWORD: postgres
     ports:
       - "5432:5432"
-      
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:  # Define the volume
+
