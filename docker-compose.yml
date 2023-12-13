@@ -43,7 +43,7 @@ services:
       - appnetwork
     
 networks:
-  app_network:
+  appnetwork:
     driver: bridge
 
 volumes:
