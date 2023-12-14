@@ -24,7 +24,7 @@ services:
       - postgres
     networks:
       - fnet
-  postgres:
+  db_postgres:
     image: postgres
     environment:
       - POSTGRES_DB=ideathon
