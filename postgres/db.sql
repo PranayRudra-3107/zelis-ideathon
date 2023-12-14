@@ -1,5 +1,5 @@
 
-create database zelis_ideathon;
+create database ideathon;
 
 
  
