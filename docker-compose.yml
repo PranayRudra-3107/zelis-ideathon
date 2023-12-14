@@ -21,7 +21,7 @@ services:
     env_file:
       - ./node-postgres/backend/.env.dev
     depends_on:
-      - postgres
+      - db_postgres
     networks:
       - fnet
   db_postgres:
