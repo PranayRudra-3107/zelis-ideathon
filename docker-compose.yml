@@ -26,8 +26,10 @@ services:
       - fnet
   postgres:
     image: postgres
-    env_file:
-      - ./node-postgres/backend/.env.dev
+    environment:
+      - POSTGRES_DB=ideathon
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
     volumes:
