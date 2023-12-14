@@ -29,7 +29,7 @@ services:
     environment:
       - POSTGRES_DB=ideathon
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=Zelis_12345
     ports:
       - "5432:5432"
     volumes:
