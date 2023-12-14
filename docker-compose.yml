@@ -8,8 +8,8 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    env_file:
-      - ./node-postgres/backend/.env.dev
+    volumes:
+      - ./src/screens/config.dev.json:/app/config.dev.json
     networks:
       - fnet
   backend:
