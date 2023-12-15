@@ -1,8 +1,9 @@
 create database dxza;
 
 create database ideathon;
-
+create database ideathon1;
 \c ideathon
+create database ideathon2;
  
 --DDL
 --employee_details
