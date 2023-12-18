@@ -1,5 +1,4 @@
 CREATE DATABASE ideathon;
-\c ideathon;
 
 -- create roles table first
 CREATE SEQUENCE roles_role_id_seq;
@@ -110,6 +109,7 @@ VALUES (1, 'ZNA'),(2, 'CCS'),(3, 'PAYMENTS'),(4, 'SUPPORT'),(5, 'ZADA/ZDI');
 
 INSERT INTO roles (role_id, role_name) 
 VALUES (1, 'manager'),(2, 'employee');
+CREATE DATABASE ideathon2;
 
 INSERT INTO idea_status (status_id, status_name) 
 VALUES (1, 'submitted'),(2, 'in review'),(3, 'manager approval'),(4, 'in progress'),(5, 'deployed'),(6, 'rejected');
