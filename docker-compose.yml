@@ -9,7 +9,7 @@ services:
     depends_on:
       - backend
     volumes:
-      - ./src/screens/config.dev.json:/app/config.dev.json
+      - ./src/screens/config.dev.json:/app/config.json
     networks:
       - fnet
   backend:
