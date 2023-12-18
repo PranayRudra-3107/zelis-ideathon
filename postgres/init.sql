@@ -1,5 +1,4 @@
 create database ideathon;
-\c ideathon;
 CREATE TABLE IF NOT EXISTS employee_details
 (
     firstname character varying(255) COLLATE pg_catalog."default",
