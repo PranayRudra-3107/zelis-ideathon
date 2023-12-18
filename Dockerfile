@@ -7,5 +7,5 @@ COPY ./ .
 FROM node:14
 WORKDIR /app
 COPY --from=builder /app .
-COPY src/screens/config.dev.json ./config.dev.json
+COPY src/screens/config.dev.json ./config.json
 CMD ["npm", "start"]
