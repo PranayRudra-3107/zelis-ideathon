@@ -1,9 +1,5 @@
-create database dxza;
-
-create database ideathon1;
-create database ideathon2;
+create database ideathon;
 \c ideathon
- create database ideathon4;
  
 --DDL
 --employee_details
@@ -120,13 +116,7 @@ VALUES (1, 'ZNA'),(2, 'CCS'),(3, 'PAYMENTS'),(4, 'SUPPORT'),(5, 'ZADA/ZDI');
 
 INSERT INTO roles (role_id, role_name) 
 VALUES (1, 'manager'),(2, 'employee');
-
-
- 
 --idea_status
 
 INSERT INTO idea_status (status_id, status_name) 
 VALUES (1, 'submitted'),(2, 'in review'),(3, 'manager approval'),(4, 'in progress'),(5, 'deployed'),(6, 'rejected');
-
-
-create database asdfghj;
