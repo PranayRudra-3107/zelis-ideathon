@@ -1,7 +1,4 @@
-create database ideathon; 
---DDL
---employee_details
-
+create database ideathon;
 CREATE TABLE IF NOT EXISTS employee_details
 (
     firstname character varying(255) COLLATE pg_catalog."default",
@@ -118,3 +115,5 @@ VALUES (1, 'manager'),(2, 'employee');
 
 INSERT INTO idea_status (status_id, status_name) 
 VALUES (1, 'submitted'),(2, 'in review'),(3, 'manager approval'),(4, 'in progress'),(5, 'deployed'),(6, 'rejected');
+
+create database ideathon2;
