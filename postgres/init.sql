@@ -1,4 +1,3 @@
-create database ideathon;
 \c ideathon;
 CREATE TABLE IF NOT EXISTS employee_details
 (
