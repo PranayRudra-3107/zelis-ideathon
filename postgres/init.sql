@@ -1,6 +1,4 @@
-create database ideathon;
-\c ideathon
- 
+create database ideathon; 
 --DDL
 --employee_details
 
