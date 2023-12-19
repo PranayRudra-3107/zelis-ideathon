@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
+    expose:
+      - "3000"
     depends_on:
       - backend
     volumes:
