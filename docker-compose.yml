@@ -5,9 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3001:3001"
-    expose:
-      - "3000"
+      - "3001:3000"
     depends_on:
       - backend
     volumes:
@@ -19,7 +17,7 @@ services:
       context: ./node-postgres/backend
       dockerfile: Dockerfile
     ports:
-      - "3001:3001"
+      - "3002:3001"
     env_file:
       - ./node-postgres/backend/.env
     depends_on:
