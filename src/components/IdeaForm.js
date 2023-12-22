@@ -30,10 +30,8 @@ const IdeaForm = ({ idea, onSubmit }) => {
   // }, [idea]);
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' ,  paddingTop: '10%' }}>
-      <Typography variant="h2" component="h1" gutterBottom>
-        {idea ? "Edit Idea" : "Submit Idea"}
-      </Typography>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' ,  paddingTop: '5%' }}>
+       <h1>Submit Idea</h1>
       <TextField
         id="idea-title"
         label="Idea Title"
