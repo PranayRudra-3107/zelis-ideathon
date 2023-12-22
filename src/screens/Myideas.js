@@ -63,13 +63,13 @@ const columns = [
           <>
             {isEditing ? (
               <>
-                <IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton>
-                <IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton>
+                <Tooltip title="Save"><IconButton sx={{ color: 'success.main' }} onClick={() => save(params.row.id)}><CheckIcon /></IconButton></Tooltip>
+                <Tooltip title="Cancel"><IconButton sx={{ color: 'error.main' }} onClick={() => cancel(params.row.id)}><CloseIcon /></IconButton></Tooltip>
               </>
             ) : (
               <>
-                <IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton>
-                {role === 2 && <IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton>}
+                <Tooltip title="Edit"><IconButton onClick={() => edit(params.row.id)}><EditIcon /></IconButton></Tooltip>
+                {role === 2 && <Tooltip title="Delete"><IconButton sx={{ color: 'error.main' }} onClick={() => remove(params.row.id)}><DeleteIcon /></IconButton></Tooltip>}
               </>
             )}
           </>
