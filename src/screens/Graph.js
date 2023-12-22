@@ -30,7 +30,7 @@ const Graph = () => {
           <YAxis domain={[0, maxCount+10]} />
           <Tooltip />
           <Legend />
-          <Bar dataKey="count" fill="#0092d6" />
+          <Bar dataKey="status count" fill="#0092d6" />
         </BarChart>
       </div>
     );
@@ -46,7 +46,7 @@ const Graph = () => {
           <YAxis domain={[0, maxCount+10]}/>
           <Tooltip />
           <Legend />
-          <Bar dataKey="count" fill="#00a989" />
+          <Bar dataKey="idea count" fill="#00a989" />
         </BarChart>
       </div>
     );
@@ -62,7 +62,7 @@ const Graph = () => {
           <YAxis domain={[0, maxCount+10]}/>
           <Tooltip />
           <Legend />
-          <Bar dataKey="count" fill="#F96167" />
+          <Bar dataKey="idea count" fill="#F96167" />
         </BarChart>
       </div>
     );
