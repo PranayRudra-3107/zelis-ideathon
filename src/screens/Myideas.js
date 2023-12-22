@@ -183,7 +183,12 @@ const columns = [
       <DataGrid 
         rows={ideas} 
         columns={columns} 
-        pageSize={5} 
+        {...ideas}
+        initialState={{
+          ...ideas.initialState,
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        pageSizeOptions={[10, 20, 30,100]}
         sx={{
           '& .custom-header': {
             backgroundColor: '#063970',
