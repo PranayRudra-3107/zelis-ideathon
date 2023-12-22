@@ -99,7 +99,7 @@ const LoginPage = () => {
                       color="primary"
                     />
                   }
-                  // label="Remember me"
+                  label="Remember me"
                 />
               </Grid>
               <Grid item xs sx={6}>
