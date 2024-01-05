@@ -188,9 +188,13 @@ const columns = [
       <div style={{ height: '75%', width: '90%' }}>
       <DataGrid 
         rows={ideas} 
-        columns={columns} 
-        pageSize={5} 
-        
+        columns={columns}  
+        {...ideas}
+        initialState={{
+          ...ideas.initialState,
+          pagination: { paginationModel: { pageSize: 10 } },
+        }}
+        pageSizeOptions={[10, 20, 30,100]}
         sx={{
           '& .custom-header': {
             backgroundColor: '#063970',
