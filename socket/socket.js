@@ -9,9 +9,7 @@ io.on("connection", (socket) => {
   console.log("a user connected");	
   io.emit("firstEvent", "testing first event");
   
-  socket.on("sendNotif", (msg) => {
-    console.log(msg);
-  });
+
   
   socket.on("disconnect", () => {
     console.log("a user disconnected");
