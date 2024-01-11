@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-require('dotenv').config({ path: '.env.dev' });
+require('dotenv').config();
 
 const Pool = require("pg").Pool;
 const pool = new Pool({

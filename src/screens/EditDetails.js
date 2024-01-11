@@ -19,26 +19,11 @@ const EditDetails = () => {
     const [department, setDepartment] = useState('');
     const [role, setRole] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
 
     const [alert, setAlert] = useState(null);
     const [registered, setRegistered] = useState(false);
 
-    const [strength, setStrength] = useState(0);
-    const handlePasswordChange = (e) => {
-        const newPassword = e.target.value;
-        calculateStrength(newPassword);
-        setPassword(newPassword);
-    }
-    const getColorForProgress = (progress) => {
-        if (progress <= 25) {
-          return '#FF0000'; // Red
-        } else if (progress <= 50) {
-          return '#FFFF00'; // Yellow
-        }else {
-          return '#00FF00'; // Green
-        }
-    };
+    
     // Fetch existing data when component mounts
     useEffect(() => {
         // Fetch employee data using employee_id
@@ -57,20 +42,10 @@ const EditDetails = () => {
             .catch(error => console.error('Error fetching employee data:', error));
     }, [employee_id]);
 
-    // Function to calculate password strength
-    const calculateStrength = (password) => {
-        let strength = 0;
-        const criteria = [/[a-z]/, /[A-Z]/, /\d/, /[^A-Za-z0-9]/];
-        criteria.forEach((criterion) => {
-            if (criterion.test(password)) strength += 25;
-        });
-        setStrength(strength);
-    }
-
+   
     const handleSubmit = (event) => {
         
         event.preventDefault();
-        calculateStrength(password);
 
         if (firstName === '') {
             setAlert({ severity: 'error', message: 'Firstname is required!' });
@@ -101,30 +76,9 @@ const EditDetails = () => {
             setAlert({ severity: 'error', message: 'Please select your role!' });
         }
         
-        else if(password===''){
-            setAlert({ severity: 'error', message: 'Password is mandatory' });
-        }
-        else if(password.length<8){
-            setAlert({ severity: 'error', message: 'Password should be at least 8 characters!' });
-        }
-        else if(!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)){
-            setAlert({ severity: 'error', message: 'Password should contain atleast one capital and one small letters' });
-        }
-        else if(!/^(?=.*\d)(?=.*[^a-zA-Z0-9]).+$/.test(password)){
-            setAlert({ severity: 'error', message: 'Password should contain atleast one numerical and one special character' });
-        }
-        else if (password.includes(firstName) || password.includes(lastName) || password.includes(id)){
-            setAlert({ severity: 'error', message: 'Password should not contain Firstname, Lastname or Employee ID' });
-        }
-
-        else if(confirmPassword!==password){
-            setAlert({ severity: 'error', message: 'Passwords should match' });
-        }
-
         else {
             debugger;
         setRegistered(true);
-        setAlert({ severity: 'success', message: 'Registered Successfully' });
              // Use the fetch PUT method to update the employee data
         fetch(`${global.base}/employee_details/${employee_id}`, {
             method: 'PUT',
@@ -165,7 +119,8 @@ const EditDetails = () => {
 
     return (
         <Container maxWidth="xs">
-            <Box paddingTop="20%">
+            <Box paddingTop="30%">
+                <h1 align='center'>Update Details</h1>
                 <form onSubmit={handleSubmit}>
                     <Grid container direction="column" spacing={2}>
                         <Grid item container direction="row" spacing={2}>
@@ -258,39 +213,8 @@ const EditDetails = () => {
                             </Grid>
                         </Grid>
       
-                        <Grid item container direction="row" spacing={2}  alignItems="center">
-                            <Grid item xs sx={6}>
-                                <TextField
-                                    label="Password"
-                                    type="password"
-                                    variant="outlined"
-                                    name="password"
-                                    onChange={handlePasswordChange}
-                                />
-                            </Grid>
-                            <Grid item xs sx={6}>
-                                <TextField
-                                    label="Confirm Password"
-                                    type="password"
-                                    variant="outlined"
-                                    name="confirmPassword"
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                />
-                            </Grid>
-                        </Grid>
-                        <LinearProgress
-                            variant="determinate"
-                            value={strength}
-                            style={{
-                            width: '100%',
-                            background: '#e0e0e0', 
-                            height: 5,
-                            marginTop: 5,
-                            marginBottom: 5,
-                            transition: 'background-color 0.5s ease', 
-                            backgroundColor: getColorForProgress(strength),
-                            }}
-                        />                          
+                       
+                                         
                         <Grid item container alignItems="center" justifyContent="center" xs sx={2}>
                             <Button variant="contained" color="primary" type="submit">
                                 Update
