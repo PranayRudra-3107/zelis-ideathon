@@ -16,12 +16,13 @@ const IdeaSubmission = () => {
       },
       body: JSON.stringify({ ...idea, status: 1 , employeeid:empid }),
     });  
+  
     setTimeout(() => {
       navigate('/list');
     }, 2000);
   };
 
-  return <IdeaForm onSubmit={handleSubmit} />;
+  return <IdeaForm onSubmit={handleSubmit}/>;
 };
 
 export default IdeaSubmission;

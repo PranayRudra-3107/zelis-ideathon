@@ -1,5 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect} from "react";
+import { TextField, Popover, List, ListItem, ListItemText, Badge } from "@mui/material";
+
 import { Link, Outlet,useLocation } from 'react-router-dom';
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@mui/material";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import {
   AppBar,
   Tab,
@@ -17,6 +21,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from "@mui/material/Tooltip";
 import Chip from '@mui/material/Chip';
+
 
 const RootContainer = styled('div')({
   display: 'flex',
@@ -38,7 +43,11 @@ const Header = () => {
   const location = useLocation();
   const nonLoggedInPaths = ['/', '/login', '/register'];
   const isLoggedIn = !nonLoggedInPaths.includes(location.pathname);
-     
+  const [notifications, setNotifications] = useState([]);
+  const [badgeCount, setBadgeCount] = useState(0);
+
+  const [nopen, setNopen] = useState(false); 
+
   //  const [role_name,setRole]=useState();
   // useEffect(() => {
   //   const fetchRole = async () => {
@@ -53,6 +62,7 @@ const Header = () => {
   //   fetchRole();
   // }, []);
 
+
   const [value, setValue] = useState();
   ReactSession.setStoreType("localStorage");
   const role = ReactSession.get("role");
@@ -65,6 +75,16 @@ const handleMenu = (event) => {
 const handleClose = () => {
   setAnchorEl(null);
 };
+
+const handleNotificationClick = () => {
+  setNopen(true);
+  setBadgeCount(0); // Reset badge count when notifications are viewed
+};
+
+const handleNotificationClose = () => {
+  setNopen(false);
+};
+
   return (
     <>
      <AppBar sx={{ background: "#063970" }}>
@@ -103,6 +123,26 @@ const handleClose = () => {
       label={role === 1 ? "MANAGER" : "EMPLOYEE"}
     />
        
+       <Box flexGrow={1} />
+          <IconButton color="inherit" onClick={handleNotificationClick}>
+            <Badge badgeContent={badgeCount} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+
+       <Dialog open={nopen} onClose={handleNotificationClose}>
+        <DialogTitle>{"Idea Notifications"}</DialogTitle>
+        <DialogContent>
+          {notifications.map((notification, index) => (
+            <DialogContentText key={index}>
+              {`Title: chack okay`}
+            </DialogContentText>
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleNotificationClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
       <Tooltip title="Profile">
         <IconButton
@@ -133,6 +173,7 @@ const handleClose = () => {
       onClose={handleClose}
     >
       <MenuItem component={Link} to="/edit_details">Profile</MenuItem>
+      <MenuItem component={Link} to="/edit_password">Update Password</MenuItem>
       <MenuItem component={Link} to="/logout" onClick={handleClose}>Logout</MenuItem>    
     </Menu>
   </>

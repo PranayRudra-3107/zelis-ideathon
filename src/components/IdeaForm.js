@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
-  Typography,
 } from "@mui/material";
 import Alert from '@mui/material/Alert';
 
 const IdeaForm = ({ idea, onSubmit }) => {  
+
   const [title, setTitle] = useState(idea ? idea.title : '');
   const [description, setDescription] = useState(idea ? idea.description : '');
   const [submitted, setSubmitted] = useState(false);
