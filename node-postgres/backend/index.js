@@ -18,6 +18,8 @@ const ideas_model = require('./IdeaModel')
 const emp_model = require('./EmployeeModel')
 const status_model = require('./StatusModel')
 
+const IdeaList = require('./ORM')
+
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
@@ -31,13 +33,13 @@ app.use(function (req, res, next) {
 app.use(express.json());
 
 app.get('/idea_list', (req, res) => {
-  ideas_model.getIdeas()
-  .then(response => {
-    res.status(200).send(response);
-  })
-  .catch(error => {
-    res.status(500).send(error);
-  })
+  try {
+    const employees =  IdeaList.findAll();
+    res.status(200).json(employees);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 })
 
 app.get('/idea_list/:id', async (req, res) => {

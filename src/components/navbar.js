@@ -37,22 +37,7 @@ const useStyles = {
 const Header = () => {
   const location = useLocation();
   const nonLoggedInPaths = ['/', '/login', '/register'];
-  const isLoggedIn = !nonLoggedInPaths.includes(location.pathname);
-     
-  //  const [role_name,setRole]=useState();
-  // useEffect(() => {
-  //   const fetchRole = async () => {
-  //     try {
-  //       const response = await fetch(`${global.base}/roles`); 
-  //       const data = await response.json();
-  //       setRole(data.role_name);
-  //     } catch (error) {
-  //       console.error('Error fetching role:', error);
-  //     }
-  //   };
-  //   fetchRole();
-  // }, []);
-
+  const isLoggedIn = !nonLoggedInPaths.includes(location.pathname);     
   const [value, setValue] = useState();
   ReactSession.setStoreType("localStorage");
   const role = ReactSession.get("role");

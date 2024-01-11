@@ -11,7 +11,7 @@ import Graph from './screens/Graph'
 import EndScreen from './screens/EndScreen';
 import EmployeeDeatils from './screens/EmployeeDeatils';
 import EditDetails from './screens/EditDetails';
-
+import SignApp from './components/SignApp';
 
 
 const App = () => {
@@ -30,7 +30,8 @@ const App = () => {
       <Route path="/graphs" element={<Graph/>} /> 
       <Route path="/details" element={<EmployeeDeatils/>} /> 
       <Route path="/edit_details" element={<EditDetails/>} /> 
-      <Route path="/logout" element={<EndScreen/>} />           
+      <Route path="/logout" element={<EndScreen/>} />    
+      <Route path="/SignIn" element={<SignApp/>} />          
       </Routes>
       <Footer/>
       </BrowserRouter>

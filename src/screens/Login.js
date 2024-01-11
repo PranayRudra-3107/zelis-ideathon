@@ -1,9 +1,11 @@
-import { Container, Box, Grid, TextField, Checkbox, FormControlLabel, Button } from '@material-ui/core';
+import { Container, Box, Grid, TextField, Checkbox, FormControlLabel, Button, Typography } from '@material-ui/core';
 import { useState, useEffect } from 'react';
 import Alert from '@mui/material/Alert'; 
 import { useNavigate } from "react-router-dom";
 import { ReactSession }  from 'react-client-session';
 import configData from "./config.json";
+import {useAuth0} from '@auth0/auth0-react';
+import axios from 'axios';
 
 global.base = configData.SERVER_URL;
 console.log(configData.SERVER_URL);
@@ -52,8 +54,8 @@ const LoginPage = () => {
 
   };
 
-  console.log(global.base);
-  
+  const{ loginWithPopup , loginWithRedirect , logout , user , isAuthenticated} = useAuth0();
+
   useEffect(() => {    
     // eslint-disable-next-line no-template-curly-in-string
     fetch(`${global.base}/employee_mapping/${username}`)
@@ -111,11 +113,12 @@ const LoginPage = () => {
                 <Button type="submit"  variant="contained" color="primary">
                   Login
                 </Button>
-              </Grid>
+              </Grid>     
+                               
             </Grid>
           </form>
       </Box>
-        {alert && <Alert severity={alert.severity}>{alert.message}</Alert>}
+     
     </Container>
   );
 }

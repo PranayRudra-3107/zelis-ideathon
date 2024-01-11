@@ -175,7 +175,7 @@ const Signup = () => {
                             </Grid>
                         </Grid>
 
-                        <Grid item container direction="row" spacing={2} justify="center" alignItems="center">
+                        <Grid item container direction="row" spacing={2}  alignItems="center">
                             <Grid item xs sx={6}>
                                 <TextField
                                     label="ID"

@@ -14,6 +14,7 @@ import { ReactSession }  from 'react-client-session';
 import { useNavigate } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import Tooltip from '@mui/material/Tooltip';
+
 // manager role - 1 , employee role -2 
 const Idea_list = () => {
   ReactSession.setStoreType("localStorage");
