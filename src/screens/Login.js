@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { ReactSession }  from 'react-client-session';
 import configData from "./config.json";
 import {useAuth0} from '@auth0/auth0-react';
-import axios from 'axios';
+import { LoginButton } from '../components/login-button';
 
 global.base = configData.SERVER_URL;
 console.log(configData.SERVER_URL);
@@ -68,57 +68,38 @@ const LoginPage = () => {
         console.error('Error:', error);
       });
   }, [username]);
+
+  const backgroundImageStyle = {
+    backgroundImage: 'url(E:\Projects\Zelis Ideathon\zelis-ideathon\src\components\assests\pink-yellow.png)',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    height: '100vh', 
+  };
   debugger;
   return (
     <Container maxWidth="xs">
-      <Box paddingTop="45%">
-          <form onSubmit={handleLogin}>
-            <Grid container direction="column" spacing={2} align="center">
-              <Grid item xs sx={6}>
-                <TextField
-                  label="Employee ID"
-                  variant="outlined"
-                  name="username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </Grid>
-              <Grid item xs sx={6}>
-                <TextField
-                  label="Password"
-                  type="password"
-                  variant="outlined"
-                  name="password"
-                  onChange={(e) => setEncryptedPassword(e.target.value)}
-                  required
-                />
-              </Grid>
-              <Grid item xs sx={6}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      name="rememberMe"
-                      color="primary"
-                    />
-                  }
-                  label="Remember me"
-                />
-              </Grid>
-              <Grid item xs sx={6}>
-                <a href="./register">Don't have account? Register</a>
-              </Grid>
-              <Grid item xs sx={6}>
-                <Button type="submit"  variant="contained" color="primary">
-                  Login
-                </Button>
-              </Grid>     
-                               
-            </Grid>
-          </form>
+      <Box paddingTop="20%" style={backgroundImageStyle}>
+        <Grid container direction="column" spacing={2} align="center">
+          <Grid item xs>
+            <Typography variant="h4" align="center" gutterBottom>
+              Welcome to Our Application
+            </Typography>
+          </Grid>
+          <Grid item xs>
+            <LoginButton/>
+          </Grid>
+          <Grid item xs>
+            <Button  variant="outlined" color="primary" fullWidth>
+              Sign Up
+            </Button>
+          </Grid>
+          <Grid item xs>
+            <Typography variant="body2" align="center">
+              Learn more about our application and its features.
+            </Typography>
+          </Grid>
+        </Grid>
       </Box>
-     
     </Container>
   );
 }

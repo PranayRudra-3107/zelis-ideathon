@@ -16,9 +16,8 @@ import SignApp from './components/SignApp';
 
 const App = () => {
   return (
-
     <div>
-      <BrowserRouter>
+      
       <Header/>
       <Routes>
       <Route path="/" element={<LoginPage/>} />
@@ -34,7 +33,6 @@ const App = () => {
       <Route path="/SignIn" element={<SignApp/>} />          
       </Routes>
       <Footer/>
-      </BrowserRouter>
     </div>
   );
 }
