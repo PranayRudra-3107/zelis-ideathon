@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Footer from './components/footer';
 import Header from './components/navbar';
@@ -12,39 +12,49 @@ import EndScreen from './screens/EndScreen';
 import EmployeeDeatils from './screens/EmployeeDeatils';
 import EditDetails from './screens/EditDetails';
 import EditPassword from './screens/EditPassword';
-import { io } from 'socket.io-client/dist/socket.io.js';
+import { io } from 'socket.io-client';
 
 const App = () => {
+  const [empid, setEmpid] = useState("");
+  const [role, setRole] = useState("");
+  const [socket, setSocket] = useState(null);
 
-  const socket = io("ws://localhost:5000", {
-  });  console.log(socket.on("firstEvent", (msg) =>{console.log(msg)}));
+  useEffect(() => {
+    const newSocket = io("http://localhost:5000");
+    
+    newSocket.on("connect", () => {
+      console.log("socket connected");
+    });
 
-  socket.on("connect", () => {
-    console.log("socket connected");
-  });
-  
-  socket.on("connect_error", (err) => {
-    console.log("socket connection error: " + err.message);
-  });
-  
-  socket.on("connect_failed", () => {
-    console.log("socket connection failed");
-  });
-  
-  socket.on("firstEvent", (msg) => {
-    console.log("received first event: " + msg);
-  });
+    newSocket.on("connect_error", (err) => {
+      console.log("socket connection error: " + err.message);
+    });
+
+    newSocket.on("connect_failed", () => {
+      console.log("socket connection failed");
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect(); // Disconnect the socket on component unmount
+    };
+  }, []);
+
+  useEffect(() => {
+    socket?.emit("newRole", { role, empid });
+  }, [socket, role, empid]);
 
   return (
     <div>
       <BrowserRouter>
-        <Header/> 
+        <Header socket={socket}/> 
         <Routes>
       <Route path="/" element={<LoginPage/>} />
       <Route path="/login" element={<LoginPage/>} /> 
       <Route path="/list" element={<IdeaList />} />
       <Route path="/mylist" element={<My_Ideas />} />
-      <Route path="/submit" element={<IdeaSubmission />} />
+      <Route path="/submit" element={<IdeaSubmission socket={socket} role={role} empid={empid}/>} />
       <Route path="/register" element={<Signup />} />  
       <Route path="/graphs" element={<Graph/>} /> 
       <Route path="/details" element={<EmployeeDeatils/>} /> 

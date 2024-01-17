@@ -1,8 +1,7 @@
 import React, { useState,useEffect} from "react";
-import { TextField, Popover, List, ListItem, ListItemText, Badge } from "@mui/material";
+import { Badge } from "@mui/material";
 
 import { Link, Outlet,useLocation } from 'react-router-dom';
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import {
   AppBar,
@@ -13,7 +12,7 @@ import {
   Box
 } from "@mui/material";
 import EmojiObjectsTwoToneIcon from '@mui/icons-material/EmojiObjectsTwoTone';
-import { borderColor, styled } from '@mui/system';
+import { styled } from '@mui/system';
 import {ReactSession} from 'react-client-session';
 import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -39,14 +38,12 @@ const useStyles = {
   marginRight: "10px",
 };
 
-const Header = () => {
+const Header = ({socket}) => {
   const location = useLocation();
   const nonLoggedInPaths = ['/', '/login', '/register'];
   const isLoggedIn = !nonLoggedInPaths.includes(location.pathname);
   const [notifications, setNotifications] = useState([]);
-  const [badgeCount, setBadgeCount] = useState(0);
 
-  const [nopen, setNopen] = useState(false); 
 
   //  const [role_name,setRole]=useState();
   // useEffect(() => {
@@ -67,7 +64,7 @@ const Header = () => {
   ReactSession.setStoreType("localStorage");
   const role = ReactSession.get("role");
   const [anchorEl, setAnchorEl] = React.useState(null);
-const open = Boolean(anchorEl);
+const mopen = Boolean(anchorEl);
 
 const handleMenu = (event) => {
   setAnchorEl(event.currentTarget);
@@ -76,13 +73,23 @@ const handleClose = () => {
   setAnchorEl(null);
 };
 
-const handleNotificationClick = () => {
-  setNopen(true);
-  setBadgeCount(0); // Reset badge count when notifications are viewed
+const [open, setOpen] = useState(false);
+
+useEffect(() => {
+  socket.on("getNotification", (data) => {
+    setNotifications((prev) => [...prev, data]);
+  });
+}, [socket]);
+
+const handleRead = () => {
+  setNotifications([]);
+  setOpen(false);  // Check if socket is available before using it
 };
 
-const handleNotificationClose = () => {
-  setNopen(false);
+const displayNotification = ({ senderRole }) => {
+  return (
+    <span className="notification">{`${senderRole} submitted an idea.`}</span>
+  );
 };
 
   return (
@@ -122,27 +129,22 @@ const handleNotificationClose = () => {
       style={role === 1 ? { backgroundColor:"#FA8182" } : {backgroundColor:"#ffd3b6"}} // Set specific color for Manager
       label={role === 1 ? "MANAGER" : "EMPLOYEE"}
     />
-       
+       debugger;
        <Box flexGrow={1} />
-          <IconButton color="inherit" onClick={handleNotificationClick}>
-            <Badge badgeContent={badgeCount} color="error">
+          <IconButton color="inherit" onClick={() => setOpen(!open)}>
+          <Badge badgeContent={notifications.length} color="error">
               <NotificationsIcon />
             </Badge>
           </IconButton>
 
-       <Dialog open={nopen} onClose={handleNotificationClose}>
-        <DialogTitle>{"Idea Notifications"}</DialogTitle>
-        <DialogContent>
-          {notifications.map((notification, index) => (
-            <DialogContentText key={index}>
-              {`Title: chack okay`}
-            </DialogContentText>
-          ))}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleNotificationClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
+          {open && (
+        <div className="notifications">
+          {notifications.map((n) => displayNotification(n))}
+          <button className="nButton" onClick={handleRead}>
+            Mark as read
+          </button>
+        </div>
+      )}
 
       <Tooltip title="Profile">
         <IconButton
@@ -169,7 +171,7 @@ const handleNotificationClose = () => {
         vertical: 'top',
         horizontal: 'right',
       }}
-      open={open}
+      open={mopen}
       onClose={handleClose}
     >
       <MenuItem component={Link} to="/edit_details">Profile</MenuItem>
