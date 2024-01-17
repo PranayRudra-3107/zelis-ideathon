@@ -6,6 +6,9 @@ import { ReactSession }  from 'react-client-session';
 import configData from "./config.json";
 import {useAuth0} from '@auth0/auth0-react';
 import { LoginButton } from '../components/login-button';
+import { SignupButton } from '../components/signup-button';
+ import { Paper } from '@material-ui/core';
+
 
 global.base = configData.SERVER_URL;
 console.log(configData.SERVER_URL);
@@ -73,34 +76,38 @@ const LoginPage = () => {
     backgroundImage: 'url(E:\Projects\Zelis Ideathon\zelis-ideathon\src\components\assests\pink-yellow.png)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    height: '100vh', 
+    height: '80vh', 
   };
   debugger;
   return (
-    <Container maxWidth="xs">
-      <Box paddingTop="20%" style={backgroundImageStyle}>
-        <Grid container direction="column" spacing={2} align="center">
-          <Grid item xs>
-            <Typography variant="h4" align="center" gutterBottom>
-              Welcome to Our Application
-            </Typography>
-          </Grid>
-          <Grid item xs>
-            <LoginButton/>
-          </Grid>
-          <Grid item xs>
-            <Button  variant="outlined" color="primary" fullWidth>
-              Sign Up
-            </Button>
-          </Grid>
-          <Grid item xs>
-            <Typography variant="body2" align="center">
-              Learn more about our application and its features.
-            </Typography>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+   
+<Container maxWidth="xs" style={{ height: '80vh' }}>
+  <Box display="flex" flexDirection="column" justifyContent="center" style={backgroundImageStyle}>
+    <Grid container direction="column" spacing={2} align="center">
+      <Grid item xs>
+        <Typography variant="h5" align="center">Welcome to</Typography>
+        <Typography variant="h4" align="center" style={{ fontFamily: "'Tektur', sans-serif" }}>
+          Zelis Ideathon
+        </Typography>
+      </Grid>
+      <Grid item xs>
+        <LoginButton/>
+      </Grid>
+      <Grid item xs>
+        <SignupButton/>
+      </Grid>
+      <Grid item xs>
+        <Typography variant="body2" align="center">
+          Unleash your creativity with Ideathon, where every idea has the potential to spark a revolution.
+        </Typography>
+      </Grid>
+    </Grid>
+  </Box>
+</Container>
+
+
+
+
   );
 }
 
