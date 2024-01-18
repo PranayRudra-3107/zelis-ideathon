@@ -6,8 +6,12 @@ import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ReactSession }  from 'react-client-session';
-
+import {useAuth0} from '@auth0/auth0-react';
 const EditDetails = () => {
+
+    const{user } = useAuth0();
+    debugger;
+    console.log(user);
     const nav = useNavigate();
     ReactSession.setStoreType("localStorage");
     const  employee_id  = ReactSession.get("id")

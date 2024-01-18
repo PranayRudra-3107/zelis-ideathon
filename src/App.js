@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route  } from 'react-router-dom';
+import { Routes, Route  } from 'react-router-dom';
+import {AuthenticationGuard} from "./components/authentication-guard"
 import Footer from "./components/footer";
 import Header from "./components/navbar";
 import IdeaList from './screens/IdeaList';
@@ -16,13 +17,12 @@ import SignApp from './components/SignApp';
 
 const App = () => {
   return (
-    <div>
-      
+    <div>      
       <Header/>
       <Routes>
       <Route path="/" element={<LoginPage/>} />
       <Route path="/login" element={<LoginPage/>} />
-      <Route path="/list" element={<IdeaList />} />
+      <Route path="/list" element={<AuthenticationGuard component={IdeaList} />} />
       <Route path="/mylist" element={<My_Ideas />} />
       <Route path="/submit" element={<IdeaSubmission />} />
       <Route path="/register" element={<Signup />} />  

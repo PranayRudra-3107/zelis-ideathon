@@ -57,7 +57,8 @@ const LoginPage = () => {
 
   };
 
-  const{ loginWithPopup , loginWithRedirect , logout , user , isAuthenticated} = useAuth0();
+  const{user } = useAuth0();
+  
 
   useEffect(() => {    
     // eslint-disable-next-line no-template-curly-in-string
