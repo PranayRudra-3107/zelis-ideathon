@@ -23,12 +23,12 @@ const App = () => {
       <Route path="/" element={<LoginPage/>} />
       <Route path="/login" element={<LoginPage/>} />
       <Route path="/list" element={<AuthenticationGuard component={IdeaList} />} />
-      <Route path="/mylist" element={<My_Ideas />} />
-      <Route path="/submit" element={<IdeaSubmission />} />
-      <Route path="/register" element={<Signup />} />  
-      <Route path="/graphs" element={<Graph/>} /> 
-      <Route path="/details" element={<EmployeeDeatils/>} /> 
-      <Route path="/edit_details" element={<EditDetails/>} /> 
+      <Route path="/mylist" element={<AuthenticationGuard component={My_Ideas} />} />
+      <Route path="/submit" element={<AuthenticationGuard component={IdeaSubmission} />} />
+      <Route path="/register" element={<Signup/>}/>  
+      <Route path="/graphs" element={<AuthenticationGuard component={Graph} />} /> 
+      <Route path="/details" element={<AuthenticationGuard component={EmployeeDeatils} />} /> 
+      <Route path="/edit_details" element={<AuthenticationGuard component={EditDetails} />}/> 
       <Route path="/logout" element={<EndScreen/>} />    
       <Route path="/SignIn" element={<SignApp/>} />          
       </Routes>

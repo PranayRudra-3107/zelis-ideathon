@@ -1,11 +1,11 @@
 const {Sequelize , DataTypes} = require("sequelize");
 
 const sequelize = new Sequelize(
-   'zelis-ideathon',
-   'postgres',
-   'postgres',
+    'zelis-ideathon-orm', // process.env.DB_DATABASE,
+    'postgres',  //process.env.DB_USER,
+    'postgres',//process.env.DB_PASSWORD,
     {
-      host: '10.136.6.177',
+      host: '10.136.6.177' , //process.env.DB_HOST,
       dialect: 'postgres'
     }
   ); 
@@ -163,24 +163,22 @@ const Role = sequelize.define("roles", {
   timestamps: false,
 });
 
-//  IdeaHistory.create({
-//     idea_id: 2,
-//     employee_id: 123446,
-//     idea_title: 'Sample Trial',
-//     idea_description: 'This is Trial.',
-//     submit_date: new Date(),
-//     modified_date: new Date(),
-//     status_id: 1
-//  }).then(ideaHistory => {
-//     console.log('Created: ', ideaHistory);
-//  }).catch(error => {
-//     console.error('Error: ', error);
-//  });
+ IdeaHistory.create({
+    idea_id: 2,
+    employee_id: 123446,
+    idea_title: 'Sample Trial',
+    idea_description: 'This is Trial.',
+    submit_date: new Date(),
+    modified_date: new Date(),
+    status_id: 1
+ }).then(ideaHistory => {
+    console.log('Created: ', ideaHistory);
+ }).catch(error => {
+    console.error('Error: ', error);
+ });
 
  sequelize.authenticate().then(() => {
   console.log('Connection has been established successfully.');
 }).catch((error) => {
   console.error('Unable to connect to the database: ', error);
 });
-
-module.exports = {Sequelize, Role , IdeaStatus , IdeaHistory , IdeaList , EmployeeMapping , EmployeeDetails , Department};
