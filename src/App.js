@@ -12,49 +12,22 @@ import EndScreen from './screens/EndScreen';
 import EmployeeDeatils from './screens/EmployeeDeatils';
 import EditDetails from './screens/EditDetails';
 import EditPassword from './screens/EditPassword';
-import { io } from 'socket.io-client';
 
 const App = () => {
   const [empid, setEmpid] = useState("");
   const [role, setRole] = useState("");
-  const [socket, setSocket] = useState(null);
 
-  useEffect(() => {
-    const newSocket = io("http://localhost:5000");
-    
-    newSocket.on("connect", () => {
-      console.log("socket connected");
-    });
-
-    newSocket.on("connect_error", (err) => {
-      console.log("socket connection error: " + err.message);
-    });
-
-    newSocket.on("connect_failed", () => {
-      console.log("socket connection failed");
-    });
-
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.disconnect(); // Disconnect the socket on component unmount
-    };
-  }, []);
-
-  useEffect(() => {
-    socket?.emit("newRole", { role, empid });
-  }, [socket, role, empid]);
 
   return (
     <div>
       <BrowserRouter>
-        <Header socket={socket}/> 
+        <Header/> 
         <Routes>
       <Route path="/" element={<LoginPage/>} />
       <Route path="/login" element={<LoginPage/>} /> 
       <Route path="/list" element={<IdeaList />} />
       <Route path="/mylist" element={<My_Ideas />} />
-      <Route path="/submit" element={<IdeaSubmission socket={socket} role={role} empid={empid}/>} />
+      <Route path="/submit" element={<IdeaSubmission role={role} empid={empid}/>} />
       <Route path="/register" element={<Signup />} />  
       <Route path="/graphs" element={<Graph/>} /> 
       <Route path="/details" element={<EmployeeDeatils/>} /> 

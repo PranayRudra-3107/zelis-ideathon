@@ -38,7 +38,7 @@ const useStyles = {
   marginRight: "10px",
 };
 
-const Header = ({socket}) => {
+const Header = () => {
   const location = useLocation();
   const nonLoggedInPaths = ['/', '/login', '/register'];
   const isLoggedIn = !nonLoggedInPaths.includes(location.pathname);
@@ -75,22 +75,8 @@ const handleClose = () => {
 
 const [open, setOpen] = useState(false);
 
-useEffect(() => {
-  socket.on("getNotification", (data) => {
-    setNotifications((prev) => [...prev, data]);
-  });
-}, [socket]);
 
-const handleRead = () => {
-  setNotifications([]);
-  setOpen(false);  // Check if socket is available before using it
-};
 
-const displayNotification = ({ senderRole }) => {
-  return (
-    <span className="notification">{`${senderRole} submitted an idea.`}</span>
-  );
-};
 
   return (
     <>
@@ -139,7 +125,6 @@ const displayNotification = ({ senderRole }) => {
 
           {open && (
         <div className="notifications">
-          {notifications.map((n) => displayNotification(n))}
           <button className="nButton" onClick={handleRead}>
             Mark as read
           </button>
